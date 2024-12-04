@@ -1,49 +1,287 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EprojectSem3</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/EprojectSem3.styles.css" asp-append-version="true" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>@ViewData["title"]</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/assets/img/favicon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="~/assets/plugins/select2/css/select2.min.css">
+
+    <!-- Aos CSS -->
+    <link rel="stylesheet" href="~/assets/plugins/aos/aos.css">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap-datetimepicker.min.css">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="~/assets/css/feather.css">
+
+    <!-- Owl carousel CSS -->
+    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/assets/css/style.css">
+
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EprojectSem3</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+    <div class="main-wrapper home-nine">
+        <!-- Header -->
+        <header class="header header-nine">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <ul class="d-flex justify-content-start car-top-left">
+                                <li class="d-flex align-items-center"><a href="categories.html">Find an agent</a></li>
+                                <li class="d-flex align-items-center"><a href="signup.html">Become a dealer</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="selection-list">
+                                <div class="head-contact">
+                                    <a href="login.html"><span class="me-2"><i class="feather-lock"></i></span>Login</a>
+                                </div>
+                                <span>/</span>
+                                <div class="head-contact">
+                                    <a href="signup.html"><span class="me-2"><i class="feather-user"></i></span>Sign Up</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+            <div class="container">
+                <nav class="navbar navbar-expand-lg header-nav">
+                    <div class="navbar-header">
+                        <a id="mobile_btn" href="javascript:void(0);">
+                            <span class="bar-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </a>
+                        <a href="index.html" class="navbar-brand logo">
+                            <img src="assets/img/icons/logo.svg" class="img-fluid" alt="Logo">
+                        </a>
+                        <a href="index.html" class="navbar-brand logo-small">
+                            <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                        </a>
+                    </div>
+                    <div class="main-menu-wrapper">
+                        <div class="menu-header">
+                            <a href="index.html" class="menu-logo">
+                                <img src="assets/img/logo.png" class="img-fluid" alt="Logo">
+                            </a>
+                            <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </div>
+                        <ul class="navbar-nav main-nav my-2 my-lg-0">
+                            <li class="has-submenu megamenu active">
+                                <a href="index.html">Home <i class="fas"></i></a>
+                            </li>
+                            <li class="has-submenu">
+                                <a href="javascript:void(0);">Listings <i class="fas"></i></a>                            
+                            </li>                        
+                            <li class="has-submenu">
+                                <a href="javascript:void(0);">Blog <i class="fas"></i></a>                              
+                            </li>
+                            <li><a href="contact.html">Contact</a></li>                      
+                            <li class="login-link">
+                                <a href="signup.html">Sign Up</a>
+                            </li>
+                            <li class="login-link">
+                                <a href="login.html">Sign In</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex align-items-center block-e">
+                        <a href="categories.html" class="car-list-btn header-phone">
+                            <span><i class="feather-phone"></i></span>+1 56622 49854
+                        </a>
+                        <a href="categories.html" class="car-list-btn">
+                            <span><i class="feather-plus-circle"></i></span>Submit Property
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- /Header -->
+        <!-- Main -->
+        @RenderBody()
+        <!-- /Main -->
+        <!-- Footer -->
+        <section class="footer-six footer-nine">
+            <div class="footer-six-bg footer-nine-bg">
+                <img src="assets/img/bg/footer-bg.png" alt="">
+            </div>
+            <div class="container">
+                <div class="footer-six-top footer-nine-top">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="footer-six-right">
+                                <div class="footer-send-mail">
+                                    <input type="text" class="form-control" placeholder="Subscribe to Get Updates">
+                                    <a href="javascript:void(0);">Send mail</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="footer-six-center foot-nine-list">
+                                <div class="footer-six-center-content">
+                                    <h6>Our Total Visitors</h6>
+                                    <a href="javascript:void(0);">4,56,6597</a>
+                                </div>
+                                <div class="footer-six-center-content">
+                                    <h6>Need live support?</h6>
+                                    <a href="javascript:void(0);"><span class="__cf_email__" data-cfemail="e884819b9c8d8da88d90898598848dc68b8785">[email&#160;protected]</span></a>
+                                </div>
+                                <div class="footer-six-center-content">
+                                    <h6>Toll Free Customer Care</h6>
+                                    <a href="javascript:void(0);">+91 26447 99875</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" row position-relative">
+                    <div class="col-lg-4 col-md-6  col-sm-12">
+                        <div class="foot-nine-logo">
+                            <a href="index-9.html"><img src="assets/img/footer-logo-nine.svg" alt=""></a>
+                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard...</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        <div class="footer-six-top-list">
+                            <h4>Discover</h4>
+                            <ul>
+                                <li><a href="javascript:void(0);">Chicago</a></li>
+                                <li><a href="javascript:void(0);">Los Angeles</a></li>
+                                <li><a href="javascript:void(0);">Miami</a></li>
+                                <li><a href="javascript:void(0);">New York</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        <div class="footer-six-top-list">
+                            <h4>Lists by Category</h4>
+                            <ul>
+                                <li><a href="javascript:void(0);">Apartments</a></li>
+                                <li><a href="javascript:void(0);">Condos</a></li>
+                                <li><a href="javascript:void(0);">Houses</a></li>
+                                <li><a href="javascript:void(0);">Offices</a></li>
+                                <li><a href="javascript:void(0);">Retail</a></li>
+                                <li><a href="javascript:void(0);">Villas</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        <div class="footer-six-top-list">
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="terms-condition.html">Terms & Conditions</a></li>
+                                <li><a href="privacy-policy.html">User’s Guide</a></li>
+                                <li><a href="contact.html">Support Center</a></li>
+                                <li><a href="about.html">Press Info</a></li>
+                                <li><a href="contact.html">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-12">
+                        <div class="social-icon-six social-icon-nine">
+                            <h3>Follow us on</h3>
+                            <ul>
+                                <li>
+                                    <a href="javascript:void(0);" target="_blank"><i class="fab fa-facebook-f"></i> </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" target="_blank"><i class="fab fa-twitter"></i> </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" target="_blank"><i class="fab fa-instagram"></i></a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr class="custom-line foot-nine-line">
+                <div class="footer-six-bottom pt-0">
+                    <p class="mb-0">© 2023 Listee. All Rights Reserved.</p>
+                    <div class="footer-six-center-list">
+                        <ul>
+                            <li><a href="index-6.html"> Home</a></li>
+                            <li><a href="javascript:void(0);"> Site Map</a></li>
+                            <li><a href="privacy-policy.html"> Privacy policy</a></li>
+                            <li><a href="privacy-policy.html"> Cookie Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Footer -->
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - EprojectSem3 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- scrollToTop start -->
+    <div class="home-nine progress-wrap active-progress">
+        <svg class="progress-circle svg-content" width="99px" height="99px" viewBox="0 0 200 200">
+            <path d="  M 0, 35.5 C 0, 0 0, 0 35.5, 0 S 71, 0 71, 35.5 71, 71 35.5, 71 0, 71 0, 35.5"
+                  style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919px, 307.919px; stroke-dashoffset: 228.265px;">
+            </path>
+        </svg>
+    </div>
+    <!-- scrollToTop end -->
+    <!-- jQuery -->
+    <script data-cfasync="false" src="~/assets/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="~/assets/js/jquery-3.7.1.min.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="~/assets/js/bootstrap.bundle.min.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="~/assets/js/moment.min.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+    <script src="~/assets/js/bootstrap-datetimepicker.min.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- Select2 JS -->
+    <script src="~/assets/plugins/select2/js/select2.min.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- Aos -->
+    <script src="~/assets/plugins/aos/aos.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- Top JS -->
+    <script src="~/assets/js/backToTop.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- counterup JS -->
+    <script src="~/assets/js/jquery.waypoints.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+    <script src="~/assets/js/jquery.counterup.min.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- Fearther JS -->
+    <script src="~/assets/js/feather.min.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- Owl Carousel JS -->
+    <script src="~/assets/js/owl.carousel.min.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <!-- Custom JS -->
+    <script src="~/assets/js/script.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
+
+    <script src="~/assets/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="fc1053c9e199526e937fbf6a-|49" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
