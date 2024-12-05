@@ -18,6 +18,31 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
+        public IActionResult Listings()
+        {
+            return View();
+        }
+
+        public IActionResult Plan()
+        {
+            return View();
+        }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        public IActionResult FAQ()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
