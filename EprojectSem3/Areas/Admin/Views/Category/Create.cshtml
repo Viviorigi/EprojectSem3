@@ -1,9 +1,9 @@
 ﻿@{
     ViewData["title"] = "Create Category Admin Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    
 }
-<div class="page-wrapper">
-    <div class="content">
+@model EprojectSem3.Models.Category
         <div class="row">
             <div class="col-lg-7 col-sm-12 m-auto">
                 <div class="content-page-header">
@@ -14,13 +14,14 @@
                         <div class="col-lg-12">
                             <div class="form-set">
                                 <label>Category Name </label>
-                                <input type="text" asp-action="Name" class="form-control" placeholder="Category Name">
+                                <input type="text" asp-for= "Name" class="form-control" placeholder="Category Name">
+                                <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-set">
-                                <label>Description <span>(Ex:test-slug)</span></label>
-                                <input type="text" asp-action="Description" class="form-control" placeholder="Description">
+                                <label>Description </label>
+                                <input type="text" asp-for="Description" class="form-control" placeholder="Description">
                             </div>
                         </div>
                         
@@ -34,5 +35,3 @@
                 </form>
             </div>
         </div>
-    </div>
-</div>

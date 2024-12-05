@@ -1,6 +1,9 @@
-﻿@{
+﻿@model IEnumerable<EprojectSem3.Models.Category>
+@{
     ViewData["title"] = "Category Admin Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int index = 1;
+
 }
 
             <h5>Categories</h5>
@@ -35,6 +38,7 @@
                     </li>
                 </ul>
             </div>
+            </div>
         
         <div class="row">
             <div class="col-12 ">
@@ -43,246 +47,34 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Category</th>
-                                <th>Category Slug</th>
-                                <th>Date</th>
-                                <th>Featured</th>
+                                <th>Category Name</th>
+                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <div class="table-imgname">
-                                        <img src="~/assets/admin/assets/img/services/service-03.jpg" class="me-2" alt="img">
-                                        <span>Computer Repair</span>
-                                    </div>
-                                </td>
-                                <td>Computer</td>
-                                <td>28 Sep 2022</td>
-                                <td>
-                                    <div class="active-switch">
-                                        <label class="switch">
-                                            <input type="checkbox" checked="">
-                                            <span class="sliders round"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" asp-controller="Category" asp-action="Edit">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <div class="table-imgname">
-                                        <img src="~/assets/admin/assets/img/services/service-02.jpg" class="me-2" alt="img">
-                                        <span>Car Repair Services</span>
-                                    </div>
-                                </td>
-                                <td>Automobile</td>
-                                <td>17 Sep 2022</td>
-                                <td>
-                                    <div class="active-switch">
-                                        <label class="switch">
-                                            <input type="checkbox">
-                                            <span class="sliders round"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" asp-controller="Category" asp-action="Edit">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <div class="table-imgname">
-                                        <img src="~/assets/admin/assets/img/services/service-04.png" class="me-2" alt="img">
-                                        <span> Car Wash</span>
-                                    </div>
-                                </td>
-                                <td>Car Wash</td>
-                                <td>13 Sep 2022</td>
-                                <td>
-                                    <div class="active-switch">
-                                        <label class="switch">
-                                            <input type="checkbox">
-                                            <span class="sliders round"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" asp-controller="Category" asp-action="Edit">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>
-                                    <div class="table-imgname">
-                                        <img src="~/assets/admin/assets/img/services/service-09.jpg" class="me-2" alt="img">
-                                        <span>House Cleaning </span>
-                                    </div>
-                                </td>
-                                <td>Cleaning</td>
-                                <td>07 Sep 2022</td>
-                                <td>
-                                    <div class="active-switch">
-                                        <label class="switch">
-                                            <input type="checkbox" checked="">
-                                            <span class="sliders round"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" asp-controller="Category" asp-action="Edit">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>
-                                    <div class="table-imgname">
-                                        <img src="~/assets/admin/assets/img/services/service-08.jpg" class="me-2" alt="img">
-                                        <span>Building Construction</span>
-                                    </div>
-                                </td>
-                                <td>Cleaning</td>
-                                <td>07 Sep 2022</td>
-                                <td>
-                                    <div class="active-switch">
-                                        <label class="switch">
-                                            <input type="checkbox">
-                                            <span class="sliders round"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" asp-controller="Category" asp-action="Edit">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>
-                                    <div class="table-imgname">
-                                        <img src="~/assets/admin/assets/img/services/service-07.jpg" class="me-2" alt="img">
-                                        <span>Interior Designing</span>
-                                    </div>
-                                </td>
-                                <td>Interior</td>
-                                <td>07 Sep 2022</td>
-                                <td>
-                                    <div class="active-switch">
-                                        <label class="switch">
-                                            <input type="checkbox" checked="">
-                                            <span class="sliders round"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" asp-controller="Category" asp-action="Edit">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>
-                                    <div class="table-imgname">
-                                        <img src="~/assets/admin/assets/img/services/service-09.jpg" class="me-2" alt="img">
-                                        <span>Commercial Painting </span>
-                                    </div>
-                                </td>
-                                <td>Painting</td>
-                                <td>22 Aug 2022</td>
-                                <td>
-                                    <div class="active-switch">
-                                        <label class="switch">
-                                            <input type="checkbox" checked="">
-                                            <span class="sliders round"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" asp-controller="Category" asp-action="Edit">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>
-                                    <div class="table-imgname">
-                                        <img src="~/assets/admin/assets/img/services/service-12.jpg" class="me-2" alt="img">
-                                        <span>Plumbing Services</span>
-                                    </div>
-                                </td>
-                                <td>Plumbing</td>
-                                <td>15 Aug 2022</td>
-                                <td>
-                                    <div class="active-switch">
-                                        <label class="switch">
-                                            <input type="checkbox">
-                                            <span class="sliders round"></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" asp-controller="Category" asp-action="Edit">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+
+                    @foreach(var c in Model)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            
+                            <td>@c.Name</td>
+                            <td>@c.Description</td>
+                            <td>
+                                <div class="table-actions d-flex">
+                                    <a class="delete-table me-2" asp-controller="Category" asp-action="Edit" asp-route-id="@c.CategoryId">
+                                        <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
+                                    </a>
+                                    <a class="delete-table" data-id ="@c.CategoryId" data-bs-toggle="modal" data-bs-target="#delete-item">
+                                        <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        index++;
+                       
+                    }
                         </tbody>
                     </table>
                 </div>
@@ -298,10 +90,12 @@
                     <i class="fe fe-x"></i>
                 </button>
             </div>
-            <form>
+            <form asp-action="Delete" asp-controller="Category" method="post">
                 <div class="modal-body py-0">
                     <div class="del-modal">
                         <p>Are you sure want to Delete?</p>
+                        <!-- ID được chèn động thông qua JavaScript -->
+                        <input type="hidden" name="id" id="category-id" />
                     </div>
                 </div>
                 <div class="modal-footer pt-0">
@@ -313,3 +107,18 @@
     </div>
 </div>
 <!-- /Delete -->
+<script>
+    // Bắt sự kiện khi Modal mở
+    const deleteModal = document.getElementById('delete-item');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        // Lấy phần tử nút bấm đã kích hoạt Modal
+        const button = event.relatedTarget;
+        // Lấy giá trị ID từ data-id
+        const categoryId = button.getAttribute('data-id');
+
+        // Cập nhật giá trị ID vào input hidden trong Modal
+        const categoryIdInput = deleteModal.querySelector('#category-id');
+        categoryIdInput.value = categoryId;
+    });
+
+</script>
