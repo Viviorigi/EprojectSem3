@@ -58,14 +58,9 @@ namespace EprojectSem3.Migrations
                     b.Property<int>("RegionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RegionId1")
-                        .HasColumnType("int");
-
                     b.HasKey("CityId");
 
                     b.HasIndex("RegionId");
-
-                    b.HasIndex("RegionId1");
 
                     b.ToTable("Cities");
                 });
@@ -103,9 +98,6 @@ namespace EprojectSem3.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CategoryId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
@@ -135,20 +127,13 @@ namespace EprojectSem3.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("int");
-
                     b.HasKey("ListingId");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CategoryId1");
-
                     b.HasIndex("CityId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Listings");
                 });
@@ -269,14 +254,9 @@ namespace EprojectSem3.Migrations
                     b.Property<int?>("SubscriptionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubscriptionId1")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId");
 
                     b.HasIndex("SubscriptionId");
-
-                    b.HasIndex("SubscriptionId1");
 
                     b.ToTable("Users");
                 });
@@ -313,14 +293,10 @@ namespace EprojectSem3.Migrations
             modelBuilder.Entity("EprojectSem3.Models.City", b =>
                 {
                     b.HasOne("EprojectSem3.Models.Region", "Region")
-                        .WithMany()
+                        .WithMany("Cities")
                         .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("EprojectSem3.Models.Region", null)
-                        .WithMany("Cities")
-                        .HasForeignKey("RegionId1");
 
                     b.Navigation("Region");
                 });
@@ -339,14 +315,10 @@ namespace EprojectSem3.Migrations
             modelBuilder.Entity("EprojectSem3.Models.Listing", b =>
                 {
                     b.HasOne("EprojectSem3.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Listings")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("EprojectSem3.Models.Category", null)
-                        .WithMany("Listings")
-                        .HasForeignKey("CategoryId1");
 
                     b.HasOne("EprojectSem3.Models.City", "City")
                         .WithMany("Listings")
@@ -355,14 +327,10 @@ namespace EprojectSem3.Migrations
                         .IsRequired();
 
                     b.HasOne("EprojectSem3.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Listings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("EprojectSem3.Models.User", null)
-                        .WithMany("Listings")
-                        .HasForeignKey("UserId1");
 
                     b.Navigation("Category");
 
@@ -393,12 +361,8 @@ namespace EprojectSem3.Migrations
             modelBuilder.Entity("EprojectSem3.Models.User", b =>
                 {
                     b.HasOne("EprojectSem3.Models.Subscription", "Subscription")
-                        .WithMany()
-                        .HasForeignKey("SubscriptionId");
-
-                    b.HasOne("EprojectSem3.Models.Subscription", null)
                         .WithMany("Users")
-                        .HasForeignKey("SubscriptionId1");
+                        .HasForeignKey("SubscriptionId");
 
                     b.Navigation("Subscription");
                 });

@@ -22,29 +22,6 @@ public class AppDbContext : DbContext
     public DbSet<Region> Regions { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
 
-    // Ghi đè phương thức OnModelCreating nếu cần cấu hình chi tiết
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Cấu hình khóa ngoại, ràng buộc
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Subscription)
-            .WithMany()
-            .HasForeignKey(u => u.SubscriptionId);
-
-        modelBuilder.Entity<Listing>()
-            .HasOne(l => l.User)
-            .WithMany()
-            .HasForeignKey(l => l.UserId);
-
-        modelBuilder.Entity<Listing>()
-            .HasOne(l => l.Category)
-            .WithMany()
-            .HasForeignKey(l => l.CategoryId);
-
-        modelBuilder.Entity<City>()
-            .HasOne(c => c.Region)
-            .WithMany()
-            .HasForeignKey(c => c.RegionId);
-    }
+   
 }
 }

@@ -62,8 +62,7 @@ namespace EprojectSem3.Migrations
                     CityId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegionId = table.Column<int>(type: "int", nullable: false),
-                    RegionId1 = table.Column<int>(type: "int", nullable: true)
+                    RegionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,11 +73,6 @@ namespace EprojectSem3.Migrations
                         principalTable: "Regions",
                         principalColumn: "RegionId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Cities_Regions_RegionId1",
-                        column: x => x.RegionId1,
-                        principalTable: "Regions",
-                        principalColumn: "RegionId");
                 });
 
             migrationBuilder.CreateTable(
@@ -94,8 +88,7 @@ namespace EprojectSem3.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<byte>(type: "tinyint", nullable: false),
                     Status = table.Column<byte>(type: "tinyint", nullable: false),
-                    SubscriptionId = table.Column<int>(type: "int", nullable: true),
-                    SubscriptionId1 = table.Column<int>(type: "int", nullable: true)
+                    SubscriptionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -103,11 +96,6 @@ namespace EprojectSem3.Migrations
                     table.ForeignKey(
                         name: "FK_Users_Subscriptions_SubscriptionId",
                         column: x => x.SubscriptionId,
-                        principalTable: "Subscriptions",
-                        principalColumn: "SubscriptionId");
-                    table.ForeignKey(
-                        name: "FK_Users_Subscriptions_SubscriptionId1",
-                        column: x => x.SubscriptionId1,
                         principalTable: "Subscriptions",
                         principalColumn: "SubscriptionId");
                 });
@@ -127,9 +115,7 @@ namespace EprojectSem3.Migrations
                     Status = table.Column<byte>(type: "tinyint", nullable: false),
                     Priority = table.Column<byte>(type: "tinyint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CategoryId1 = table.Column<int>(type: "int", nullable: true),
-                    UserId1 = table.Column<int>(type: "int", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,11 +126,6 @@ namespace EprojectSem3.Migrations
                         principalTable: "Categories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Listings_Categories_CategoryId1",
-                        column: x => x.CategoryId1,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId");
                     table.ForeignKey(
                         name: "FK_Listings_Cities_CityId",
                         column: x => x.CityId,
@@ -157,11 +138,6 @@ namespace EprojectSem3.Migrations
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Listings_Users_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "Users",
-                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -247,11 +223,6 @@ namespace EprojectSem3.Migrations
                 column: "RegionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_RegionId1",
-                table: "Cities",
-                column: "RegionId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Images_ListingId",
                 table: "Images",
                 column: "ListingId");
@@ -262,11 +233,6 @@ namespace EprojectSem3.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Listings_CategoryId1",
-                table: "Listings",
-                column: "CategoryId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Listings_CityId",
                 table: "Listings",
                 column: "CityId");
@@ -275,11 +241,6 @@ namespace EprojectSem3.Migrations
                 name: "IX_Listings_UserId",
                 table: "Listings",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Listings_UserId1",
-                table: "Listings",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_SubscriptionId",
@@ -295,11 +256,6 @@ namespace EprojectSem3.Migrations
                 name: "IX_Users_SubscriptionId",
                 table: "Users",
                 column: "SubscriptionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_SubscriptionId1",
-                table: "Users",
-                column: "SubscriptionId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserSubscriptions_SubscriptionId",
