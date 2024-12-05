@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["title"] = "Create Category Admin Page";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-7 col-sm-12 m-auto">
+                <div class="content-page-header">
+                    <h5>Add Categories</h5>
+                </div>
+                <form>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-set">
+                                <label>Category Name <span>(English)</span></label>
+                                <input type="text" class="form-control" placeholder="Category Name">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-set">
+                                <label>Category Slug <span>(Ex:test-slug)</span></label>
+                                <input type="text" class="form-control" placeholder="Category Slug">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-set mb-0">
+                                <label>Category Image</label>
+                            </div>
+                            <div class="form-uploads mb-4">
+                                <div class="form-uploads-path">
+                                    <img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
+                                    <div class="file-browse">
+                                        <h6>Drag & drop image or </h6>
+                                        <div class="file-browse-path">
+                                            <input type="file">
+                                            <a href="javascript:void(0);"> Browse</a>
+                                        </div>
+                                    </div>
+                                    <h5>Supported formates: JPEG, PNG</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="upload-div mb-0">
+                                <div class="upload-sets">
+                                    <div class="upload-sets-btn form-set">
+                                        <label>Icon <span>(Display in the home page)</span></label>
+                                        <input type="file" id="imgInp" class="form-control">
+                                        <a href="javascript:void(0);" class="btn btn-upload">Upload File</a>
+                                        <p>Recommended Icon Size is 48*48</p>
+                                    </div>
+                                </div>
+                                <div class="upload-img">
+                                    <div class="upload-imgset">
+                                        <img src="~/assets/admin/assets/img/icons/gallery.svg" alt="img" id="blah">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-set">
+                                <label>Meta Description <span class="mandatory">*</span></label>
+                                <textarea class="form-control" placeholder="Add a Short Bio....."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-set">
+                                <label>Is Featured?</label>
+                                <ul class="custom-radiosbtn">
+                                    <li>
+                                        <label class="radiossets">
+                                            yes
+                                            <input type="radio" checked="checked" name="radio">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="radiossets">
+                                            No
+                                            <input type="radio" checked="checked" name="radio">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="btn-path">
+                                <a href="javascript:void(0);" class="btn btn-cancel me-3">Cancel</a>
+                                <button type="submit" class="btn btn-submit "> Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
