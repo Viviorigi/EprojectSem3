@@ -122,39 +122,59 @@ namespace EprojectSem3.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Admin/Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .Include(u => u.Subscription)
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        // POST: Admin/Users/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            var listing = _context.Listings.FirstOrDefault(x => x.UserId == id);
+            if (listing == null)
             {
-                _context.Users.Remove(user);
+                var user = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(m => m.UserId == id);
+                if (user != null)
+                {
+                    _context.Users.Remove(user);
+                    _context.SaveChanges();
+                    ViewBag.message = "Delete user successful";
+                    return RedirectToAction("Index");
+                }
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            ViewBag.message = "Existing posts cannot be deleted.";
+            return View("index");
         }
+
+        //// GET: Admin/Users/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var user = await _context.Users
+        //        .Include(u => u.Subscription)
+        //        .FirstOrDefaultAsync(m => m.UserId == id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(user);
+        //}
+
+        //// POST: Admin/Users/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var user = await _context.Users.FindAsync(id);
+        //    if (user != null)
+        //    {
+        //        _context.Users.Remove(user);
+        //    }
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool UserExists(int id)
         {

@@ -227,9 +227,6 @@
                             </a>
                         </li>
                         <li>
-                            <a href="sub-categories.html"><i class="fe fe-clipboard"></i> <span>Sub Categories</span></a>
-                        </li>
-                        <li>
                             <a href="locations.html"><i class='fe fe-map'></i><span>Locations</span></a>
                         </li>
                         <li class="submenu">
@@ -249,52 +246,7 @@
                         </li>
                         <li>
                             <a href="comments.html"><i class='fe fe-message-square'></i><span>Comments</span></a>
-                        </li>
-                        <li>
-                            <a href="amenities.html"><i class='fe fe-briefcase'></i><span>Amenities</span></a>
-                        </li>
-                        <li>
-                            <a href="product-enquiry.html"><i class='fe fe-box'></i><span>Product Enquiry</span></a>
-                        </li>
-                        <li class="menu-title">
-                            <h6>Finance & Accounts</h6>
-                        </li>
-                        <li>
-                            <a href="transactions.html"><i class="fe fe-bar-chart"></i> <span>Transactions</span></a>
-                        </li>
-                        <li>
-                            <a href="payment-gateway.html">
-                                <i class="fe fe-file-text"></i>
-                                <span>Payment Gateway</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="tax-rates.html">
-                                <i class="fe fe-file-text"></i>
-                                <span>Tax Rates</span>
-                            </a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);">
-                                <i class="fe fe-credit-card"></i>
-                                <span>Payouts</span>
-                                <span class="menu-arrow"><i class="fe fe-chevron-right"></i></span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="payout-request.html">Payout Requests</a>
-                                </li>
-                                <li>
-                                    <a href="payout-settings.html">Payout Settings</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu-title">
-                            <h6>Others</h6>
-                        </li>
-                        <li>
-                            <a href="chat.html"><i class="fe fe-message-square"></i> <span>Chat</span></a>
-                        </li>
+                        </li>                                           
                         <li class="menu-title">
                             <h6>Content</h6>
                         </li>
@@ -353,9 +305,6 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="testimonials.html"><i class="fe fe-star"></i> <span>Testimonials</span></a>
-                        </li>
-                        <li>
                             <a href="faq.html"><i class="fe fe-help-circle"></i> <span>FAQ</span></a>
                         </li>
                         <li class="menu-title">
@@ -368,27 +317,6 @@
                             <a href="membership-transactions.html"><i class="fe fe-user-plus"></i> <span>Transactions</span></a>
                         </li>
                         <li class="menu-title">
-                            <h6>Reports</h6>
-                        </li>
-                        <li>
-                            <a href="admin-earnings.html">
-                                <i class="fe fe-user"></i>
-                                <span>Admin Earnings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="provider-earnings.html">
-                                <i class="fe fe-dollar-sign"></i>
-                                <span>Provider Earnings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="membership-transactions.html">
-                                <i class="fe fe-tv"></i>
-                                <span>Membership Transaction</span>
-                            </a>
-                        </li>
-                        <li class="menu-title">
                             <h6>User Management</h6>
                         </li>
                         <li class="submenu">
@@ -397,15 +325,12 @@
                                 <span> Users</span>
                                 <span class="menu-arrow"><i class="fe fe-chevron-right"></i></span>
                             </a>
-                            <ul>
+                            <ul>                               
                                 <li>
-                                    <a href="user-list.html">New User</a>
+                                    <a asp-controller="Users" asp-action="Index">Customers</a>
                                 </li>
                                 <li>
-                                    <a href="user-customers.html">Customers</a>
-                                </li>
-                                <li>
-                                    <a href="user-providers.html">Providers </a>
+                                    <a asp-controller="Users" asp-action="Index">Admins</a>
                                 </li>
                             </ul>
                         </li>
@@ -415,26 +340,8 @@
                         <li>
                             <a href="delete-account-requests.html"><i class="fe fe-trash-2"></i> <span>Delete Account Requests</span></a>
                         </li>
-                        <li class="menu-title">
-                            <h6>Management</h6>
-                        </li>
-                        <li>
-                            <a href="cachesystem.html">
-                                <i class="fe fe-user"></i>
-                                <span>Cache System</span>
-                            </a>
-                        </li>
                         <li>
                             <a href="email-templates.html"><i class="fe fe-mail"></i> <span>Email Templates</span></a>
-                        </li>
-                        <li class="menu-title">
-                            <h6>Support</h6>
-                        </li>
-                        <li>
-                            <a href="contact-messages.html"><i class="fe fe-message-square"></i> <span>Contact Messages</span></a>
-                        </li>
-                        <li>
-                            <a href="abuse-reports.html"><i class="fe fe-file-text"></i> <span>Abuse Reports</span></a>
                         </li>
                         <li class="menu-title">
                             <h6>Settings</h6>
@@ -451,11 +358,9 @@
         </div>
         <!-- /Sidebar -->
         <!-- Main -->
-        <div class="page-wrapper page-settings">
+        <div class="page-wrapper @ViewData["bonus"]">
             <div class="content">
-                <div class="content-page-header content-page-headersplit mb-0">
-                    @RenderBody()
-                </div>
+                @RenderBody()
             </div>
         </div>
         <!-- /Main -->

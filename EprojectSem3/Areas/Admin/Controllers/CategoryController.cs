@@ -24,7 +24,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create( Category category)
+        public IActionResult Create(Category category)
         {
             if (category != null)
             {
@@ -33,7 +33,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 ViewBag.message = "Create successful";
                 return RedirectToAction("Index");
             }
-           
+
             return View(category);
         }
 
@@ -49,12 +49,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int id , Category category)
+        public IActionResult Edit(int id, Category category)
         {
             var c = _context.Categories.SingleOrDefault(x => x.CategoryId == id);
             if (c != null)
             {
-               c.Name = category.Name;
+                c.Name = category.Name;
                 c.Description = category.Description;
                 _context.SaveChanges();
                 ViewBag.message = "Update category successful";
@@ -62,6 +62,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }
             return View(category);
         }
+
         [HttpPost]
         public IActionResult Delete(int id)
         {
@@ -77,11 +78,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            
-                ViewBag.message = "Existing posts cannot be deleted.";
-                return View("index");
-            
-            
+            ViewBag.message = "Existing posts cannot be deleted.";
+            return View("index");
         }
     }
 }
