@@ -26,15 +26,22 @@ namespace EprojectSem3.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
-            if (category != null)
+            if (!ModelState.IsValid)
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
-                ViewBag.message = "Create successful";
-                return RedirectToAction("Index");
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                   .Select(e => e.ErrorMessage);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error); // Hoặc log lỗi
+                }
+                return View(category);
             }
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+            ViewBag.message = "Create successful";
+            return RedirectToAction("Index");
 
-            return View(category);
+            
         }
 
         public IActionResult Edit(int id)

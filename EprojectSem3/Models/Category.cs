@@ -8,7 +8,7 @@ namespace EprojectSem3.Models
         [Required(ErrorMessage ="Category Name is not required")]
         public string Name { get; set; }
         public string? Description { get; set; }
-        public ICollection<Listing> Listings { get; set; } 
+        public ICollection<Listing>? Listings { get; set; } 
     }
 
 }
