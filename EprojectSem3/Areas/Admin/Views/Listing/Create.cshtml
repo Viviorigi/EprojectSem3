@@ -1,0 +1,120 @@
+﻿
+@{
+	ViewData["title"] = "Create Listing Admin Page";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-page-header content-page-headersplit">
+	<h5>Add Listings</h5>
+
+</div>
+<div class="row">
+	<div class="col-lg-12 m-auto">
+		<!-- Service Information -->
+		<form>
+			<fieldset id="first-field">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="sub-title">
+							<h6>Title</h6>
+						</div>
+						<div class="form-set">
+							<input type="text" class="form-control" placeholder="Listing Name">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-set">
+							<label>Price</label>
+							<input type="text" class="form-control" placeholder="Enter Price">
+
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-set">
+							<label>Category</label>
+							<select class="select form-control">
+								<option>Select Category</option>
+								<option>Category 1</option>
+								<option>Category 2</option>
+								<option>Category 3</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-set">
+							<label> City</label>
+							<select class="select form-control">
+								<option>Select Sub Category</option>
+								<option>Category 1</option>
+								<option>Category 2</option>
+								<option>Category 3</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-set">
+							<label>Status</label>
+							<ul class="custom-radiosbtn">
+								<li>
+									<label class="radiossets">
+										Active
+										<input type="radio" checked="checked" name="Status">
+										<span class="checkmark-radio"></span>
+									</label>
+								</li>
+								<li>
+									<label class="radiossets">
+										Inactive
+										<input type="radio" name="Status">
+										<span class="checkmark-radio"></span>
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-set">
+							<label>Status</label>
+							<ul class="custom-radiosbtn">
+								<li>
+									<label class="radiossets">
+										Active
+										<input type="radio" checked="checked" name="Priority">
+										<span class="checkmark-radio"></span>
+									</label>
+								</li>
+								<li>
+									<label class="radiossets">
+										Inactive
+										<input type="radio" name="Priority">
+										<span class="checkmark-radio"></span>
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-set">
+							<label>Base</label>
+							<div id="editor"></div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="field-btns">
+							<button class="btn btn-submit next_btn" type="button">Next <i class="fe fe-arrow-right ms-1"></i></button>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+		<!-- /Service Information -->
+
+	</div>
+</div>
+
+@section Scripts {
+	<script src="~/assets/admin/assets/js/ckeditor.js" type="text/javascript"></script>
+}

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EprojectSem3.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ListingController : Controller
     {
         private readonly AppDbContext _context;
