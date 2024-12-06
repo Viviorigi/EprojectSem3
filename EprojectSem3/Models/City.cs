@@ -9,8 +9,8 @@ namespace EprojectSem3.Models
         public int RegionId { get; set; }
 
         // Navigation property
-        public Region Region { get; set; }
-        public ICollection<Listing> Listings { get; set; }
+        public Region? Region { get; set; }
+        public ICollection<Listing>? Listings { get; set; }
     }
 
 
