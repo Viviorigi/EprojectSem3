@@ -6,12 +6,25 @@
 }
 
 <form asp-action="Create">
+   
+
     <div class="row">
         <div class="col-lg-7 col-sm-12 m-auto">
             <div class="content-page-header">
                 <h5>Add Users</h5>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             </div>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-set">
@@ -41,7 +54,7 @@
                         <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="form-set">
                         <label>Password</label>
                         <div class="pass-group">
@@ -51,47 +64,20 @@
                         </div>
                     </div>
                 </div>
-                @* <div class="col-lg-6"> *@
-                @*     <div class="form-set"> *@
-                @*         <label>Repeat Password</label> *@
-                @*         <div class="pass-group"> *@
-                @*             <input type="password" class="form-control pass-inputs" placeholder="*********"> *@
-                @*             <span class="fas toggle-passwords fa-eye-slash"></span> *@
-                @*         </div> *@
-                @*     </div> *@
-                @* </div> *@
                 <div class="col-lg-6">
                     <div class="form-set">
                         <label>Role</label>
-                        <select class="select">
-                            <option value="0">Customers</option>      
-                            <option value="1">Manage Agent</option>
-                            <option value="2">Admin </option>
+                        <select asp-for="Role" class="form-control">
+                            <option value="">Select Role</option>
+                            @foreach (var role in ViewBag.Role )
+                            {
+                                <option value="@role.Value">@role.Text</option>
+                            }
                         </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-12">
-                    <div class="form-set">
-                        <label>Status</label>
-                        <ul class="custom-radiosbtn">
-                            <li>
-                                <label class="radiossets">
-                                    Active
-                                    <input type="radio" checked="checked" name="radio" asp-for="Status" value="1">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="radiossets">
-                                    Inactive
-                                    <input type="radio" name="radio" asp-for="Status" value="0">
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                            </li>
-                        </ul>
-                        <span asp-validation-for="Status" class="text-danger"></span>
-                    </div>
-                </div>
+                <input type="hidden" asp-for="Status" value="1">
                 <div class="col-lg-12">
                     <div class="btn-path">
                         <a asp-action="Index" class="btn btn-cancel me-3">Cancel</a>

@@ -48,7 +48,14 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // GET: Admin/Users/Create
         public IActionResult Create()
         {
-            ViewData["SubscriptionId"] = new SelectList(_context.Subscriptions, "SubscriptionId", "SubscriptionId");
+            ViewBag.Role = new SelectList(new[]
+            {
+                new { Value = 0, Text = "Private Seller" },
+                new { Value = 1, Text = "Agent" },
+                new { Value = 2, Text = "Admin" }
+            }, "Value", "Text");
+
+
             return View();
         }
 
@@ -57,15 +64,37 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status,SubscriptionId")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status")] User user)
         {
-            if (ModelState.IsValid)
+
+            try
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                    _context.Add(user);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["SubscriptionId"] = new SelectList(_context.Subscriptions, "SubscriptionId", "SubscriptionId", user.SubscriptionId);
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException?.Message.Contains("UNIQUE KEY constraint") == true)
+                {
+                    ModelState.AddModelError("Email", "The email address is already in use.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please try again.");
+                }
+            }
+            ViewBag.Role = new SelectList(new[]
+            {
+                new { Value = 0, Text = "Private Seller" },
+                new { Value = 1, Text = "Agent" },
+                new { Value = 2, Text = "Admin" }
+            }, "Value", "Text");
+
             return View(user);
         }
 
@@ -82,7 +111,17 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["SubscriptionId"] = new SelectList(_context.Subscriptions, "SubscriptionId", "SubscriptionId", user.SubscriptionId);
+            ViewBag.Role = new SelectList(new[]
+            {
+                new { Value = 0, Text = "Private Seller" },
+                new { Value = 1, Text = "Agent" },
+                new { Value = 2, Text = "Admin" }
+            }, "Value", "Text");
+            ViewBag.Status = new SelectList(new[]
+          {
+                new { Value = 0, Text = "InActive" },
+                new { Value = 1, Text = "Active" }
+            }, "Value", "Text");
             return View(user);
         }
 
@@ -91,34 +130,77 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status,SubscriptionId")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status")] User user)
         {
             if (id != user.UserId)
             {
                 return NotFound();
             }
 
+            // Check if the email already exists in the database (excluding the current user)
+            var existingUserWithEmail = await _context.Users
+                                                      .FirstOrDefaultAsync(u => u.Email == user.Email && u.UserId != id);
+
+            // If email is already in use by another user, add an error
+            if (existingUserWithEmail != null)
+            {
+                ModelState.AddModelError("Email", "The email address is already in use.");
+            }
+
+            // If there are no validation errors, proceed with updating the user data
             if (ModelState.IsValid)
             {
-                try
+                var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+
+                if (existingUser != null)
                 {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserExists(user.UserId))
+                    existingUser.FullName = user.FullName;
+                    existingUser.Email = user.Email;
+                    existingUser.Address = user.Address;
+                    existingUser.PhoneNumber = user.PhoneNumber;
+                    existingUser.Role = user.Role;
+                    existingUser.Status = user.Status;
+
+                    // Check if password is being changed and hash it
+                    if (!BCrypt.Net.BCrypt.Verify(user.Password, existingUser.Password))
                     {
-                        return NotFound();
+                        existingUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                     }
-                    else
+
+                    try
                     {
-                        throw;
+                        _context.Update(existingUser);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UserExists(user.UserId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["SubscriptionId"] = new SelectList(_context.Subscriptions, "SubscriptionId", "SubscriptionId", user.SubscriptionId);
+
+            // Repopulate the ViewBag with data for the form (if there are validation errors)
+            ViewBag.Role = new SelectList(new[]
+                    {
+                new { Value = 0, Text = "Private Seller" },
+                new { Value = 1, Text = "Agent" },
+                new { Value = 2, Text = "Admin" }
+                }, "Value", "Text");
+
+                    ViewBag.Status = new SelectList(new[]
+                    {
+                new { Value = 0, Text = "Inactive" },
+                new { Value = 1, Text = "Active" }
+            }, "Value", "Text");
+
             return View(user);
         }
 

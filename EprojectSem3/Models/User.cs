@@ -11,14 +11,14 @@ namespace EprojectSem3.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public byte Role { get; set; }
-        public byte Status { get; set; }
+        public byte? Status { get; set; }
         public int? SubscriptionId { get; set; }
 
         // Navigation property
-        public Subscription Subscription { get; set; }
-        public ICollection<Listing> Listings { get; set; }
-        public ICollection<UserSubscription> UserSubscriptions { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
+        public Subscription? Subscription { get; set; }
+        public ICollection<Listing>? Listings { get; set; }
+        public ICollection<UserSubscription>? UserSubscriptions { get; set; }
+        public ICollection<Transaction>? Transactions { get; set; }
     }
 
 
