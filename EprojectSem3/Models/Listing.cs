@@ -11,11 +11,11 @@ namespace EprojectSem3.Models
         [Required(ErrorMessage ="Price is not required")]
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
-        public Category Category { get; set; } // Navigation property
+        public Category? Category { get; set; } // Navigation property
         public int UserId { get; set; }
-        public User User { get; set; } // Navigation property
+        public User? User { get; set; } // Navigation property
         public int CityId { get; set; }
-        public City City { get; set; } // Navigation property
+        public City? City { get; set; } // Navigation property
         public byte Status { get; set; }
         public byte Priority { get; set; } = 0;
         public DateTime? CreatedAt { get; set; }

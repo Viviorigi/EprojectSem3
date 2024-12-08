@@ -3,6 +3,7 @@
 	ViewData["title"] = "Create Listing Admin Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@model EprojectSem3.Models.Listing
 
 <div class="content-page-header content-page-headersplit">
 	<h5>Add Listings</h5>
@@ -11,7 +12,8 @@
 <div class="row">
 	<div class="col-lg-12 m-auto">
 		<!-- Service Information -->
-		<form>
+		<form asp-controller="Listing" asp-action="Create" method="post" enctype="multipart/form-data">
+			   @* <input type="hidden" asp-for="UserId" value="1" /> *@
 			<fieldset id="first-field">
 				<div class="row">
 					<div class="col-md-6">
@@ -19,35 +21,28 @@
 							<h6>Title</h6>
 						</div>
 						<div class="form-set">
-							<input type="text" class="form-control" placeholder="Listing Name">
+							<input type="text" asp-for= "Title" class="form-control" placeholder="Listing Name">
+							<span asp-validation-for="Title" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-set">
 							<label>Price</label>
-							<input type="text" class="form-control" placeholder="Enter Price">
-
+							<input type="text" asp-for="Price" class="form-control" placeholder="Enter Price">
+							<span asp-validation-for="Price" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-set">
 							<label>Category</label>
-							<select class="select form-control">
-								<option>Select Category</option>
-								<option>Category 1</option>
-								<option>Category 2</option>
-								<option>Category 3</option>
+							<select asp-for="CategoryId" asp-items="ViewBag.categories" class="select form-control">
 							</select>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-set">
 							<label> City</label>
-							<select class="select form-control">
-								<option>Select Sub Category</option>
-								<option>Category 1</option>
-								<option>Category 2</option>
-								<option>Category 3</option>
+							<select asp-for="CityId" asp-items="ViewBag.city" class="select form-control">
 							</select>
 						</div>
 					</div>
@@ -58,14 +53,14 @@
 								<li>
 									<label class="radiossets">
 										Active
-										<input type="radio" checked="checked" name="Status">
+										<input type="radio" checked="checked" asp-for="Status" value="1">
 										<span class="checkmark-radio"></span>
 									</label>
 								</li>
 								<li>
 									<label class="radiossets">
 										Inactive
-										<input type="radio" name="Status">
+										<input type="radio" asp-for="Status" value="0">
 										<span class="checkmark-radio"></span>
 									</label>
 								</li>
@@ -74,19 +69,19 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-set">
-							<label>Status</label>
+							<label>Priority</label>
 							<ul class="custom-radiosbtn">
 								<li>
 									<label class="radiossets">
 										Active
-										<input type="radio" checked="checked" name="Priority">
+										<input type="radio" checked="checked" asp-for="Priority" value="1">
 										<span class="checkmark-radio"></span>
 									</label>
 								</li>
 								<li>
 									<label class="radiossets">
 										Inactive
-										<input type="radio" name="Priority">
+										<input type="radio" asp-for="Priority" value="0">
 										<span class="checkmark-radio"></span>
 									</label>
 								</li>
@@ -95,8 +90,28 @@
 					</div>
 					<div class="col-md-12">
 						<div class="form-set">
-							<label>Base</label>
-							<div id="editor"></div>
+							<label>Description</label>
+							<input type="text" asp-for="Description" class="form-control" placeholder="Listing Name">
+
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="sub-title">
+							<h6>Image</h6>
+						</div>
+						<div class="form-uploads mb-4">
+							<div class="form-uploads-path">
+								<img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
+								<div class="file-browse">
+									<h6>Drag &amp; drop image or </h6>
+									<div class="file-browse-path">
+										<input type="file" name="files" multiple>
+										<a href="javascript:void(0);"> Browse</a>
+									</div>
+								</div>
+								<h5>Supported formates: JPEG, PNG</h5>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -104,7 +119,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="field-btns">
-							<button class="btn btn-submit next_btn" type="button">Next <i class="fe fe-arrow-right ms-1"></i></button>
+							<button class="btn btn-submit" type="submit">Next <i class="fe fe-arrow-right ms-1"></i></button>
 						</div>
 					</div>
 				</div>
@@ -116,5 +131,12 @@
 </div>
 
 @section Scripts {
-	<script src="~/assets/admin/assets/js/ckeditor.js" type="text/javascript"></script>
+	<script src="~/assets/admin/assets/ckeditor/ckeditor.js" type="text/javascript"></script>
+	<script>
+		window.onload = function () {
+			CKEDITOR.replace('editor1');
+		};
+	</script>
+
+
 }

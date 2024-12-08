@@ -53,6 +53,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 ViewBag.city = new SelectList(_context.Cities, "CityId", "Name");
                 return View(listing);
             }
+            listing.UserId = 1;
             listing.CreatedAt = DateTime.Now;
             _context.Listings.Add(listing);
             _context.SaveChanges();
@@ -84,50 +85,99 @@ namespace EprojectSem3.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var listing = _context.Listings.FirstOrDefault(x => x.ListingId == id);
-            if(listing != null)
+            if(listing == null)
             {
-                ViewBag.categories = new SelectList(_context.Categories, "CategoryId", "Name");
-                ViewBag.city = new SelectList(_context.Cities, "CityId", "Name");
-                return View(listing);
-            }
-            ViewBag.messsage = "Listing does not exist";
-            return RedirectToAction("Index");
-        }
+				ViewBag.messsage = "Listing does not exist";
+				return RedirectToAction("Index");
+			}
+			ViewBag.categories = new SelectList(_context.Categories, "CategoryId", "Name");
+			ViewBag.city = new SelectList(_context.Cities, "CityId", "Name");
+			return View(listing);
+
+		}
 
         // POST: ListingController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Listing listing, IFormFile[] files)
+        public async Task<ActionResult> Edit(Listing listing, IFormFile[] files)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                   .Select(e => e.ErrorMessage);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error); // Hoặc log lỗi
+                }
+
+                ViewBag.categories = new SelectList(_context.Categories, "CategoryId", "Name");
+                ViewBag.city = new SelectList(_context.Cities, "CityId", "Name");
+                return View(listing);
             }
-            catch
+            //var data = _context.Listings.Where(x => x.ListingId != listing.ListingId && x.Title == listing.Title);
+            //if (data != null)
+            //{
+            //    ViewBag.message = "Title has existed";
+            //    return View(listing);
+            //}
+
+            listing.UserId = 1;
+            //var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
+            //listing.CreatedAt = listingOld.CreatedAt;
+            listing.UpdatedAt = DateTime.Now;
+            _context.Listings.Update(listing);
+            _context.SaveChanges();
+
+            if (files != null && files.Length > 0)
             {
-                return View();
+                var imageOld = _context.Images.Where(x => x.ListingId == listing.ListingId).ToList();
+                foreach (var i in imageOld)
+                {
+                    _context.Images.Remove(i);
+                }
+                foreach (IFormFile i in files)
+                {
+
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", i.FileName);
+                    Image img = new Image();
+                    img.ImagePath = "/images/" + i.FileName;
+                    img.ListingId = listing.ListingId;
+                    _context.Images.Add(img);
+                    _context.SaveChanges();
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await i.CopyToAsync(fileStream);
+                    }
+                }
+                
+
             }
-        }
+			ViewBag.message = "Create listing succsessful";
+
+			return RedirectToAction("Index");
+		}
 
         // GET: ListingController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
+			var listing = _context.Listings.FirstOrDefault(x => x.ListingId == id);
+			if (listing != null)
+			{
+				var imageOld = _context.Images.Where(x => x.ListingId == listing.ListingId).ToList();
+				foreach (var i in imageOld)
+				{
+					_context.Images.Remove(i);
+				}
+				_context.Listings.Remove(listing);
+				_context.SaveChanges();
+				
+				ViewBag.message = "Delete Category successful";
+				return RedirectToAction("Index");
 
-        // POST: ListingController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+			}
+			ViewBag.message = "Existing posts cannot be deleted.";
+			return View("index");
+		}
+
     }
 }
