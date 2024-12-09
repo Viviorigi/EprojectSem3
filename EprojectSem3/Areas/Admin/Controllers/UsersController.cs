@@ -5,25 +5,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EprojectSem3.Models;
+using DataAccessLayer_DAL.Models;
+using DataAccessLayer_DAL.Repositories;
 
 namespace EprojectSem3.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class UsersController : Controller
     {
+        private readonly IUserRepository _userRepository;
         private readonly AppDbContext _context;
 
-        public UsersController(AppDbContext context)
+        public UsersController(IUserRepository userRepository, AppDbContext context)
         {
+            _userRepository = userRepository;
             _context = context;
         }
 
         // GET: Admin/Users
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Users.Include(u => u.Subscription);
-            return View(await appDbContext.ToListAsync());
+            var users = await _userRepository.GetAllUsersAsync();
+            return View(users);
         }
 
         // GET: Admin/Users/Details/5
@@ -33,17 +36,14 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            var user = await _context.Users
-                .Include(u => u.Subscription)
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
+            var user = await _userRepository.GetUserByIdAsync(id); // Sử dụng 'await'
+            //if (user == null)
+            //{
+            //    return NotFound("User not found.");
+            //}
             return View(user);
         }
+
 
         // GET: Admin/Users/Create
         public IActionResult Create()
@@ -72,8 +72,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                    _context.Add(user);
-                    await _context.SaveChangesAsync();
+                    _userRepository.AddUserAsync(user);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -106,7 +105,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userRepository.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -169,8 +168,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
                     try
                     {
-                        _context.Update(existingUser);
-                        await _context.SaveChangesAsync();
+                        _userRepository.UpdateUserAsync(existingUser);
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateConcurrencyException)
@@ -195,8 +193,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 new { Value = 2, Text = "Admin" }
                 }, "Value", "Text");
 
-                    ViewBag.Status = new SelectList(new[]
-                    {
+            ViewBag.Status = new SelectList(new[]
+            {
                 new { Value = 0, Text = "Inactive" },
                 new { Value = 1, Text = "Active" }
             }, "Value", "Text");
@@ -214,8 +212,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 var user = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(m => m.UserId == id);
                 if (user != null)
                 {
-                    _context.Users.Remove(user);
-                    _context.SaveChanges();
+                    _userRepository.DeleteUserAsync(id);
                     ViewBag.message = "Delete user successful";
                     return RedirectToAction("Index");
                 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EprojectSem3.Models.User>
+﻿@model IEnumerable<DataAccessLayer_DAL.Models.User>
 
 @{
     ViewData["bonus"] = "page-settings";
@@ -33,25 +33,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var u in Model) {
+                    @foreach (var u in Model)
+                    {
                         <tr>
                             <td>@index</td>
                             <td class="table-namesplit">
-                                <a asp-action="Details" asp-route-id="@u.UserId" class="table-name">
+                                <a asp-area="Admin" asp-action="Details" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
                                     <span>@Html.DisplayFor(modelu => u.FullName)</span>
                                     <p><span>@Html.DisplayFor(modelu => u.Email)</span></p>
                                 </a>
                             </td>
                             <td>@u.PhoneNumber</td>
-                            <td>  
-                               <h6 class="@(u.Role == 0 ? "badge-inactive" : u.Role == 1 ? "badge-inactive" : "badge-active")">
+                            <td>
+                                <h6 class="@(u.Role == 0 ? "badge-inactive" : u.Role == 1 ? "badge-inactive" : "badge-active")">
                                     @(u.Role == 0 ? "Private Seller" : u.Role == 1 ? "Agent" : "Admin")
                                 </h6>
                             </td>
                             <td>@u.Address</td>
-                                <td><h6 class="@(u.Status == 1 ? "badge-active " : "badge-inactive")">
-                                @(u.Status == 1 ? "Active" : "Inactive")
-                            </h6>
+                            <td>
+                                <h6 class="@(u.Status == 1 ? "badge-active " : "badge-inactive")">
+                                    @(u.Status == 1 ? "Active" : "Inactive")
+                                </h6>
                             </td>
                             <td>
                                 <div class="table-actions d-flex">

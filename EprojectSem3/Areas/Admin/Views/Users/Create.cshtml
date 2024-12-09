@@ -1,4 +1,4 @@
-﻿@model EprojectSem3.Models.User
+﻿@model DataAccessLayer_DAL.Models.User
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 }
 
 <form asp-action="Create">
-   
+
 
     <div class="row">
         <div class="col-lg-7 col-sm-12 m-auto">
@@ -69,7 +69,7 @@
                         <label>Role</label>
                         <select asp-for="Role" class="form-control">
                             <option value="">Select Role</option>
-                            @foreach (var role in ViewBag.Role )
+                            @foreach (var role in ViewBag.Role)
                             {
                                 <option value="@role.Value">@role.Text</option>
                             }
@@ -88,5 +88,3 @@
         </div>
     </div>
 </form>
-
-

@@ -1,5 +1,8 @@
-using EprojectSem3.Models;
+using DataAccessLayer_DAL.Models;
+using DataAccessLayer_DAL.Repositories;
+using BussinessLogicLayer_BLL.Services;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IUserRepository, UserService>();
 
 var app = builder.Build();
 
