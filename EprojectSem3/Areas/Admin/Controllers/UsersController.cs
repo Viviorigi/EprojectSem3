@@ -71,7 +71,6 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                     _userRepository.AddUserAsync(user);
                     return RedirectToAction(nameof(Index));
                 }
