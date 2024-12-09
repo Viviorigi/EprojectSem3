@@ -1,0 +1,135 @@
+﻿@model IEnumerable<EprojectSem3.Models.Subscription>
+
+@{
+    ViewData["bonus"] = "page-settings";
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int index = 1;
+}
+
+<div class="content-page-header content-page-headersplit mb-0">
+    <h5>Membership</h5>
+    <div class="list-btn">
+        <ul>
+            <li>
+                <a class="btn-filters active" href="review-type.html"><i class="fe fe-list"></i> </a>
+            </li>
+            <li>
+                <a class="btn-filters" href="localization.html"><i class="fe fe-settings"></i> </a>
+            </li>
+            <li>
+                <div class="filter-sorting">
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0);" class="filter-sets"><img src="~/assets/admin/assets/img/icons/filter1.svg" class="me-2" alt="img">Filter</a>
+                        </li>
+                        <li>
+                            <span><img src="~/assets/admin/assets/img/icons/sort.svg" class="me-2" alt="img"></span>
+                            <div class="review-sort">
+                                <select class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option>Sort by A - Z</option>
+                                    <option>Sort by A - Z</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add New</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 ">
+        <div class="table-resposnive table-div">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Duration</th>
+                        <th>MaxAds</th>
+                        <th>IsPriorityAd </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>@s.Name</td>
+                            <td>@s.Price</td>
+                            <td>@s.Duration</td>
+                            <td>@s.MaxAds</td>
+                            <td>
+                                @s.IsPriorityAd fix sau
+                                <div class="active-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" checked="">
+                                        <span class="sliders round"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="table-actions d-flex">
+                                    <a class="delete-table me-2" asp-action="Edit" asp-route-id="@s.SubscriptionId">
+                                        <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
+                                    </a>
+                                    <a class="delete-table" data-id="@s.SubscriptionId" data-bs-toggle="modal" data-bs-target="#delete-item">
+                                        <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Delete -->
+<div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Categories</h5>
+                <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fe fe-x"></i>
+                </button>
+            </div>
+            <form asp-action="Delete" asp-controller="Subscriptions" method="post">
+                <div class="modal-body py-0">
+                    <div class="del-modal">
+                        <p>Are you sure want to Delete?</p>
+                        <!-- ID được chèn động thông qua JavaScript -->
+                        <input type="hidden" name="id" id="Subscriptions-id" />
+                    </div>
+                </div>
+                <div class="modal-footer pt-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Delete -->
+<script>
+    // Bắt sự kiện khi Modal mở
+    const deleteModal = document.getElementById('delete-item');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        // Lấy phần tử nút bấm đã kích hoạt Modal
+        const button = event.relatedTarget;
+        // Lấy giá trị ID từ data-id
+        const SubscriptionsId = button.getAttribute('data-id');
+
+        // Cập nhật giá trị ID vào input hidden trong Modal
+        const SubscriptionsIdInput = deleteModal.querySelector('#Subscriptions-id');
+        SubscriptionsIdInput.value = SubscriptionsId;
+    });
+</script>

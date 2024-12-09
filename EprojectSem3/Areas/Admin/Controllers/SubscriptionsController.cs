@@ -10,47 +10,44 @@ using EprojectSem3.Models;
 namespace EprojectSem3.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CitiesController : Controller
+    public class SubscriptionsController : Controller
     {
         private readonly AppDbContext _context;
 
-        public CitiesController(AppDbContext context)
+        public SubscriptionsController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Cities
+        // GET: Admin/Subscriptions
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Cities.Include(c => c.Region);
-            return View(await appDbContext.ToListAsync());
+            return View(await _context.Subscriptions.ToListAsync());
         }
 
-        // GET: Admin/Cities/Create
+        // GET: Admin/Subscriptions/Create
         public IActionResult Create()
         {
-            ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "Name");
             return View();
         }
 
-        // POST: Admin/Cities/Create
+        // POST: Admin/Subscriptions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CityId,Name,RegionId")] City city)
+        public async Task<IActionResult> Create([Bind("SubscriptionId,Name,Price,Duration,MaxAds,IsPriorityAd")] Subscription subscription)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(city);
+                _context.Add(subscription);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "RegionId", city.RegionId);
-            return View(city);
+            return View(subscription);
         }
 
-        // GET: Admin/Cities/Edit/5
+        // GET: Admin/Subscriptions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -58,23 +55,22 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var city = await _context.Cities.FindAsync(id);
-            if (city == null)
+            var subscription = await _context.Subscriptions.FindAsync(id);
+            if (subscription == null)
             {
-                return NotFound();      
+                return NotFound();
             }
-            ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "Name", city.RegionId);
-            return View(city);
+            return View(subscription);
         }
 
-        // POST: Admin/Cities/Edit/5
+        // POST: Admin/Subscriptions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CityId,Name,RegionId")] City city)
+        public async Task<IActionResult> Edit(int id, [Bind("SubscriptionId,Name,Price,Duration,MaxAds,IsPriorityAd")] Subscription subscription)
         {
-            if (id != city.CityId)
+            if (id != subscription.SubscriptionId)
             {
                 return NotFound();
             }
@@ -83,12 +79,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(city);
+                    _context.Update(subscription);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CityExists(city.CityId))
+                    if (!SubscriptionExists(subscription.SubscriptionId))
                     {
                         return NotFound();
                     }
@@ -99,22 +95,23 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "RegionId", city.RegionId);
-            return View(city);
+            return View(subscription);
         }
 
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var listing = _context.Listings.FirstOrDefault(x => x.CityId == id);
-            if (listing == null)
+            var user = _context.Users.FirstOrDefault(x => x.UserId == id);
+            var userSubscriptions = _context.UserSubscriptions.FirstOrDefault(x => x.UserSubscriptionId == id);
+            var transactions = _context.Transactions.FirstOrDefault(x => x.TransactionId == id);
+            if (user == null && userSubscriptions == null && transactions == null)
             {
-                var city = _context.Cities.FirstOrDefault(x => x.CityId == id);
-                if (city != null)
+                var subscriptions = _context.Subscriptions.FirstOrDefault(x => x.SubscriptionId == id);
+                if (subscriptions != null)
                 {
-                    _context.Cities.Remove(city);
+                    _context.Subscriptions.Remove(subscriptions);
                     _context.SaveChanges();
-                    ViewBag.message = "Delete region successful";
+                    ViewBag.message = "Delete Category successful";
                     return RedirectToAction("Index");
                 }
             }
@@ -122,9 +119,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
             return View("index");
         }
 
-        private bool CityExists(int id)
+        private bool SubscriptionExists(int id)
         {
-            return _context.Cities.Any(e => e.CityId == id);
+            return _context.Subscriptions.Any(e => e.SubscriptionId == id);
         }
     }
 }

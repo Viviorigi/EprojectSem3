@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<EprojectSem3.Models.Listing>
 @{
+    ViewData["bonus"] = "page-settings";
     ViewData["title"] = "Listing Admin Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     int index = 1;
@@ -11,9 +12,6 @@
                         <ul>
                             <li>
                                 <a class="btn-filters active" href="listings.html"><i class="fe fe-list"></i> </a>
-                            </li>
-                            <li>
-                                <a class="btn-filters" href="javascript:void(0);"><i class="fe fe-grid"></i> </a>
                             </li>
                             <li>
                                 <a class="btn-filters" href="localization.html"><i class="fe fe-settings"></i> </a>

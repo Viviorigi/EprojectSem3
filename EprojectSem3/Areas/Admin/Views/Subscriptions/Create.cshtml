@@ -1,0 +1,87 @@
+﻿@model EprojectSem3.Models.Subscription
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="content-page-header content-page-headersplit">
+    <h5>Add  Membership</h5>
+</div>
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-groupheads">
+                <h2>Plan</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="form-set">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Name " asp-for="Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="form-set">
+                <label>Max ADS</label>
+                <input type="number" class="form-control" placeholder="MaxAds" asp-for="MaxAds">
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-set">
+                <label>Duration</label>
+                <select class="select" asp-for="Duration">
+                    <option>Select Tenure</option>
+                    <option value="30">Monthly</option>
+                    <option value="365">Yearly</option>
+                    <option value="0">No time limits</option>
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="form-set">
+                <label>Plan Price</label>
+                <input type="text" class="form-control" placeholder="Enter Plan Price" asp-for="Price">
+                <span asp-validation-for="Price" class="text-danger"></span>
+                <h6 class="info-set"><i class="fe fe-info text-danger me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="content"></i>Set 0 for free</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="form-set">
+            <label>IsPriorityAd?</label>
+            <ul class="custom-radiosbtn">
+                <li>
+                    <label class="radiossets">
+                        yes
+                        <input type="radio" checked="checked" name="radio" asp-for="IsPriorityAd" value="1">
+                        <span class="checkmark-radio"></span>
+                    </label>
+                </li>
+                <li>
+                    <label class="radiossets">
+                        No
+                        <input type="radio" name="radio" asp-for="IsPriorityAd" value="0">
+                        <span class="checkmark-radio"></span>
+                    </label>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="btn-path">
+            <a asp-action="Index" class="btn btn-cancel me-3">Cancel</a>
+            <button type="submit" class="btn btn-submit" value="Create">Submit</button>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
