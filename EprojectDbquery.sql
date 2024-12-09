@@ -7,13 +7,13 @@ go
 -- Bảng Regions (Không phụ thuộc bảng khác)
 CREATE TABLE Regions (
     RegionId INT PRIMARY KEY IDENTITY(1,1),
-    Name VARCHAR(255) NOT NULL
+    Name NVARCHAR(255) NOT NULL
 );
 
 -- Bảng Cities (Phụ thuộc Regions)
 CREATE TABLE Cities (
     CityId INT PRIMARY KEY IDENTITY(1,1),
-    Name VARCHAR(255) NOT NULL,
+    Name NVARCHAR(255) NOT NULL,
     RegionId INT NOT NULL,
     FOREIGN KEY (RegionId) REFERENCES Regions(RegionId)
 );
@@ -21,7 +21,7 @@ CREATE TABLE Cities (
 -- Bảng Subscriptions (Không phụ thuộc bảng khác)
 CREATE TABLE Subscriptions (
     SubscriptionId INT PRIMARY KEY IDENTITY(1,1),
-    Name VARCHAR(255) NOT NULL,
+    Name NVARCHAR(255) NOT NULL,
     Price DECIMAL(10,2) NOT NULL,
     Duration INT NOT NULL,
     MaxAds INT NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE Subscriptions (
 -- Bảng Users (Phụ thuộc Subscriptions)
 CREATE TABLE Users (
     UserId INT PRIMARY KEY IDENTITY(1,1),
-    FullName VARCHAR(255) NOT NULL,
+    FullName NVARCHAR(255) NOT NULL,
     Email VARCHAR(255) NOT NULL UNIQUE,
     Password VARCHAR(255) NOT NULL,
     PhoneNumber VARCHAR(15),
@@ -47,14 +47,14 @@ CREATE TABLE Users (
 -- Bảng Categories (Không phụ thuộc bảng khác)
 CREATE TABLE Categories (
     CategoryId INT PRIMARY KEY IDENTITY(1,1),
-    Name VARCHAR(255) NOT NULL,
+    Name NVARCHAR(255) NOT NULL,
     Description TEXT
 );
 
 -- Bảng Listings (Phụ thuộc Users, Categories, Cities)
 CREATE TABLE Listings (
     ListingId INT PRIMARY KEY IDENTITY(1,1),
-    Title VARCHAR(255) NOT NULL,
+    Title NVARCHAR(255) NOT NULL,
     Description TEXT,
     Price DECIMAL(10,2) NOT NULL,
     CategoryId INT NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE Listings (
 CREATE TABLE Images (
     ImageId INT PRIMARY KEY IDENTITY(1,1),
     ListingId INT NOT NULL,
-    ImagePath VARCHAR(255) NOT NULL,
+    ImagePath NVARCHAR(255) NOT NULL,
     FOREIGN KEY (ListingId) REFERENCES Listings(ListingId)
 );
 

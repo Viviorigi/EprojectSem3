@@ -36,11 +36,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var user = await _userRepository.GetUserByIdAsync(id); // Sử dụng 'await'
-            //if (user == null)
-            //{
-            //    return NotFound("User not found.");
-            //}
+            var user = await _userRepository.GetUserByIdAsync(id); 
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
             return View(user);
         }
 
@@ -71,7 +71,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _userRepository.AddUserAsync(user);
+                    await _userRepository.AddUserAsync(user);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -167,7 +167,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
                     try
                     {
-                        _userRepository.UpdateUserAsync(existingUser);
+                        await _userRepository.UpdateUserAsync(existingUser);
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateConcurrencyException)
@@ -211,7 +211,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 var user = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(m => m.UserId == id);
                 if (user != null)
                 {
-                    _userRepository.DeleteUserAsync(id);
+                    await _userRepository.DeleteUserAsync(id);
                     ViewBag.message = "Delete user successful";
                     return RedirectToAction("Index");
                 }
