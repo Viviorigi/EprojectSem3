@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer_DAL.Models;
+using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +15,19 @@ namespace EprojectSem3.Areas.Admin.Controllers
     public class CitiesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ICityRepository _cityRepository;
 
-        public CitiesController(AppDbContext context)
+        public CitiesController(AppDbContext context, ICityRepository cityRepository)
         {
             _context = context;
+            _cityRepository = cityRepository;
         }
 
         // GET: Admin/Cities
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Cities.Include(c => c.Region);
-            return View(await appDbContext.ToListAsync());
+            var city = await _cityRepository.GetAllCitysAsync();
+            return View(city);
         }
 
         // GET: Admin/Cities/Create
@@ -43,8 +46,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(city);
-                await _context.SaveChangesAsync();
+                await _cityRepository.AddCityAsync(city);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "RegionId", city.RegionId);
@@ -59,7 +61,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var city = await _context.Cities.FindAsync(id);
+            var city = await _cityRepository.GetCityByIdAsync(id);
             if (city == null)
             {
                 return NotFound();      
@@ -84,8 +86,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(city);
-                    await _context.SaveChangesAsync();
+                   await _cityRepository.UpdateCityAsync(city);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -105,7 +106,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var listing = _context.Listings.FirstOrDefault(x => x.CityId == id);
             if (listing == null)
@@ -113,8 +114,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 var city = _context.Cities.FirstOrDefault(x => x.CityId == id);
                 if (city != null)
                 {
-                    _context.Cities.Remove(city);
-                    _context.SaveChanges();
+                    await _cityRepository.DeleteCityAsync(id);
                     ViewBag.message = "Delete region successful";
                     return RedirectToAction("Index");
                 }

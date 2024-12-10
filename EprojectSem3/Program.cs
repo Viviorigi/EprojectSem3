@@ -14,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryService>();
 builder.Services.AddScoped<IListingRepository, ListingService>();
+builder.Services.AddScoped<IRegionRepository, RegionService>();
+builder.Services.AddScoped<ICityRepository, CityService>();
 
 var app = builder.Build();
 

@@ -220,40 +220,6 @@ namespace EprojectSem3.Areas.Admin.Controllers
             return View("index");
         }
 
-        //// GET: Admin/Users/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var user = await _context.Users
-        //        .Include(u => u.Subscription)
-        //        .FirstOrDefaultAsync(m => m.UserId == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(user);
-        //}
-
-        //// POST: Admin/Users/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user != null)
-        //    {
-        //        _context.Users.Remove(user);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);
