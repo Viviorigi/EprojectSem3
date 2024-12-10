@@ -36,11 +36,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var user = await _userRepository.GetUserByIdAsync(id); // Sử dụng 'await'
-            //if (user == null)
-            //{
-            //    return NotFound("User not found.");
-            //}
+            var user = await _userRepository.GetUserByIdAsync(id); 
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
             return View(user);
         }
 
@@ -71,8 +71,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                    _userRepository.AddUserAsync(user);
+                    await _userRepository.AddUserAsync(user);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -168,7 +167,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
                     try
                     {
-                        _userRepository.UpdateUserAsync(existingUser);
+                        await _userRepository.UpdateUserAsync(existingUser);
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateConcurrencyException)
@@ -212,7 +211,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 var user = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(m => m.UserId == id);
                 if (user != null)
                 {
-                    _userRepository.DeleteUserAsync(id);
+                    await _userRepository.DeleteUserAsync(id);
                     ViewBag.message = "Delete user successful";
                     return RedirectToAction("Index");
                 }
@@ -220,40 +219,6 @@ namespace EprojectSem3.Areas.Admin.Controllers
             ViewBag.message = "Existing posts cannot be deleted.";
             return View("index");
         }
-
-        //// GET: Admin/Users/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var user = await _context.Users
-        //        .Include(u => u.Subscription)
-        //        .FirstOrDefaultAsync(m => m.UserId == id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(user);
-        //}
-
-        //// POST: Admin/Users/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user != null)
-        //    {
-        //        _context.Users.Remove(user);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         private bool UserExists(int id)
         {

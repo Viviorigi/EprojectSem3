@@ -12,6 +12,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryService>();
+builder.Services.AddScoped<IListingRepository, ListingService>();
+builder.Services.AddScoped<IRegionRepository, RegionService>();
+builder.Services.AddScoped<ICityRepository, CityService>();
 
 builder.Services.AddAuthentication(options =>
 {

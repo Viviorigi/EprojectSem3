@@ -32,7 +32,7 @@ namespace BussinessLogicLayer_BLL.Services
 
         public async Task AddUserAsync(User user)
         {
-            // Logic nghiệp vụ trước khi thêm
+            user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);        
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }

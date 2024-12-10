@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer_DAL.Models;
+using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +15,19 @@ namespace EprojectSem3.Areas.Admin.Controllers
     public class RegionsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IRegionRepository _regionRepository;
 
-        public RegionsController(AppDbContext context)
+        public RegionsController(AppDbContext context, IRegionRepository regionRepository)
         {
             _context = context;
+            _regionRepository = regionRepository;
         }
 
         // GET: Admin/Regions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Regions.ToListAsync());
+            var regions = await _regionRepository.GetAllRegionsAsync();
+            return View(regions);
         }
 
         // GET: Admin/Regions/Create
@@ -40,9 +44,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
         public async Task<IActionResult> Create([Bind("RegionId,Name")] Region region)
         {
             if (ModelState.IsValid)
-            {
-                _context.Add(region);
-                await _context.SaveChangesAsync();
+            {               
+                await _regionRepository.AddRegionAsync(region);
                 return RedirectToAction(nameof(Index));
             }
             return View(region);
@@ -56,7 +59,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var region = await _context.Regions.FindAsync(id);
+            var region = await _regionRepository.GetRegionByIdAsync(id);
             if (region == null)
             {
                 return NotFound();
@@ -80,8 +83,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(region);
-                    await _context.SaveChangesAsync();
+                    await _regionRepository.UpdateRegionAsync(region);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -100,7 +102,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var cities = _context.Cities.FirstOrDefault(x => x.RegionId == id);
             if (cities == null)
@@ -108,8 +110,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 var regions = _context.Regions.FirstOrDefault(x => x.RegionId == id);
                 if (regions != null)
                 {
-                    _context.Regions.Remove(regions);
-                    _context.SaveChanges();
+                    await _regionRepository.DeleteRegionAsync(id);
                     ViewBag.message = "Delete region successful";
                     return RedirectToAction("Index");
                 }
