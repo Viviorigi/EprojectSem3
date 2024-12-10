@@ -1,20 +1,27 @@
-﻿using DataAccessLayer_DAL.Models;
+﻿using BussinessLogicLayer_BLL.Services;
+using DataAccessLayer_DAL.Models;
+using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace EprojectSem3.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class CategoryController : Controller
     {
+        private readonly ICategoryRepository _service;
         private readonly AppDbContext _context;
 
-        public CategoryController(AppDbContext context)
+        public CategoryController(ICategoryRepository service , AppDbContext context)
         {
+            _service = service;
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categories = _context.Categories.ToList();
+            var categories =await _service.GetAllCategoryAsync();
             return View(categories);
         }
 
@@ -24,7 +31,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public async Task<IActionResult> Create(Category category)
         {
             if (!ModelState.IsValid)
             {
@@ -36,17 +43,16 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 }
                 return View(category);
             }
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            await _service.AddCategoryAsync(category);
             ViewBag.message = "Create successful";
-            return RedirectToAction("Index");
+            return  RedirectToAction("Index");
 
-            
+
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var category = _context.Categories.SingleOrDefault(x => x.CategoryId == id);
+            var category = await _service.GetCategoryByIdAsync(id);
             if (category == null)
             {
                 ViewBag.message = "category does not exist";
@@ -56,31 +62,35 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, Category category)
+        public async Task<IActionResult> Edit( Category category)
         {
-            var c = _context.Categories.SingleOrDefault(x => x.CategoryId == id);
-            if (c != null)
-            {
-                c.Name = category.Name;
-                c.Description = category.Description;
-                _context.SaveChanges();
-                ViewBag.message = "Update category successful";
-                return RedirectToAction("Index");
-            }
-            return View(category);
+			if (!ModelState.IsValid)
+			{
+				var errors = ModelState.Values.SelectMany(v => v.Errors)
+								   .Select(e => e.ErrorMessage);
+				foreach (var error in errors)
+				{
+					Console.WriteLine(error); // Hoặc log lỗi
+				}
+				return View(category);
+			}
+             await _service.UpdateCategoryAsync(category);
+			 ViewBag.message = "Update category successful";
+             return RedirectToAction("Index");
+            
+            
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var listing = _context.Listings.FirstOrDefault(x => x.CategoryId == id);
             if (listing == null)
             {
-                var category = _context.Categories.FirstOrDefault(x => x.CategoryId == id);
+                var category = await _service.GetCategoryByIdAsync(id);
                 if (category != null)
                 {
-                    _context.Categories.Remove(category);
-                    _context.SaveChanges();
+                   await _service.DeleteCategoryAsync(id);
                     ViewBag.message = "Delete Category successful";
                     return RedirectToAction("Index");
                 }

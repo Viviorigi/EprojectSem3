@@ -12,6 +12,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryService>();
+builder.Services.AddScoped<IListingRepository, ListingService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EprojectSem3.Models.Category>
+﻿@model IEnumerable<DataAccessLayer_DAL.Models.Category>
 @{
     ViewData["bonus"] = "page-settings";
     ViewData["title"] = "Category Admin Page";
@@ -56,7 +56,7 @@
                     @foreach (var c in Model)
                     {
                         <tr>
-                            <td>@index</td>
+                            <td>@index / @c.CategoryId</td>
 
                             <td>@c.Name</td>
                             <td>@c.Description</td>

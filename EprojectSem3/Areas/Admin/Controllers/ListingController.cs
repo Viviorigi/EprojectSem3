@@ -1,5 +1,6 @@
 ﻿
 using DataAccessLayer_DAL.Models;
+using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,14 +12,16 @@ namespace EprojectSem3.Areas.Admin.Controllers
     public class ListingController : Controller
     {
         private readonly AppDbContext _context;
-        public ListingController(AppDbContext context)
+        private readonly IListingRepository _service;
+        public ListingController(AppDbContext context , IListingRepository service)
         {
             _context = context;
+            _service = service;
         }
         // GET: ListingController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-           var listings = _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).ToList();
+           var listings = await _service.GetAllListingAsync();
             return View(listings);
         }
 
@@ -56,8 +59,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }
             listing.UserId = 1;
             listing.CreatedAt = DateTime.Now;
-            _context.Listings.Add(listing);
-            _context.SaveChanges();
+            await _service.AddListingAsync(listing);
 
             if (files != null && files.Length > 0)
             {
@@ -83,9 +85,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         // GET: ListingController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var listing = _context.Listings.FirstOrDefault(x => x.ListingId == id);
+            var listing = await _service.GetListingByIdAsync(id);
             if(listing == null)
             {
 				ViewBag.messsage = "Listing does not exist";
@@ -126,8 +128,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             //var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
             //listing.CreatedAt = listingOld.CreatedAt;
             listing.UpdatedAt = DateTime.Now;
-            _context.Listings.Update(listing);
-            _context.SaveChanges();
+            await _service.UpdateListingAsync(listing);
 
             if (files != null && files.Length > 0)
             {
@@ -159,18 +160,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
 		}
 
         // GET: ListingController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-			var listing = _context.Listings.FirstOrDefault(x => x.ListingId == id);
+			var listing = await _service.GetListingByIdAsync(id);
 			if (listing != null)
 			{
-				var imageOld = _context.Images.Where(x => x.ListingId == listing.ListingId).ToList();
-				foreach (var i in imageOld)
-				{
-					_context.Images.Remove(i);
-				}
-				_context.Listings.Remove(listing);
-				_context.SaveChanges();
+				await _service.DeleteListingAsync(id);
 				
 				ViewBag.message = "Delete Category successful";
 				return RedirectToAction("Index");
