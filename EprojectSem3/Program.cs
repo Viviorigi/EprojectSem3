@@ -13,6 +13,39 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserRepository, UserService>();
 
+builder.Services.AddAuthentication(options =>
+{
+    // Set default scheme (optional)
+    options.DefaultScheme = "MyAuthenticationSchema";
+})
+.AddCookie("MyAuthenticationSchema", options =>
+{
+    options.Cookie = new CookieBuilder
+    {
+        Name = "My.Authentication.Schema",
+        Path = "/",
+        HttpOnly = true,
+        SameSite = SameSiteMode.Lax,
+        SecurePolicy = CookieSecurePolicy.SameAsRequest
+    };
+    options.LoginPath = new PathString("/Home/Login");
+    options.SlidingExpiration = true;
+})
+.AddCookie("MyAppAuthenticationAdmin", options =>
+{
+    options.Cookie = new CookieBuilder
+    {
+        HttpOnly = true,
+        Name = "MyApp.Authentication.Admin",
+        Path = "/",
+        SameSite = SameSiteMode.Lax,
+        SecurePolicy = CookieSecurePolicy.SameAsRequest
+    };
+    options.LoginPath = new PathString("/Admin/Login/Index");
+    options.LogoutPath = new PathString("/Admin/Login/Logout");
+});
+
+
 var app = builder.Build();
 
 
@@ -31,6 +64,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
 

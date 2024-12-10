@@ -50,15 +50,35 @@
                             </ul>
                         </div>
                         <div class="col-md-4">
-                            <div class="selection-list">
-                                <div class="head-contact">
-                                    <a href="login.html"><span class="me-2"><i class="feather-lock"></i></span>Login</a>
+                             @if (User.Identity.IsAuthenticated)
+                             {
+                                <div class="selection-list">
+                                    @{
+                                        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                                    }
+                                    <div class="head-contact">
+                                        <a asp-controller="Home" asp-action="Login">
+                                            <span class="me-2"><i class="feather-user"></i>
+                                                Hello, @User.Identity.Name
+                                            </span>
+                                            </a>
+                                    </div>
+                                    <span>/</span>
+                                    <div class="head-contact">
+                                        <a asp-controller="Home" asp-action="Logout"><span class="me-2">mo khoa LogOut</span></a>
+                                    </div>
                                 </div>
-                                <span>/</span>
-                                <div class="head-contact">
-                                    <a href="signup.html"><span class="me-2"><i class="feather-user"></i></span>Sign Up</a>
+                             }else{
+                                <div class="selection-list">
+                                    <div class="head-contact">
+                                        <a asp-controller="Home" asp-action="Login"><span class="me-2"><i class="feather-lock"></i></span>Login</a>
+                                    </div>
+                                    <span>/</span>
+                                    <div class="head-contact">
+                                        <a asp-controller="Home" asp-action="SignUp"><span class="me-2"><i class="feather-user"></i></span>Sign Up</a>
+                                    </div>
                                 </div>
-                            </div>
+                             }                            
                         </div>
 
                     </div>

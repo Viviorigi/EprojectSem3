@@ -1,6 +1,10 @@
 using DataAccessLayer_DAL.Models;
+using EprojectSem3.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace EprojectSem3.Controllers
 {
@@ -8,7 +12,6 @@ namespace EprojectSem3.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
-
 
         public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
@@ -52,6 +55,53 @@ namespace EprojectSem3.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var acc = await _context.Users.FirstOrDefaultAsync(a => a.Email == model.Email);
+
+                if (acc == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Your account does not exist");
+                    return View(model); 
+                }
+
+                bool isPasswordCorrect = BCrypt.Net.BCrypt.Verify(model.Password, acc.Password);
+
+                if (!isPasswordCorrect)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid password");
+                    return View(model);
+                }
+
+                var identity = new ClaimsIdentity(
+                     new List<Claim>
+                     {
+                        new Claim(ClaimTypes.NameIdentifier, acc.UserId.ToString() ?? string.Empty),
+                        new Claim(ClaimTypes.Name, acc.FullName ?? string.Empty),
+                        new Claim(ClaimTypes.Role,acc.Role.ToString())
+                     },
+                     "MyAuthenticationSchema" 
+                 );
+
+                var claimsPrincipal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync("MyAuthenticationSchema", claimsPrincipal);              
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(model);
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync("MyAuthenticationSchema");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Privacy()
