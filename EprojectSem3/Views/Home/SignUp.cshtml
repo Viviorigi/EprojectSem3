@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "SignUp";
     Layout = "~/Views/Shared/_Layout.cshtml";
+	@model EprojectSem3.Models.RegisterModel
 }
 
 <!-- Breadscrumb Section -->
@@ -11,10 +12,10 @@
 			<div class="col-md-12 col-12">
 				<h2 class="breadcrumb-title">Create an Account</h2>
 				<nav aria-label="breadcrumb" class="page-breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Register</li>
-					</ol>
+					  <ol class="breadcrumb">
+					  	<li ><a asp-action="Index" asp-controller="Home" >Home</a></li> /
+					  	<li class="breadcrumb-item active" aria-current="page">Register</li>
+					  </ol>
 				</nav>
 			</div>
 		</div>
@@ -34,43 +35,69 @@
 					</div>
 
 					<!-- Login Form -->
-					<form action="https://listee.dreamstechnologies.com/html/login.html">
+					<form asp-action="SignUp" asp-controller="Home" method="post">
 						<div class="form-set group-img">
 							<div class="group-img">
 								<i class="feather-user"></i>
-								<input type="text" class="form-control" placeholder="Full Name">
+								<input type="text" class="form-control" asp-for="FullName" placeholder="Full Name">
 							</div>
+							<span asp-validation-for="FullName" class="text-danger"></span>
 						</div>
 						<div class="form-set group-img">
 							<div class="group-img">
 								<i class="feather-mail"></i>
-								<input type="text" class="form-control" placeholder="Email Address">
+								<input type="text" class="form-control" asp-for="Email" placeholder="Email Address">
 							</div>
+							<span asp-validation-for="Email" class="text-danger"></span>
 						</div>
 						<div class="form-set">
 							<div class="pass-group group-img">
 								<i class="feather-lock"></i>
-								<input type="password" class="form-control pass-input" placeholder="Password">
+								<input type="password" class="form-control pass-input" asp-for="Password" placeholder="Password">
 								<span class="toggle-password feather-eye"></span>
+							</div>
+							<span asp-validation-for="Password" class="text-danger"></span>
+						</div>
+						<div class="form-set">
+							<div class="pass-group group-img">
+								<i class="feather-lock"></i>
+								<input type="password" class="form-control pass-input" asp-for="ConfirmPassword" placeholder="Confirm Password">
+								<span class="toggle-password feather-eye"></span>
+							</div>
+							<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+						</div>
+						<div class="form-set group-img">
+							<div class="group-img">
+								<i class="feather-mail"></i>
+								<input type="text" class="form-control" asp-for="PhoneNumber" placeholder="Phone Number">
+							</div>
+							<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+						</div>
+						<div class="form-set group-img">
+							<div class="group-img">
+								<i class="feather-mail"></i>
+								<input type="text" class="form-control" asp-for="Address" placeholder="Address">
+							</div>
+							<span asp-validation-for="Address" class="text-danger"></span>
+						</div>
+						<div class="form-set group-img">
+							<div class="group-img">
+								
+								<select asp-for="Role" class="form-control">
+									<option value="">Select Role</option>
+									@foreach (var role in ViewBag.Role)
+									{
+										<option value="@role.Value">@role.Text</option>
+									}
+								</select>
+								<span asp-validation-for="Role" class="text-danger"></span>
 							</div>
 						</div>
 						<button class="btn btn-primary w-100 login-btn" type="submit">Create Account</button>
 						<div class="register-link text-center">
-							<p>Already have an account? <a class="forgot-link" href="login.html">Sign In</a></p>
+							<p>Already have an account? <a class="forgot-link" asp-action="Login" asp-controller="Home">Sign In</a></p>
 						</div>
-						<div class="login-or">
-							<span class="or-line"></span>
-							<span class="span-or">Sign in with Social Media Accounts</span>
-						</div>
-						<div class="social-login">
-							<a href="#" class="btn btn-apple w-100"><img src="~/assets/img/apple.svg" class="me-1" alt="img">Sign in with Apple</a>
-						</div>
-						<div class="social-login">
-							<a href="#" class="btn btn-google w-100"><img src="~/assets/img/google.svg" class="me-1" alt="img">Sign in with Google</a>
-						</div>
-						<div class="social-login">
-							<a href="#" class="btn btn-facebook w-100 mb-0"><img src="~/assets/img/facebook.svg" class="me-2" alt="img">Continue with Facebook</a>
-						</div>
+					
 					</form>
 					<!-- /Login Form -->
 

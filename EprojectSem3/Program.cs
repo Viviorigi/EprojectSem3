@@ -49,6 +49,8 @@ builder.Services.AddAuthentication(options =>
     options.LogoutPath = new PathString("/Admin/Login/Logout");
 });
 
+builder.Services.AddTransient<EmailService>();
+
 
 var app = builder.Build();
 

@@ -13,7 +13,7 @@
 				<h2 class="breadcrumb-title">Login</h2>
 				<nav aria-label="breadcrumb" class="page-breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+						<li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home" >Home</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Login</li>
 					</ol>
 				</nav>
@@ -70,20 +70,7 @@
 						</div>
 						<button class="btn btn-primary w-100 login-btn" type="submit">Sign in</button>
 						<div class="register-link text-center">
-							<p>No account yet? <a class="forgot-link" href="signup.html">Signup</a></p>
-						</div>
-						<div class="login-or">
-							<span class="or-line"></span>
-							<span class="span-or">Sign in with Social Media Accounts</span>
-						</div>
-						<div class="social-login">
-							<a href="#" class="btn btn-apple w-100"><img src="~/assets/img/apple.svg" class="me-1" alt="img">Sign in with Apple</a>
-						</div>
-						<div class="social-login">
-							<a href="#" class="btn btn-google w-100"><img src="~/assets/img/google.svg" class="me-1" alt="img">Sign in with Google</a>
-						</div>
-						<div class="social-login">
-							<a href="#" class="btn btn-facebook w-100 mb-0"><img src="~/assets/img/facebook.svg" class="me-2" alt="img">Continue with Facebook</a>
+							<p>No account yet? <a class="forgot-link" asp-action="SignUp" asp-controller="Home" >Signup</a></p>
 						</div>
 					</form>
 					<!-- /Login Form -->
