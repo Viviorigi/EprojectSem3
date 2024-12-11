@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer_DAL.Models;
+using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +15,19 @@ namespace EprojectSem3.Areas.Admin.Controllers
     public class SubscriptionsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ISubscriptionRepository _subscription;
 
-        public SubscriptionsController(AppDbContext context)
+        public SubscriptionsController(AppDbContext context, ISubscriptionRepository subscription)
         {
             _context = context;
+            _subscription = subscription;
         }
 
         // GET: Admin/Subscriptions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Subscriptions.ToListAsync());
+            var susubscription = await _subscription.GetAllSubscriptionsAsync();
+            return View(susubscription);
         }
 
         // GET: Admin/Subscriptions/Create
@@ -41,8 +45,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subscription);
-                await _context.SaveChangesAsync();
+                await _subscription.AddSubscriptionAsync(subscription);
                 return RedirectToAction(nameof(Index));
             }
             return View(subscription);
@@ -56,7 +59,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var subscription = await _context.Subscriptions.FindAsync(id);
+            var subscription = await _subscription.GetSubscriptionByIdAsync(id);
             if (subscription == null)
             {
                 return NotFound();
@@ -80,8 +83,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(subscription);
-                    await _context.SaveChangesAsync();
+                    await _subscription.UpdateSubscriptionAsync(subscription);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -100,7 +102,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var user = _context.Users.FirstOrDefault(x => x.UserId == id);
             var userSubscriptions = _context.UserSubscriptions.FirstOrDefault(x => x.UserSubscriptionId == id);
@@ -110,9 +112,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 var subscriptions = _context.Subscriptions.FirstOrDefault(x => x.SubscriptionId == id);
                 if (subscriptions != null)
                 {
-                    _context.Subscriptions.Remove(subscriptions);
-                    _context.SaveChanges();
-                    ViewBag.message = "Delete Category successful";
+                    await _subscription.DeleteSubscriptionAsync(id);
+                    ViewBag.message = "Delete subscriptions successful";
                     return RedirectToAction("Index");
                 }
             }
