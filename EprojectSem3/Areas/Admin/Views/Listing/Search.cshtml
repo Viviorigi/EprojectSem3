@@ -1,20 +1,21 @@
-﻿@model IEnumerable<DataAccessLayer_DAL.Models.Category>
+﻿@model IEnumerable<DataAccessLayer_DAL.Models.Listing>
 @{
     ViewData["bonus"] = "page-settings";
-    ViewData["title"] = "Category Admin Page";
+    ViewData["title"] = "Listing Admin Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     int index = 1;
+    var listingSearch = ViewBag.listingSearcch;
 }
 
-<div class="content-page-header content-page-headersplit mb-0">
-    <h5>Categories</h5>
+<div class="content-page-header content-page-headersplit">
+    <h5>All Listings</h5>
     <div class="list-btn">
         <ul>
             <li>
                 <div class="page-headers">
                     <div class="search-bar">
                         <span><i class="fe fe-search"></i></span>
-                        <form id="myForm" asp-controller="Category" asp-action="Search" method="get">
+                        <form id="myForm" asp-controller="Listing" asp-action="Search" method="get">
                             <input type="text" name="keyword" placeholder="Search" class="form-control">
                         </form>
                     </div>
@@ -39,65 +40,113 @@
                 </div>
             </li>
             <li>
-                <a class="btn btn-primary" asp-controller="Category" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Categories </a>
+                <a class="btn btn-primary" asp-controller="Listing" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Listing </a>
             </li>
         </ul>
     </div>
 </div>
 <div class="row">
     <div class="col-12 ">
-        <div class="table-resposnive table-div">
+        <a class="table-resposnive table-div">
             <table class="table datatable">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Category Name</th>
-                        <th>Description</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Created By</th>
                         <th>Action</th>
                     </tr>
                 </thead>
+
+
                 <tbody>
-                    @foreach (var c in Model)
+                    @foreach (var l in Model)
                     {
                         <tr>
-                            <td>@index / @c.CategoryId</td>
+                            <td>@index</td>
+                            <td>
+                                <a href="view-listing.html" class="table-imgname">
+                                    @* <img src="~/assets/admin/assets/img/services/service-12.jpg" class="me-2" alt="img"> *@
+                                    <span>@l.Title</span>
+                                </a>
+                            </td>
+                            <td>@l.Category.Name</td>
+                            <td>@l.Price</td>
+                            <td>@l.CreatedAt</td>
+                            @{
+                                if (l.Status == 1)
+                                {
+                                    <td><h6 class="badge-active">Active</h6></td>
+                                }
+                                else
+                                {
+                                    <td><h6 class="badge-inactive">Inactive</h6></td>
+                                }
 
-                            <td>@c.Name</td>
-                            <td>@c.Description</td>
+
+
+                            }
+                            @{
+                                if (l.Priority == 1)
+                                {
+                                    <td><h6 class="badge-active">Active</h6></td>
+                                }
+                                else
+                                {
+                                    <td><h6 class="badge-inactive">Inactive</h6></td>
+                                }
+
+                            }
+                            @* <td>@{l.Status == 1 ? "Active" : "InActive"}</td> *@
+
+                            <td>
+                                <a href="javascript:void(0);" class="table-profileimage">
+                                    @*  <img src="~/assets/admin/assets/img/customer/user-02.jpg" class="me-2" alt="img"> *@
+                                    <span>@l.User.FullName</span>
+                                </a>
+                            </td>
                             <td>
                                 <div class="table-actions d-flex">
-                                    <a class="delete-table me-2" asp-controller="Category" asp-action="Edit" asp-route-id="@c.CategoryId">
+                                    <a class="delete-table me-2" href="view-listing.html">
+                                        <img src="~/assets/admin/assets/img/icons/eye.svg" alt="svg">
+                                    </a>
+                                    <a class="delete-table me-2" asp-controller="Listing" asp-action="Edit" asp-route-id="@l.ListingId">
                                         <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
                                     </a>
-                                    <a class="delete-table" data-id="@c.CategoryId" data-bs-toggle="modal" data-bs-target="#delete-item">
+                                    <a class="delete-table" data-id="@l.ListingId" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
                                         <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
                                     </a>
                                 </div>
                             </td>
                         </tr>
-                        index++;
                     }
+
                 </tbody>
             </table>
-        </div>
     </div>
 </div>
+                </div>
 <!-- Delete -->
 <div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Categories</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete Listing</h5>
                 <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fe fe-x"></i>
                 </button>
             </div>
-            <form asp-action="Delete" asp-controller="Category" method="post">
+            <form asp-action="Delete" asp-controller="Listing" method="post">
                 <div class="modal-body py-0">
                     <div class="del-modal">
                         <p>Are you sure want to Delete?</p>
                         <!-- ID được chèn động thông qua JavaScript -->
-                        <input type="hidden" name="id" id="category-id" />
+                        <input type="hidden" name="id" id="listing-id" />
                     </div>
                 </div>
                 <div class="modal-footer pt-0">
@@ -119,7 +168,7 @@
         const categoryId = button.getAttribute('data-id');
 
         // Cập nhật giá trị ID vào input hidden trong Modal
-        const categoryIdInput = deleteModal.querySelector('#category-id');
+        const categoryIdInput = deleteModal.querySelector('#listing-id');
         categoryIdInput.value = categoryId;
     });
 </script>
@@ -138,3 +187,5 @@
     });
 
 </script>
+
+

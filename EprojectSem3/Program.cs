@@ -17,6 +17,8 @@ builder.Services.AddScoped<IListingRepository, ListingService>();
 builder.Services.AddScoped<IRegionRepository, RegionService>();
 builder.Services.AddScoped<ICityRepository, CityService>();
 
+	builder.Services.AddScoped<IImageRepository, ImageService>();
+
 builder.Services.AddAuthentication(options =>
 {
     // Set default scheme (optional)

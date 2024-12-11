@@ -51,7 +51,17 @@ namespace BussinessLogicLayer_BLL.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task UpdateListingAsync(Listing listing)
+        public async Task<IEnumerable<Listing>> Search(string? keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+                return Enumerable.Empty<Listing>();
+
+            keyword = keyword.ToLower();
+			var result = _context.Listings.Include(x => x.Category).Include(x => x.City).Include(x => x.User).Where(x => x.Title.ToLower().Contains(keyword) || x.Category.Name.ToLower().Contains(keyword) || x.City.Name.ToLower().Contains(keyword)).ToList();
+			return result;
+        }
+
+        public async Task UpdateListingAsync(Listing listing)
 		{
 			_context.Listings.Update(listing);
 			await _context.SaveChangesAsync();

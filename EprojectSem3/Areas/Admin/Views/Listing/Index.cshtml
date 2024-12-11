@@ -4,6 +4,7 @@
     ViewData["title"] = "Listing Admin Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     int index = 1;
+    var listingSearch = ViewBag.listingSearcch;
 }
 
 <div class="content-page-header content-page-headersplit">
@@ -11,10 +12,14 @@
                     <div class="list-btn">
                         <ul>
                             <li>
-                                <a class="btn-filters active" href="listings.html"><i class="fe fe-list"></i> </a>
-                            </li>
-                            <li>
-                                <a class="btn-filters" href="localization.html"><i class="fe fe-settings"></i> </a>
+                                <div class="page-headers">
+                                    <div class="search-bar">
+                                        <span><i class="fe fe-search"></i></span>
+                                        <form id="myForm" asp-controller="Listing" asp-action="Search" method="get">
+                                            <input type="text" name="keyword" placeholder="Search" class="form-control">
+                                         </form>
+                                    </div>
+                                </div>
                             </li>
                             <li>
                                 <div class="filter-sorting">
@@ -57,70 +62,72 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach (var l in Model)
+                                
+                
+                    <tbody>
+                        @foreach (var l in Model)
+                        {
+                            <tr>
+                                <td>@index</td>
+                                <td>
+                                    <a href="view-listing.html" class="table-imgname">
+                                        @* <img src="~/assets/admin/assets/img/services/service-12.jpg" class="me-2" alt="img"> *@
+                                        <span>@l.Title</span>
+                                    </a>
+                                </td>
+                                <td>@l.Category.Name</td>
+                                <td>@l.Price</td>
+                                <td>@l.CreatedAt</td>
+                                @{
+                                    if (l.Status == 1)
                                     {
-                                        <tr>
-                                            <td>@index</td>
-                                            <td>
-                                                <a href="view-listing.html" class="table-imgname">
-                                                    @* <img src="~/assets/admin/assets/img/services/service-12.jpg" class="me-2" alt="img"> *@
-                                                    <span>@l.Title</span>
-                                                </a>
-                                            </td>
-                                            <td>@l.Category.Name</td>
-                                            <td>@l.Price</td>
-                                            <td>@l.CreatedAt</td>
-                                        @{
-                                            if(l.Status == 1)
-                                            {
-                                                <td><h6 class="badge-active">Active</h6></td>
-                                            }
-                                            else
-                                            {
-                                                <td><h6 class="badge-inactive">Inactive</h6></td>
-                                            }
-
-                                                    
-
-                                            }
-                                            @{
-                                                if (l.Priority == 1)
-                                                {
-                                                    <td><h6 class="badge-active">Active</h6></td>
-                                                }
-                                                else
-                                                {
-                                                    <td><h6 class="badge-inactive">Inactive</h6></td>
-                                                }
-
-                                            }
-                                             @* <td>@{l.Status == 1 ? "Active" : "InActive"}</td> *@
-                                            
-                                            <td>
-                                                <a href="javascript:void(0);" class="table-profileimage">
-                                                   @*  <img src="~/assets/admin/assets/img/customer/user-02.jpg" class="me-2" alt="img"> *@
-                                                    <span>@l.User.FullName</span>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <div class="table-actions d-flex">
-                                                    <a class="delete-table me-2" href="view-listing.html">
-                                                        <img src="~/assets/admin/assets/img/icons/eye.svg" alt="svg">
-                                                    </a>
-                                                        <a class="delete-table me-2" asp-controller="Listing" asp-action="Edit" asp-route-id="@l.ListingId">
-                                                        <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                                    </a>
-                                                        <a class="delete-table" data-id="@l.ListingId" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                                        <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        <td><h6 class="badge-active">Active</h6></td>
                                     }
-                                    
-                                </tbody>
-                            </table>
+                                    else
+                                    {
+                                        <td><h6 class="badge-inactive">Inactive</h6></td>
+                                    }
+
+
+
+                                }
+                                @{
+                                    if (l.Priority == 1)
+                                    {
+                                        <td><h6 class="badge-active">Active</h6></td>
+                                    }
+                                    else
+                                    {
+                                        <td><h6 class="badge-inactive">Inactive</h6></td>
+                                    }
+
+                                }
+                                @* <td>@{l.Status == 1 ? "Active" : "InActive"}</td> *@
+
+                                <td>
+                                    <a href="javascript:void(0);" class="table-profileimage">
+                                        @*  <img src="~/assets/admin/assets/img/customer/user-02.jpg" class="me-2" alt="img"> *@
+                                        <span>@l.User.FullName</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="table-actions d-flex">
+                                        <a class="delete-table me-2" href="view-listing.html">
+                                            <img src="~/assets/admin/assets/img/icons/eye.svg" alt="svg">
+                                        </a>
+                                        <a class="delete-table me-2" asp-controller="Listing" asp-action="Edit" asp-route-id="@l.ListingId">
+                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
+                                        </a>
+                                        <a class="delete-table" data-id="@l.ListingId" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
+                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+            </table>
                         </div>
                     </div>
                 </div>
@@ -165,4 +172,20 @@
         categoryIdInput.value = categoryId;
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("myForm");
+
+        // Lắng nghe sự kiện keydown trên toàn bộ form
+        form.addEventListener("keydown", function (event) {
+            // Kiểm tra nếu phím được nhấn là Enter
+            if (event.key === "Enter") {
+                event.preventDefault(); // Ngăn trình duyệt thực hiện hành động mặc định (nếu cần)
+                form.submit(); // Submit form
+            }
+        });
+    });
+
+</script>
+
 

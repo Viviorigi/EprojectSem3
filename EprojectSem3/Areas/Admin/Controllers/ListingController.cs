@@ -12,30 +12,38 @@ namespace EprojectSem3.Areas.Admin.Controllers
     public class ListingController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IListingRepository _service;
-        public ListingController(AppDbContext context , IListingRepository service)
+        private readonly IListingRepository _listingRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICityRepository _cityRepository;
+        private readonly IImageRepository _imageRepository;
+        public ListingController(AppDbContext context , IListingRepository service , ICategoryRepository categoryRepository , ICityRepository cityRepository , IImageRepository imageRepository)
         {
             _context = context;
-            _service = service;
+            _imageRepository = imageRepository;
+            _listingRepository = service;
+            _categoryRepository = categoryRepository;
+            _cityRepository = cityRepository;   
         }
         // GET: ListingController
         public async Task<IActionResult> Index()
         {
-           var listings = await _service.GetAllListingAsync();
+           var listings = await _listingRepository.GetAllListingAsync();
             return View(listings);
         }
 
         // GET: ListingController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var listing = _listingRepository.GetListingByIdAsync(id);
+            return View(listing);
+
         }
 
         // GET: ListingController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.categories = new SelectList(_context.Categories,"CategoryId","Name");
-            ViewBag.city = new SelectList(_context.Cities, "CityId", "Name");
+            ViewBag.categories = new SelectList( await _categoryRepository.GetAllCategoryAsync(),"CategoryId","Name");
+            ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
             return View();
         }
 
@@ -53,13 +61,13 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     Console.WriteLine(error); // Hoặc log lỗi
                 }
 
-                ViewBag.categories = new SelectList(_context.Categories, "CategoryId", "Name");
-                ViewBag.city = new SelectList(_context.Cities, "CityId", "Name");
+                ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+                ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
                 return View(listing);
             }
             listing.UserId = 1;
             listing.CreatedAt = DateTime.Now;
-            await _service.AddListingAsync(listing);
+            await _listingRepository.AddListingAsync(listing);
 
             if (files != null && files.Length > 0)
             {
@@ -70,8 +78,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     Image img = new Image();
                     img.ImagePath = "/images/" + i.FileName;
                     img.ListingId = listing.ListingId;
-                    _context.Images.Add(img);
-                    _context.SaveChanges();
+                    await _imageRepository.AddImageAsync(img);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await i.CopyToAsync(fileStream);
@@ -87,14 +94,14 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // GET: ListingController/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var listing = await _service.GetListingByIdAsync(id);
+            var listing = await _listingRepository.GetListingByIdAsync(id);
             if(listing == null)
             {
 				ViewBag.messsage = "Listing does not exist";
 				return RedirectToAction("Index");
 			}
-			ViewBag.categories = new SelectList(_context.Categories, "CategoryId", "Name");
-			ViewBag.city = new SelectList(_context.Cities, "CityId", "Name");
+			ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+			ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
 			return View(listing);
 
 		}
@@ -113,8 +120,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     Console.WriteLine(error); // Hoặc log lỗi
                 }
 
-                ViewBag.categories = new SelectList(_context.Categories, "CategoryId", "Name");
-                ViewBag.city = new SelectList(_context.Cities, "CityId", "Name");
+                ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+                ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
                 return View(listing);
             }
             //var data = _context.Listings.Where(x => x.ListingId != listing.ListingId && x.Title == listing.Title);
@@ -128,14 +135,14 @@ namespace EprojectSem3.Areas.Admin.Controllers
             //var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
             //listing.CreatedAt = listingOld.CreatedAt;
             listing.UpdatedAt = DateTime.Now;
-            await _service.UpdateListingAsync(listing);
+            await _listingRepository.UpdateListingAsync(listing);
 
             if (files != null && files.Length > 0)
             {
                 var imageOld = _context.Images.Where(x => x.ListingId == listing.ListingId).ToList();
                 foreach (var i in imageOld)
                 {
-                    _context.Images.Remove(i);
+                   await _imageRepository.AddImageAsync(i);
                 }
                 foreach (IFormFile i in files)
                 {
@@ -144,8 +151,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     Image img = new Image();
                     img.ImagePath = "/images/" + i.FileName;
                     img.ListingId = listing.ListingId;
-                    _context.Images.Add(img);
-                    _context.SaveChanges();
+                    await _imageRepository.AddImageAsync(img);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await i.CopyToAsync(fileStream);
@@ -162,10 +168,10 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // GET: ListingController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-			var listing = await _service.GetListingByIdAsync(id);
+			var listing = await _listingRepository.GetListingByIdAsync(id);
 			if (listing != null)
 			{
-				await _service.DeleteListingAsync(id);
+				await _listingRepository.DeleteListingAsync(id);
 				
 				ViewBag.message = "Delete Category successful";
 				return RedirectToAction("Index");
@@ -174,6 +180,17 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			ViewBag.message = "Existing posts cannot be deleted.";
 			return View("index");
 		}
+
+        public async Task<IActionResult> Search(string? keyword)
+        {
+          var listing = await _listingRepository.Search(keyword);
+          if(listing == null)
+            {
+                ViewBag.messsage = "Search results do not exist";
+                return RedirectToAction("Index");
+            }
+          return View(listing);
+        }
 
     }
 }

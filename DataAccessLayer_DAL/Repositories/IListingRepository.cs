@@ -14,5 +14,8 @@ namespace DataAccessLayer_DAL.Repositories
 		Task AddListingAsync(Listing listing);
 		Task UpdateListingAsync(Listing listing);
 		Task DeleteListingAsync(int listingId);
+
+		Task<IEnumerable<Listing>> Search(string? keyword);
+		
 	}
 }

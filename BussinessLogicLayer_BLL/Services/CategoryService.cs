@@ -47,7 +47,12 @@ namespace BussinessLogicLayer_BLL.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task UpdateCategoryAsync(Category category)
+        public Task<IEnumerable<Listing>> Search(string? keyword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateCategoryAsync(Category category)
 		{
 			if (category == null)
 			{
