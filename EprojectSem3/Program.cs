@@ -16,6 +16,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryService>();
 builder.Services.AddScoped<IListingRepository, ListingService>();
 builder.Services.AddScoped<IRegionRepository, RegionService>();
 builder.Services.AddScoped<ICityRepository, CityService>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionService>();
 
 builder.Services.AddAuthentication(options =>
 {
