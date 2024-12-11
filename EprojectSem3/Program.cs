@@ -16,6 +16,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryService>();
 builder.Services.AddScoped<IListingRepository, ListingService>();
 builder.Services.AddScoped<IRegionRepository, RegionService>();
 builder.Services.AddScoped<ICityRepository, CityService>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionService>();
 
 	builder.Services.AddScoped<IImageRepository, ImageService>();
 
@@ -50,6 +51,8 @@ builder.Services.AddAuthentication(options =>
     options.LoginPath = new PathString("/Admin/Login/Index");
     options.LogoutPath = new PathString("/Admin/Login/Logout");
 });
+
+builder.Services.AddTransient<EmailService>();
 
 
 var app = builder.Build();
