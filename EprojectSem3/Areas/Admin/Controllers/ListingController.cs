@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EprojectSem3.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ListingController : Controller
+    public class ListingController : BaseController
     {
         private readonly AppDbContext _context;
         private readonly IListingRepository _listingRepository;

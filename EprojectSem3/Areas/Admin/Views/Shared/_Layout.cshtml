@@ -172,7 +172,7 @@
                                     </ul>
                                 </div>
                                 <div class="subscription-logout">
-                                    <a href="signin.html">Log Out</a>
+                                    <a asp-controller="LoginAdmin" asp-action="Logout" asp-area="Admin">Log Out</a>
                                 </div>
                             </div>
                         </div>
@@ -317,7 +317,7 @@
                             <a href="localization.html"><i class="fe fe-settings"></i> <span>Settings</span></a>
                         </li>
                         <li>
-                            <a href="signin.html"><i class="fe fe-log-out"></i> <span>Logout</span></a>
+                            <a asp-controller="LoginAdmin" asp-action="Logout" asp-area="Admin" ><i class="fe fe-log-out"></i> <span>Logout</span></a>
                         </li>
                     </ul>
                 </div>

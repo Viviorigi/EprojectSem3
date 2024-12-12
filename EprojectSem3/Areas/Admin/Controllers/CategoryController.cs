@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EprojectSem3.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly ICategoryRepository _service;
         private readonly AppDbContext _context;
