@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EprojectSem3.Areas.Admin.Controllers
 {
@@ -50,9 +51,25 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // POST: ListingController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Listing listing, IFormFile[] files)
+        public async Task<ActionResult> Create(Listing listing, IFormFile file, IFormFile[] files)
         {
-            if (!ModelState.IsValid)
+			if (file != null && file.Length > 0)
+			{
+
+				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+				listing.Image = "images/" + file.FileName;
+
+				using (var fileStream = new FileStream(filePath, FileMode.Create))
+				{
+					await file.CopyToAsync(fileStream);
+				}
+			}
+			else
+			{
+                TempData["err"] = "Image is not required";
+				return View(listing);
+			}
+			if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors)
                                    .Select(e => e.ErrorMessage);
@@ -67,6 +84,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }
             listing.UserId = 1;
             listing.CreatedAt = DateTime.Now;
+
             await _listingRepository.AddListingAsync(listing);
 
             if (files != null && files.Length > 0)
@@ -76,7 +94,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", i.FileName);
                     Image img = new Image();
-                    img.ImagePath = "/images/" + i.FileName;
+                    img.ImagePath = "images/" + i.FileName;
                     img.ListingId = listing.ListingId;
                     await _imageRepository.AddImageAsync(img);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -86,7 +104,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 }
             }
 
-            ViewBag.message = "Create listing succsessful";
+            TempData["msg"] = "Create listing succsessful";
 
             return RedirectToAction("Index");
         }
@@ -97,7 +115,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             var listing = await _listingRepository.GetListingByIdAsync(id);
             if(listing == null)
             {
-				ViewBag.messsage = "Listing does not exist";
+				TempData["err"] = "Listing does not exist";
 				return RedirectToAction("Index");
 			}
 			ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
@@ -109,9 +127,23 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // POST: ListingController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Listing listing, IFormFile[] files)
+        public async Task<ActionResult> Edit(Listing listing, IFormFile? file, IFormFile[] files )
         {
-            if (!ModelState.IsValid)
+            //var data = await _listingRepository.GetListingByIdAsync(listing.ListingId);
+            //Console.WriteLine(data.Image);
+			if (file != null && file.Length > 0)
+			{
+
+				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+				listing.Image = "images/" + file.FileName;
+
+				using (var fileStream = new FileStream(filePath, FileMode.Create))
+				{
+					await file.CopyToAsync(fileStream);
+				}
+			}
+            //listing.Image = data.Image;
+			if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors)
                                    .Select(e => e.ErrorMessage);
@@ -132,9 +164,10 @@ namespace EprojectSem3.Areas.Admin.Controllers
             //}
 
             listing.UserId = 1;
-            //var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
-            //listing.CreatedAt = listingOld.CreatedAt;
-            listing.UpdatedAt = DateTime.Now;
+			
+			//var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
+			//listing.CreatedAt = listingOld.CreatedAt;
+			listing.UpdatedAt = DateTime.Now;
             await _listingRepository.UpdateListingAsync(listing);
 
             if (files != null && files.Length > 0)
@@ -149,7 +182,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", i.FileName);
                     Image img = new Image();
-                    img.ImagePath = "/images/" + i.FileName;
+                    img.ImagePath = "images/" + i.FileName;
                     img.ListingId = listing.ListingId;
                     await _imageRepository.AddImageAsync(img);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -160,7 +193,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 
 
             }
-			ViewBag.message = "Create listing succsessful";
+			TempData["msg"] = "Create listing succsessful";
 
 			return RedirectToAction("Index");
 		}
@@ -172,12 +205,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			if (listing != null)
 			{
 				await _listingRepository.DeleteListingAsync(id);
-				
-				ViewBag.message = "Delete Category successful";
+
+				TempData["msg"] = "Delete Category successful";
 				return RedirectToAction("Index");
 
 			}
-			ViewBag.message = "Existing posts cannot be deleted.";
+			TempData["err"] = "Existing posts cannot be deleted.";
 			return View("index");
 		}
 
@@ -186,7 +219,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
           var listing = await _listingRepository.Search(keyword);
           if(listing == null)
             {
-                ViewBag.messsage = "Search results do not exist";
+				TempData["err"] = "Search results do not exist";
                 return RedirectToAction("Index");
             }
           return View(listing);

@@ -1,5 +1,6 @@
 using BussinessLogicLayer_BLL.Services;
 using DataAccessLayer_DAL.Models;
+using DataAccessLayer_DAL.Repositories;
 using EprojectSem3.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -15,17 +16,20 @@ namespace EprojectSem3.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
         private readonly EmailService _emailService;
+        private readonly IListingRepository _listingRepository;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context,EmailService emailService)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context,EmailService emailService , IListingRepository listingRepository)
         {
             _logger = logger;
             _context = context;
             _emailService = emailService;
+            _listingRepository = listingRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var listingTop = await _listingRepository.GetListingTop5ByPriorityAsync();
+            return View(listingTop);
         }
 
         public IActionResult Plan()

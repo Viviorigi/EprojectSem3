@@ -10,7 +10,9 @@ namespace DataAccessLayer_DAL.Models
         public string Description { get; set; }
         [Required(ErrorMessage ="Price is not required")]
         public decimal Price { get; set; }
-        public int CategoryId { get; set; }
+        //[Required(ErrorMessage = "Picture thumbnail cannot be empty")]
+		public string? Image {  get; set; }
+		public int CategoryId { get; set; }
         public Category? Category { get; set; } // Navigation property
         public int UserId { get; set; }
         public User? User { get; set; } // Navigation property

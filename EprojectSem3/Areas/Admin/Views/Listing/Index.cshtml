@@ -4,7 +4,6 @@
     ViewData["title"] = "Listing Admin Page";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     int index = 1;
-    var listingSearch = ViewBag.listingSearcch;
 }
 
 <div class="content-page-header content-page-headersplit">
@@ -45,6 +44,7 @@
                         </ul>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-12 ">
                         <a class="table-resposnive table-div">
@@ -78,31 +78,13 @@
                                 <td>@l.Category.Name</td>
                                 <td>@l.Price</td>
                                 <td>@l.CreatedAt</td>
-                                @{
-                                    if (l.Status == 1)
-                                    {
-                                        <td><h6 class="badge-active">Active</h6></td>
-                                    }
-                                    else
-                                    {
-                                        <td><h6 class="badge-inactive">Inactive</h6></td>
-                                    }
-
-
-
-                                }
-                                @{
-                                    if (l.Priority == 1)
-                                    {
-                                        <td><h6 class="badge-active">Active</h6></td>
-                                    }
-                                    else
-                                    {
-                                        <td><h6 class="badge-inactive">Inactive</h6></td>
-                                    }
-
-                                }
-                                @* <td>@{l.Status == 1 ? "Active" : "InActive"}</td> *@
+                                 <td>
+                                     <h6 class="@(l.Status == 1 ? "badge-active" : "badge-inactive") ">@(l.Status == 1 ? "Active" : "Inactive")</h6>
+                                 </td>
+                                <td>
+                                    <h6 class="@(l.Priority == 1 ? "badge-active" : "badge-inactive") ">@(l.Priority == 1 ? "Active" : "Inactive")</h6>
+                                </td>
+                               
 
                                 <td>
                                     <a href="javascript:void(0);" class="table-profileimage">

@@ -44,7 +44,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 return View(category);
             }
             await _service.AddCategoryAsync(category);
-            ViewBag.message = "Create successful";
+			TempData["msg"] = "Create successful";
             return  RedirectToAction("Index");
 
 
@@ -55,7 +55,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             var category = await _service.GetCategoryByIdAsync(id);
             if (category == null)
             {
-                ViewBag.message = "category does not exist";
+				TempData["err"] = "category does not exist";
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -75,7 +75,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
 				return View(category);
 			}
              await _service.UpdateCategoryAsync(category);
-			 ViewBag.message = "Update category successful";
+			 TempData["msg"] = "Update category successful";
              return RedirectToAction("Index");
             
             
@@ -91,11 +91,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 if (category != null)
                 {
                    await _service.DeleteCategoryAsync(id);
-                    ViewBag.message = "Delete Category successful";
+                    TempData["msg"] = "Delete Category successful";
                     return RedirectToAction("Index");
                 }
             }
-            ViewBag.message = "Existing posts cannot be deleted.";
+            TempData["err"] = "Existing posts cannot be deleted.";
             return View("index");
         }
     }

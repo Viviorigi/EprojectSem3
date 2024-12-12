@@ -51,7 +51,12 @@ namespace BussinessLogicLayer_BLL.Services
 			throw new NotImplementedException();
 		}
 
-        public async Task<IEnumerable<Listing>> Search(string? keyword)
+		public async Task<IEnumerable<Listing>> GetListingTop5ByPriorityAsync()
+		{
+			return await _context.Listings.Include(x => x.Category).Where(x => x.Status == 1 && x.Priority == 1).Take(5).ToListAsync();
+		}
+
+		public async Task<IEnumerable<Listing>> Search(string? keyword)
         {
             if (string.IsNullOrWhiteSpace(keyword))
                 return Enumerable.Empty<Listing>();

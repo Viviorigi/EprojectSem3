@@ -16,6 +16,8 @@ namespace DataAccessLayer_DAL.Repositories
 		Task DeleteListingAsync(int listingId);
 
 		Task<IEnumerable<Listing>> Search(string? keyword);
-		
+		Task<IEnumerable<Listing>> GetListingTop5ByPriorityAsync();
+
+
 	}
 }

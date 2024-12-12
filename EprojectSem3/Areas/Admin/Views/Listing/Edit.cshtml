@@ -8,12 +8,14 @@
 	<h5>Edit Listings</h5>
 
 </div>
+
 <div class="row">
 	<div class="col-lg-12 m-auto">
 		<!-- Service Information -->
 		<form asp-controller="Listing" asp-action="Edit" method="post" enctype="multipart/form-data">
 			<input type="hidden" asp-for="ListingId"  />
 			<input type="hidden" asp-for="CreatedAt" />
+			<input type="hidden" asp-for="Image" />
 			<fieldset id="first-field">
 				<div class="row">
 					<div class="col-md-6">
@@ -99,6 +101,25 @@
 					<div class="col-md-12">
 						<div class="sub-title">
 							<h6>Image</h6>
+						</div>
+						<div class="form-uploads mb-4">
+							<div class="form-uploads-path">
+								<img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
+								<div class="file-browse">
+									<h6>Drag &amp; drop image or </h6>
+									<div class="file-browse-path">
+										<input type="file" name="file">
+										<a href="javascript:void(0);"> Browse</a>
+									</div>
+								</div>
+								<h5>Supported formates: JPEG, PNG</h5>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="sub-title">
+							<h6>Image Detail</h6>
 						</div>
 						<div class="form-uploads mb-4">
 							<div class="form-uploads-path">

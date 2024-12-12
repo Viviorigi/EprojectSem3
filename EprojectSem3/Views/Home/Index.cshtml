@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model IEnumerable<DataAccessLayer_DAL.Models.Listing>
 <!-- Banner -->
 <section class="banner-section banner-nine" style="margin-top: 80px;">
     <div class="container">
@@ -111,51 +112,53 @@
             <div class="col-lg-12">
                 <div class="car-class-carousel">
                     <div class="real-featured-listing owl-carousel owl-theme">
-                        <div class="feature-rent">
-                            <div class="feature-home-img">
-                                <a href="listingmap-list.html"><img src="~/assets/img/featured/property-feature-1.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="green-logo">
-                                <img src="~/assets/img/featured/feature-text-logo.png" class="img-fluid" alt="">
-                            </div>
-                            <div class="select-favourite-room">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-01.jpg" class="img-fluid" alt="">
+                        @foreach(var l in Model)
+                        {
+                            <div class="feature-rent">
+                                <div class="feature-home-img">
+                                    <a href="listingmap-list.html"><img src="@l.Image" class="img-fluid" alt=""></a>
                                 </div>
-                                <i class="fa-solid fa-heart"></i>
-                            </div>
-                            <div class="house-location">
-                                <span>$700/m</span>
-                                <p><i class="feather-map-pin"></i>Sydney CBD, NSW</p>
-                            </div>
-                            <div class="home-img-text">
-                                <div class="star-rated">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <span>2.8</span>
+                                <div class="green-logo">
+                                    <img src="~/assets/img/featured/feature-text-logo.png" class="img-fluid" alt="">
                                 </div>
-                                <h3><a href="listingmap-list.html">MS Northbound, Peachfield Road, Uk</a></h3>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
+                                 @* <div class="select-favourite-room">
+                                     <div class="favourite-small-user">
+                                         <img src="~/assets/img/profiles/avatar-01.jpg" class="img-fluid" alt="">
+                                     </div>
+                                     <i class="fa-solid fa-heart"></i>
+                                 </div> *@
+                                
+                                 <div class="home-img-text">
+                                    @*<div class="star-rated">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <span>2.8</span>
+                                    </div> *@
+                                    <h3><a href="listingmap-list.html">@l.Title</a></h3>
+                                    <span>@l.Price $</span>
+                                    @* <div class="top-room-details">
+                                        <div class="area">
+                                            <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
+                                        </div>
+                                        <div class="area">
+                                            <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
+                                        </div>
+                                        <div class="area">
+                                            <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
+                                        </div>
+                                    </div> *@
+                                    <div class="house-type">
+                                        <span class="room-type"><i class="feather-home"></i>@l.Category.Name</span>
+                                        <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
                                     </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                </div>
-                                <div class="house-type">
-                                    <span class="room-type"><i class="feather-home"></i>Apartments</span>
-                                    <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="feature-rent">
+                        }
+                        
+                       @*  <div class="feature-rent">
                             <div class="feature-home-img">
                                 <a href="listingmap-list.html"><img src="~/assets/img/featured/property-feature-2.jpg" class="img-fluid" alt=""></a>
                             </div>
@@ -330,7 +333,7 @@
                                     <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
             </div>
