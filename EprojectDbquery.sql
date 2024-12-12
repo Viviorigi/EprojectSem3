@@ -1,4 +1,7 @@
-﻿
+﻿use master
+go
+drop database EprojectSem3
+go
 create database EprojectSem3
 go
 use EprojectSem3
@@ -100,5 +103,3 @@ CREATE TABLE Transactions (
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
 );
-
-	INSERT INTO Regions values('hanoi')
