@@ -1,38 +1,35 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "LoginAdmin";
     Layout = null;
     @model EprojectSem3.Models.LoginModel;
+
 }
-   
+
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- Mirrored from listee.dreamstechnologies.com/html/admin/signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 04 Dec 2024 04:01:57 GMT -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Listee | Template</title>
+    <title>Listee | @ViewData["Title"]</title>
 
     <!-- Favicons -->
-    <link rel="shortcut icon" href="assets/img/favicon.png">
+    <link rel="shortcut icon" href="~/assets/admin/assets/img/favicon.png">
 
     <!-- Feathericon CSS -->
-    <link rel="stylesheet" href="assets/css/feather.html">
+    <link rel="stylesheet" href="~/assets/admin/assets/css/feather.html">
 
     <!-- Select 2 -->
-    <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/assets/admin/assets/plugins/select2/css/select2.min.css">
 
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/admin/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/assets/admin/assets/plugins/fontawesome/css/all.min.css">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/admin/assets/plugins/bootstrap/css/bootstrap.min.css">
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="~/assets/admin/assets/css/style.css">
 
 </head>
 
@@ -43,7 +40,7 @@
                 <div class="row align-items-center justify-content-center">
                     <div class="col-lg-12">
                         <div class="login-logo">
-                            <img src="assets/img/logo-login.png" alt="img">
+                            <img src="~/assets/admin/assets/img/logo-login.png" alt="img">
                         </div>
                     </div>
                     <div class="col-lg-6 col-xl-5 mx-auto">
@@ -57,26 +54,27 @@
                                 {
                                     @Html.Raw(ViewBag.error)
                                 }
-                                <form asp-area="Admin" asp-controller="LoginAdmin" asp-action="Login" method="post">
-                                <div class="login-input">   
-                                    <div class="form-set">
-                                        <label>E-mail</label>
-                                        <input type="text" class="form-control" asp-for="Email" placeholder="example@email.com">
-                                    </div>
-                                    <div class="form-set">
-                                        <div class="d-flex justify-content-between">
-                                            <label>Password</label>
+                                <form asp-area="Admin" asp-controller="LoginAdmin" asp-action="Index" method="post">
+                                    <div class="login-input">
+                                        <div class="form-set">
+                                            <label>E-mail</label>
+                                            <input type="text" class="form-control" asp-for="Email" placeholder="example@email.com">
+                                            <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
-                                        <div class="pass-group">
-                                            <input type="password" class="form-control pass-input" asp-for="Password" placeholder="********">
-                                            <span class="fas toggle-password fa-eye-slash"></span>
+                                        <div class="form-set">
+                                            <div class="d-flex justify-content-between">
+                                                <label>Password</label>
+                                            </div>
+                                            <div class="pass-group">
+                                                <input type="password" class="form-control pass-input" asp-for="Password" placeholder="********">
+                                            </div>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+                                        <div class="login-button">
+                                            <button type="submit" class="btn btn-login">Sign In</button>
                                         </div>
                                     </div>
-                                     <button class="btn btn-primary w-100 login-btn" type="submit">Log In</button>
-                                </div>
                                 </form>
-                               
-                               
                             </div>
                         </div>
 
@@ -87,22 +85,16 @@
     </div>
 
     <!-- jQuery -->
-    <script src="assets/js/jquery-3.7.1.min.js" type="57f155dcdbf8ec53fe4267c0-text/javascript"></script>
+    <script src="~/assets/admin/assets/js/jquery-3.7.1.min.js" type="57f155dcdbf8ec53fe4267c0-text/javascript"></script>
 
     <!-- Select 2 JS-->
-    <script src="assets/js/select2.min.js" type="57f155dcdbf8ec53fe4267c0-text/javascript"></script>
+    <script src="~/assets/admin/assets/js/select2.min.js" type="57f155dcdbf8ec53fe4267c0-text/javascript"></script>
 
     <!-- Bootstrap Core JS -->
-    <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js" type="57f155dcdbf8ec53fe4267c0-text/javascript"></script>
-
-
+    <script src="~/assets/admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js" type="57f155dcdbf8ec53fe4267c0-text/javascript"></script>
 
     <!-- Custom JS -->
-    <script src="assets/js/admin.js" type="57f155dcdbf8ec53fe4267c0-text/javascript"></script>
+    <script src="~/assets/admin/assets/js/admin.js" type="57f155dcdbf8ec53fe4267c0-text/javascript"></script>
 
-    <script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="57f155dcdbf8ec53fe4267c0-|49" defer></script>
 </body>
-
-
-<!-- Mirrored from listee.dreamstechnologies.com/html/admin/signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 04 Dec 2024 04:02:00 GMT -->
 </html>

@@ -20,7 +20,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			return View();
 		}
 		[HttpPost]
-		public async Task<IActionResult> Login(LoginModel model)
+		public async Task<IActionResult> Index(LoginModel model)
 		{
 			if (ModelState.IsValid)
 			{

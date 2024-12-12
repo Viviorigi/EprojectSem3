@@ -25,6 +25,7 @@
                     <tr>
                         <th>#</th>
                         <th>FullName</th>
+                        <th>Email</th>
                         <th>PhoneNumber</th>
                         <th>Role</th>
                         <th>Address</th>
@@ -37,12 +38,8 @@
                     {
                         <tr>
                             <td>@index</td>
-                            <td class="table-namesplit">
-                                <a asp-area="Admin" asp-action="Details" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
-                                    <span>@Html.DisplayFor(modelu => u.FullName)</span>
-                                    <p><span>@Html.DisplayFor(modelu => u.Email)</span></p>
-                                </a>
-                            </td>
+                            <td>@Html.DisplayFor(modelu => u.FullName)</td>
+                            <td>@Html.DisplayFor(modelu => u.Email)</td>
                             <td>@u.PhoneNumber</td>
                             <td>
                                 <h6 class="@(u.Role == 0 ? "badge-inactive" : u.Role == 1 ? "badge-inactive" : "badge-active")">

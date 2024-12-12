@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EprojectSem3", "EprojectSem3\EprojectSem3.csproj", "{F2A61E69-FD16-4E76-8362-CA823069EBB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Realtors_Portal", "EprojectSem3\Realtors_Portal.csproj", "{F2A61E69-FD16-4E76-8362-CA823069EBB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer_DAL", "DataAccessLayer_DAL\DataAccessLayer_DAL.csproj", "{8509D43B-3A86-4127-8058-18BCDE568817}"
 EndProject
