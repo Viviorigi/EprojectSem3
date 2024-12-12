@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var adminName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
+    var adminEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+    var isAdmin = User.Identity?.AuthenticationType == "MyAppAuthenticationAdmin";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -56,80 +61,7 @@
                     </div>
                 </div>
                 <ul class="nav user-menu">
-                    <!-- Notifications -->
-                    <li class="nav-item dropdown has-arrow dropdown-heads ">
-                        <a href="javascript:void(0);" data-bs-toggle="dropdown">
-                            <i class="fe fe-bell"></i>
-                        </a>
-                        <div class="dropdown-menu notifications">
-                            <div class="topnav-dropdown-header">
-                                <span class="notification-title">Notifications</span>
-                                <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                            </div>
-                            <div class="noti-content">
-                                <ul class="notification-list">
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                <span class="avatar avatar-sm flex-shrink-0">
-                                                    <img class="avatar-img rounded-circle" alt="" src="~/assets/admin/assets/img/provider/provider-01.jpg">
-                                                </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details">
-                                                        <span class="noti-title">Matthew Garcia have been subscribed</span>
-                                                    </p>
-                                                    <p class="noti-time">
-                                                        <span class="notification-time">15 Sep 2020 10:20 PM</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <button type="submit" class="btn btn-accept">Accept</button><button type="submit" class="btn btn-decline">Decline</button>
-                                    </li>
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                <span class="avatar avatar-sm flex-shrink-0">
-                                                    <img class="avatar-img rounded-circle" alt="" src="~/assets/admin/assets/img/provider/provider-02.jpg">
-                                                </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details">
-                                                        <span class="noti-title">New User Registered “James Hardin”</span>
-                                                    </p>
-                                                    <p class="noti-time">
-                                                        <span class="notification-time">15 Sep 2020 10:20 PM</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <button type="submit" class="btn btn-accept">Accept</button><span><button type="submit" class="btn btn-decline">Decline</button></span>
-                                    </li>
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                <span class="avatar avatar-sm flex-shrink-0">
-                                                    <img class="avatar-img rounded-circle" alt="" src="~/assets/admin/assets/img/provider/provider-03.jpg">
-                                                </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details">
-                                                        <span class="noti-title">New Service added  “Plumbing”</span>
-                                                    </p>
-                                                    <p class="noti-time">
-                                                        <span class="notification-time">15 Sep 2020 10:20 PM</span>
-                                                    </p>
-
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <button type="submit" class="btn btn-decline-accept">Accept</button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="topnav-dropdown-footer">
-                                <a href="notifications.html">View all Notifications</a>
-                            </div>
-                        </div>
-                    </li>
+               
                     <li class="nav-item  has-arrow dropdown-heads ">
                         <a href="javascript:void(0);" class="win-maximize">
                             <i class="fe fe-maximize"></i>
@@ -144,8 +76,8 @@
                                 <span class="animate-circle"></span>
                             </span>
                             <span class="user-content">
-                                <span class="user-name">John Smith</span>
-                                <span class="user-details">Demo User</span>
+                                <span class="user-name">@adminName</span>
+                                <span class="user-details">@adminEmail</span>
                             </span>
                         </a>
                         <div class="dropdown-menu menu-drop-user">
