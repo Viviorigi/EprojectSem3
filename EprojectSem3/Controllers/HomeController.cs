@@ -28,17 +28,17 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
-        public IActionResult Listings()
-        {
-            return View();
-        }
-
         public IActionResult Plan()
         {
             return View();
         }
 
         public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult Blog()
         {
             return View();
         }

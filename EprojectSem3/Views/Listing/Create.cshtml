@@ -1,0 +1,177 @@
+﻿@{
+	ViewData["Title"] = "Create Listing";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadscrumb Section -->
+<div class="breadcrumb-bar">
+	<div class="container">
+		<div class="row align-items-center text-center">
+			<div class="col-md-12 col-12">
+				<h2 class="breadcrumb-title">Add Listing</h2>
+				<nav aria-label="breadcrumb" class="page-breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Add Listing</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Breadscrumb Section -->
+<!-- Profile Content -->
+<div class="dashboard-content listing-section ">
+	<div class="container">
+		<div class="profile-content">
+			<div class="messages-form">
+				<div class="card">
+					<div class="card-header">
+						<h4>Basic information</h4>
+					</div>
+					<div class="card-body">
+						<div class="form-set">
+							<label class="col-form-label">Listing Title <span>*</span></label>
+							<input type="text" class="form-control pass-input" placeholder="Title">
+						</div>
+						<div class="form-set">
+							<label class="col-form-label">Listing Description <span>*</span></label>
+							<textarea rows="6" class="form-control listingdescription"
+									  placeholder="Message"></textarea>
+						</div>
+						<div class="form-set">
+							<label class="col-form-label label-heading">Category </label>
+							<div class="row category-listing">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-set formlast-input">
+										<label class="col-form-label">Category</label>
+										<select class="form-control select">
+											<option>65</option>
+											<option>75</option>
+											<option>85</option>
+											<option>95</option>
+											<option>105</option>
+											<option>110</option>
+											<option>115</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">
+						<h4>Basic information</h4>
+					</div>
+					<div class="card-body">
+						<div class="form-set">
+							<label class="col-form-label">Price</label>
+							<input type="text" class="form-control pass-input" placeholder="$$$">
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">
+						<h4>Location information</h4>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-6 col-md-6">
+								<div class="form-set formlast-input">
+									<label class="col-form-label">City From</label>
+									<select class="form-control select">
+										<option>65</option>
+										<option>75</option>
+										<option>85</option>
+										<option>95</option>
+										<option>105</option>
+										<option>110</option>
+										<option>115</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">
+						<h4>Contact Information </h4>
+					</div>
+					<div class="card-body">
+						<div class="form-set">
+							<label class="col-form-label">Email </label>
+							<input type="text" class="form-control pass-input" placeholder="">
+						</div>
+						<div class="form-set formlast-input">
+							<label class="col-form-label">Phone </label>
+							<input type="text" class="form-control pass-input" placeholder="">
+						</div>
+					</div>
+				</div>
+				<div class="card media-section">
+					<div class="card-header">
+						<h4>Media Information </h4>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 featured-img1">
+								<h6 class="media-title">Featured Image</h6>
+								<div class="media-image ">
+									<img src="~/assets/img/mediaimg-2.jpg" alt="">
+								</div>
+								<div class="settings-upload-btn">
+									<input type="file" accept="image/*" name="image"
+										   class="hide-input image-upload" id="file">
+									<label for="file" class="file-upload">Upload File</label>
+								</div>
+							</div>
+						</div>
+						<div class="gallery-media">
+							<h6 class="media-title">Gallery</h6>
+							<div class="galleryimg-upload">
+								<div class="gallery-upload">
+									<img src="~/assets/img/gallery/gallerymedia-1.jpg" class="img-fluid" alt="">
+									<a href="javascript:void(0)" class="profile-img-del">
+										<i class="feather-trash-2"></i>
+									</a>
+								</div>
+								<div class="gallery-upload">
+									<img src="~/assets/img/gallery/gallerymedia-2.jpg" class="img-fluid" alt="">
+									<a href="javascript:void(0)" class="profile-img-del">
+										<i class="feather-trash-2"></i>
+									</a>
+								</div>
+								<div class="gallery-upload">
+									<img src="~/assets/img/gallery/gallerymedia-3.jpg" class="img-fluid" alt="">
+									<a href="javascript:void(0)" class="profile-img-del">
+										<i class="feather-trash-2"></i>
+									</a>
+								</div>
+								<div class="gallery-upload">
+									<img src="~/assets/img/gallery/gallerymedia-4.jpg" class="img-fluid" alt="">
+									<a href="javascript:void(0)" class="profile-img-del">
+										<i class="feather-trash-2"></i>
+									</a>
+								</div>
+								<div class="gallery-upload">
+									<img src="~/assets/img/gallery/gallerymedia-5.jpg" class="img-fluid" alt="">
+									<a href="javascript:void(0)" class="profile-img-del">
+										<i class="feather-trash-2"></i>
+									</a>
+								</div>
+							</div>
+							<div class="settings-upload-btn">
+								<input type="file" accept="image/*" name="image" class="hide-input image-upload"
+									   id="file2">
+								<label for="file2" class="file-upload">Upload File</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button class="btn btn-primary" type="submit"> Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Profile Content -->
