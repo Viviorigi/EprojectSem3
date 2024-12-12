@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EprojectSem3.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CitiesController : Controller
+    public class CitiesController : BaseController
     {
         private readonly AppDbContext _context;
         private readonly ICityRepository _cityRepository;

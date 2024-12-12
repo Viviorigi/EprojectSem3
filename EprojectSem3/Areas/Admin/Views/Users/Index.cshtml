@@ -41,13 +41,7 @@
                             <td class="table-namesplit">
                                 <a asp-area="Admin" asp-action="Details" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
                                     <span>@Html.DisplayFor(modelu => u.FullName)</span>
-                                    
-                                </a>
-                            </td>
-                            <td class="">
-                                <a asp-area="Admin" asp-action="Details" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
-                                    
-                                    <span>@Html.DisplayFor(modelu => u.Email)</span>
+                                    <p><span>@Html.DisplayFor(modelu => u.Email)</span></p>
                                 </a>
                             </td>
                             <td>@u.PhoneNumber</td>

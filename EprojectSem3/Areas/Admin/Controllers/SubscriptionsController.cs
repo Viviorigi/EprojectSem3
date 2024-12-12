@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EprojectSem3.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class SubscriptionsController : Controller
+    public class SubscriptionsController : BaseController
     {
         private readonly AppDbContext _context;
         private readonly ISubscriptionRepository _subscription;

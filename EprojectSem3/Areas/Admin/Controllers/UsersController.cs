@@ -11,7 +11,7 @@ using DataAccessLayer_DAL.Repositories;
 namespace EprojectSem3.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly IUserRepository _userRepository;
         private readonly AppDbContext _context;

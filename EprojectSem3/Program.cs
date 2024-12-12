@@ -48,8 +48,8 @@ builder.Services.AddAuthentication(options =>
         SameSite = SameSiteMode.Lax,
         SecurePolicy = CookieSecurePolicy.SameAsRequest
     };
-    options.LoginPath = new PathString("/Admin/Login/Index");
-    options.LogoutPath = new PathString("/Admin/Login/Logout");
+    options.LoginPath = new PathString("/Admin/LoginAdmin/Index");
+    options.LogoutPath = new PathString("/Admin/LoginAdmin/Logout");
 });
 
 builder.Services.AddTransient<EmailService>();
@@ -57,6 +57,13 @@ builder.Services.AddTransient<EmailService>();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+
+    SeedAdminUser(context);
+}
 
 
 // Configure the HTTP request pipeline.
@@ -85,3 +92,25 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+void SeedAdminUser(AppDbContext context)
+{
+    // Check if admin already exists
+    if (!context.Users.Any(u => u.Email == "admin@gmail.com"))
+    {
+        var admin = new User
+        {
+            FullName = "Admin User",
+            Email = "admin@gmail.com",
+            Password = BCrypt.Net.BCrypt.HashPassword("123456"), // Encrypt password
+            PhoneNumber = "0123456789",
+            Address = "123 Admin St",
+            Role = 2, // Admin role
+            Status = 1 // Active
+        };
+
+        context.Users.Add(admin);
+        context.SaveChanges();
+    }
+}
