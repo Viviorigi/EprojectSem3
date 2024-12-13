@@ -57,24 +57,11 @@
     </div>
     <div class="col-lg-12">
         <div class="form-set">
-            <label>IsPriorityAd?</label>
-            <ul class="custom-radiosbtn">
-                <li>
-                    <label class="radiossets">
-                        yes
-                        <input type="radio" checked="checked" name="radio" asp-for="IsPriorityAd" value="1">
-                        <span class="checkmark-radio"></span>
-                    </label>
-                </li>
-                <li>
-                    <label class="radiossets">
-                        No
-                        <input type="radio" name="radio" asp-for="IsPriorityAd" value="0">
-                        <span class="checkmark-radio"></span>
-                    </label>
-                </li>
+            <label>IsAgent?</label>
+            <select asp-for="IsAgent" asp-items="ViewBag.IsAgent" class="form-control">
+                
+            </select>
 
-            </ul>
         </div>
     </div>
     <div class="col-lg-12">

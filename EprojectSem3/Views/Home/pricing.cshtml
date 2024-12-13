@@ -1,6 +1,7 @@
 ﻿@{
 	ViewData["Title"] = "Pricing";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	var memberships = ViewBag.Memberships as IEnumerable<DataAccessLayer_DAL.Models.Subscription>;
 }
 <!-- Breadscrumb Section -->
 <div class="breadcrumb-bar">
@@ -31,98 +32,43 @@
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-3 d-flex col-md-6">
-				<div class="price-card flex-fill">
-					<div class="price-head">
-						<div class="price-level">
-							<h6>Intro</h6>
+			@if (memberships != null && memberships.Any())
+			{
+				@foreach (var membership in memberships)
+				{
+					<div class="col-lg-3 d-flex col-md-6">
+						<div class="price-card flex-fill">
+						<div class="price-head">
+							<div class="price-level">
+								<h6>@membership.Name</h6>
+							</div>
+							<h4>$@membership.Price<span>/ @(membership.Duration==30? "month" :"year")</span></h4>
 						</div>
-						<h4>$10 <span>/ month</span></h4>
-					</div>
-					<div class="price-body">
-						<p>For most business that want to optimize web queries</p>
-						<ul>
-							<li class="active">Basic listing submission</li>
-							<li class="active">One Listing</li>
-							<li class="active">30 days Availabilty</li>
-							<li class="inactive">Limited Support</li>
-							<li class="inactive">Edit your listing</li>
-						</ul>
-						<div>
-							<a href="login.html" class="btn viewdetails-btn">View details</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-3 d-flex col-md-6">
-				<div class="price-card flex-fill">
-					<div class="price-head">
-						<div class="price-level">
-							<h6>Basic</h6>
-						</div>
-						<h4>$25 <span>/ month</span></h4>
-					</div>
-					<div class="price-body">
-						<p>For most business that want to optimize web queries</p>
-						<ul>
-							<li class="active">Basic listing submission</li>
-							<li class="active">One Listing</li>
-							<li class="active">30 days Availabilty</li>
-							<li class="inactive">Limited Support</li>
-							<li class="inactive">Edit your listing</li>
-						</ul>
-						<div>
-							<a href="login.html" class="btn viewdetails-btn">View details</a>
+						<div class="price-body">
+							<p>For most business that want to optimize web queries</p>
+							<ul>
+								<li class="active">Basic listing submission</li>
+								<li class="active">Max listing post ads @membership.MaxAds</li>
+								<li class="active">@membership.Duration days Availabilty</li>
+								<li class="inactive">Limited Support</li>
+								<li class="inactive">Edit your listing</li>
+									@if (membership.IsAgent == true)
+									{
+										<li class="active">Allow Enable/disable featured post ads</li>
+									}
+								</ul>
+							<div>
+								<a href="login.html" class="btn viewdetails-btn">View details</a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-lg-3 d-flex col-md-6">
-				<div class="price-card flex-fill">
-					<div class="price-head">
-						<div class="price-level">
-							<h6>Popular</h6>
-						</div>
-						<h4>$50 <span>/ month</span></h4>
-					</div>
-					<div class="price-body">
-						<p>For most business that want to optimize web queries</p>
-						<ul>
-							<li class="active">Basic listing submission</li>
-							<li class="active">One Listing</li>
-							<li class="active">30 days Availabilty</li>
-							<li class="inactive">Limited Support</li>
-							<li class="inactive">Edit your listing</li>
-						</ul>
-						<div>
-							<a href="login.html" class="btn viewdetails-btn">View details</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-3 d-flex col-md-6">
-				<div class="price-card flex-fill">
-					<div class="price-head">
-						<div class="price-level">
-							<h6>Enterprise</h6>
-						</div>
-						<h4>$100 <span>/ month</span></h4>
-					</div>
-					<div class="price-body">
-						<p>For most business that want to optimize web queries</p>
-						<ul>
-							<li class="active">Basic listing submission</li>
-							<li class="active">One Listing</li>
-							<li class="active">30 days Availabilty</li>
-							<li class="inactive">Limited Support</li>
-							<li class="inactive">Edit your listing</li>
-						</ul>
-						<div>
-							<a href="login.html" class="btn viewdetails-btn">View details</a>
-						</div>
-					</div>
-				</div>
-			</div>
+				}
+			}
+			else
+			{
+				<h3>No memberships available.</h3>
+			}	
 		</div>
 	</div>
 </section>

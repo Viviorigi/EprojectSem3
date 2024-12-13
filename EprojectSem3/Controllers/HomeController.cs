@@ -3,6 +3,7 @@ using DataAccessLayer_DAL.Models;
 using DataAccessLayer_DAL.Repositories;
 using EprojectSem3.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -57,8 +58,23 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
+        [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+        [Authorize(AuthenticationSchemes = "MyAppAuthenticationAdmin")]
         public IActionResult Pricing()
         {
+            var userRole= User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if(userRole == "0")
+            {
+                ViewBag.Memberships = _context.Subscriptions.Where(s => s.IsAgent == false);
+            }
+            else if(userRole=="1")
+            {
+                ViewBag.Memberships = _context.Subscriptions.Where(s => s.IsAgent == true);
+            }
+            else
+            {
+                ViewBag.Memberships = new List<DataAccessLayer_DAL.Models.Subscription>();
+            }
             return View();
         }
 

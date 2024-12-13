@@ -33,6 +33,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // GET: Admin/Subscriptions/Create
         public IActionResult Create()
         {
+            ViewBag.IsAgent = new SelectList(new[]
+              {
+                new { Value = true, Text = "Yes" },
+                new { Value = false, Text = "No" }
+            }, "Value", "Text");
+
             return View();
         }
 
@@ -41,13 +47,19 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SubscriptionId,Name,Price,Duration,MaxAds,IsPriorityAd")] Subscription subscription)
+        public async Task<IActionResult> Create([Bind("SubscriptionId,Name,Price,Duration,MaxAds,IsAgent")] Subscription subscription)
         {
             if (ModelState.IsValid)
             {
                 await _subscription.AddSubscriptionAsync(subscription);
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.IsAgent = new SelectList(new[]
+            {
+                new { Value = true, Text = "Yes" },
+                new { Value = false, Text = "No" }
+            }, "Value", "Text");
+
             return View(subscription);
         }
 
@@ -64,6 +76,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            ViewBag.IsAgent = new SelectList(new[]
+          {
+                new { Value = true, Text = "Yes" },
+                new { Value = false, Text = "No" }
+            }, "Value", "Text");
+
             return View(subscription);
         }
 
@@ -72,7 +90,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SubscriptionId,Name,Price,Duration,MaxAds,IsPriorityAd")] Subscription subscription)
+        public async Task<IActionResult> Edit(int id, [Bind("SubscriptionId,Name,Price,Duration,MaxAds,IsAgent")] Subscription subscription)
         {
             if (id != subscription.SubscriptionId)
             {
@@ -98,6 +116,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.IsAgent = new SelectList(new[]
+            {
+                new { Value = true, Text = "Yes" },
+                new { Value = false, Text = "No" }
+            }, "Value", "Text");
+
             return View(subscription);
         }
 

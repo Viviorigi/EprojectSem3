@@ -63,10 +63,10 @@
                             <td>@index</td>
                             <td>@s.Name</td>
                             <td>@s.Price</td>
-                            <td>@s.Duration</td>
+                            <td>@s.Duration day</td>
                             <td>@s.MaxAds</td>
                             <td>
-                                @s.IsPriorityAd
+                                @(s.IsAgent == true ? "Yes" : "No")
                             </td>
                             <td>
                                 <div class="table-actions d-flex">

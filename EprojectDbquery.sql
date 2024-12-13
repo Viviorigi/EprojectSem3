@@ -28,7 +28,7 @@ CREATE TABLE Subscriptions (
     Price DECIMAL(10,2) NOT NULL,
     Duration INT NOT NULL,
     MaxAds INT NOT NULL,
-    IsPriorityAd BIT NOT NULL
+    IsAgent BIT NOT NULL
 );
 
 -- Bảng Users (Phụ thuộc Subscriptions)
