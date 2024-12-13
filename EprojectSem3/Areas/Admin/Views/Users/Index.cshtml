@@ -38,10 +38,14 @@
                     {
                         <tr>
                             <td>@index</td>
-                            <td class="table-namesplit">
+                            <td>
                                 <a asp-area="Admin" asp-action="Details" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
                                     <span>@Html.DisplayFor(modelu => u.FullName)</span>
-                                    <p><span>@Html.DisplayFor(modelu => u.Email)</span></p>
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-area="Admin" asp-action="Details" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
+                                    <span>@Html.DisplayFor(modelu => u.Email)</span>
                                 </a>
                             </td>
                             <td>@u.PhoneNumber</td>
