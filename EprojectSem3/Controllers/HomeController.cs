@@ -79,6 +79,11 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
+        public IActionResult Checkout()
+        {
+            return View();
+        }
+
         public IActionResult SignUp()
         {
 			ViewBag.Role = new SelectList(new[]
