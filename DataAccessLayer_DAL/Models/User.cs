@@ -35,8 +35,14 @@ namespace DataAccessLayer_DAL.Models
         public byte? Status { get; set; }
 
         public int? SubscriptionId { get; set; }
-        // Navigation property
-        public Subscription? Subscription { get; set; }
+
+
+		public string? ResetPasswordToken { get; set; }
+
+		public DateTime? ResetTokenExpiration { get; set; }
+
+		// Navigation property
+		public Subscription? Subscription { get; set; }
         public ICollection<Listing>? Listings { get; set; }
         public ICollection<UserSubscription>? UserSubscriptions { get; set; }
         public ICollection<Transaction>? Transactions { get; set; }
