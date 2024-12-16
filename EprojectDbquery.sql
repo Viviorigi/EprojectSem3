@@ -42,6 +42,8 @@ CREATE TABLE Users (
     Role TINYINT NOT NULL,
     Status TINYINT NOT NULL,
     SubscriptionId INT,
+	ResetPasswordToken NVARCHAR(255),
+	ResetTokenExpiration DATETIME,
     CreatedAt DATETIME DEFAULT GETDATE(),
     UpdatedAt DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)

@@ -1,4 +1,4 @@
-using BussinessLogicLayer_BLL.Services;
+﻿using BussinessLogicLayer_BLL.Services;
 using DataAccessLayer_DAL.Models;
 using DataAccessLayer_DAL.Repositories;
 using EprojectSem3.Models;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Realtors_Portal.Models;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -213,7 +214,98 @@ namespace EprojectSem3.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Privacy()
+		[HttpGet]
+		public IActionResult ForgotPassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult ForgotPassword(ForgotPasswordModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+	
+			var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
+			if (user == null)
+			{
+				ModelState.AddModelError("", "The email address does not exist.");
+				return View(model);
+			}
+
+			var resetToken = Guid.NewGuid().ToString();
+			var expirationTime = DateTime.UtcNow.AddMinutes(5);
+
+			user.ResetPasswordToken = resetToken;
+			user.ResetTokenExpiration = expirationTime;
+			_context.Users.Update(user);
+			_context.SaveChanges();
+
+			var resetLink = Url.Action("ResetPassword", "Home",
+				new { token = resetToken, email = model.Email }, Request.Scheme);
+
+			var emailContent = $"Click the following link to reset your password: <a href='{resetLink}'>Reset Password</a>";
+			_emailService.SendEmailAsync(model.Email, "Password Reset", emailContent);
+
+			ViewBag.Message = "A password reset link has been sent to your email address. Please check your Email";
+			return View();
+		}
+
+		[HttpGet]
+		public IActionResult ResetPassword(string token, string email)
+		{
+			if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
+			{
+				return RedirectToAction("Error", "Home"); 
+			}
+
+			var model = new ResetPasswordModel
+			{
+				Token = token,
+				Email = email
+			};
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public IActionResult ResetPassword(ResetPasswordModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var user = _context.Users.FirstOrDefault(u => u.Email == model.Email && u.ResetPasswordToken == model.Token);
+
+			if (user == null)
+			{
+				ModelState.AddModelError("", "Invalid token or email.");
+				return View(model);
+			}
+
+			if (user.ResetTokenExpiration < DateTime.UtcNow)
+			{
+				ModelState.AddModelError("", "The reset token has expired.");
+				return View(model);
+			}
+
+			user.Password = BCrypt.Net.BCrypt.HashPassword(model.NewPassword); 
+			user.ResetPasswordToken = null; 
+			user.ResetTokenExpiration = null; 
+
+			_context.Users.Update(user);
+			_context.SaveChanges();
+
+			ViewBag.Message = "Your password has been reset successfully.";
+			return RedirectToAction("Login", "Home"); 
+		}
+
+
+		public IActionResult Privacy()
         {
             return View();
         }
