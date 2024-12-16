@@ -1,8 +1,9 @@
-﻿@{
+﻿@using X.PagedList.Mvc.Core;
+@{
     ViewData["Title"] = "Listings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@model X.PagedList.IPagedList<DataAccessLayer_DAL.Models.Listing>
 <!-- Breadscrumb Section -->
 <div class="breadcrumb-bar">
 	<div class="container">
@@ -85,444 +86,109 @@
 				</div>
 				<div class="grid-view listgrid-sidebar">
 					<div class="row">
-						<div class="col-lg-6 col-md-6">
-							<div class="card">
-								<div class="blog-widget">
-									<div class="blog-img">
-										<a href="service-details.html">
-											<img src="~/assets/img/list/listgrid-1.jpg" class="img-fluid" alt="blog-img">
-										</a>
-										<div class="fav-item">
-											<span class="featured-text">Featured</span>
-											<a href="javascript:void(0)" class="fav-icon">
-												<i class="feather-heart"></i>
+						@foreach(var l in Model)
+						{
+							<div class="col-lg-6 col-md-6">
+								<div class="card">
+									<div class="blog-widget">
+										<div class="blog-img">
+											<a href="service-details.html">
+												<img src="@l.Image" class="img-fluid" alt="blog-img">
 											</a>
+											@if (l.Priority == 1)
+											{
+												<div class="fav-item">
+													<span class="featured-text">Featured</span>
+													<a href="javascript:void(0)" class="fav-icon">
+														<i class="feather-heart"></i>
+													</a>
+												</div>
+											}
+											
 										</div>
-									</div>
-									<div class="bloglist-content">
-										<div class="card-body">
-											<div class="blogfeaturelink">
-												<div class="grid-author">
-													<img src="~/assets/img/profiles/avatar-02.jpg" alt="author">
+										<div class="bloglist-content">
+											<div class="card-body">
+												<div class="blogfeaturelink">
+													<div class="grid-author">
+														<img src="~/assets/img/profiles/avatar-02.jpg" alt="author">
+													</div>
+													<div class="blog-features">
+														<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Vehicle</span></a>
+													</div>
+													<div class="blog-author text-end">
+														<span>  <i class="feather-eye"></i>4000  </span>
+													</div>
 												</div>
-												<div class="blog-features">
-													<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Vehicle</span></a>
+												<h6><a href="service-details.html">@l.Title</a></h6>
+												<div class="blog-location-details">
+													<div class="location-info">
+														<i class="feather-map-pin"></i> @l.City.Name
+													</div>
+													<div class="location-info">
+														<i class="fa-solid fa-calendar-days"></i> @string.Format("{0:dd/MM/yyyy}", @l.CreatedAt)
+													</div>
 												</div>
-												<div class="blog-author text-end">
-													<span>  <i class="feather-eye"></i>4000  </span>
-												</div>
-											</div>
-											<h6><a href="service-details.html">2017 Gulfsteam Ameri-lite</a></h6>
-											<div class="blog-location-details">
-												<div class="location-info">
-													<i class="feather-map-pin"></i> Los Angeles
-												</div>
-												<div class="location-info">
-													<i class="fa-solid fa-calendar-days"></i> 06 Oct, 2022
-												</div>
-											</div>
-											<div class="amount-details">
-												<div class="amount">
-													<span class="validrate">$350</span>
-													<span>$450</span>
-												</div>
-												<div class="ratings">
-													<span>4.7</span> (50)
+												<div class="amount-details">
+													<div class="amount">
+														<span class="validrate">$ @string.Format("{0:N2}", @l.Price)</span>
+														
+													</div>
+													<div class="ratings">
+														<span>4.7</span> (50)
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
+						}
+						
+					</div>
+				</div>
+				<!-- Render Pagination Links -->
+				<!-- Shop Breadcrumb Area Start -->
+				<div class="shop-breadcrumb-area border-default mt-40">
+					<div class="row">
+						<div class="col-lg-4 col-md-6 col-sm-5 col-12">
+							Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
 						</div>
-						<div class="col-lg-6 col-md-6">
-							<div class="card">
-								<div class="blog-widget">
-									<div class="blog-img">
-										<a href="service-details.html">
-											<img src="~/assets/img/list/listgrid-2.jpg" class="img-fluid" alt="blog-img">
-										</a>
-										<div class="fav-item">
-											<span class="featured-text">Featured</span>
-											<a href="javascript:void(0)" class="fav-icon">
-												<i class="feather-heart"></i>
-											</a>
-										</div>
-									</div>
-									<div class="bloglist-content">
-										<div class="card-body">
-											<div class="blogfeaturelink">
-												<div class="grid-author">
-													<img src="~/assets/img/profiles/avatar-07.jpg" alt="author">
-												</div>
-												<div class="blog-features">
-													<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Construction</span></a>
-												</div>
-												<div class="blog-author text-end">
-													<span>  <i class="feather-eye"></i>4000  </span>
-												</div>
-											</div>
-											<h6><a href="service-details.html">Villa 457 sq.m. In Benidorm Fully Qquipped House</a></h6>
-											<div class="blog-location-details">
-												<div class="location-info">
-													<i class="feather-map-pin"></i> Los Angeles
-												</div>
-												<div class="location-info">
-													<i class="fa-solid fa-calendar-days"></i> 06 Oct, 2022
-												</div>
-											</div>
-											<div class="amount-details">
-												<div class="amount">
-													<span class="validrate">$350</span>
-													<span>$450</span>
-												</div>
-												<div class="ratings">
-													<span>4.7</span> (50)
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6">
-							<div class="card">
-								<div class="blog-widget">
-									<div class="blog-img">
-										<a href="service-details.html">
-											<img src="~/assets/img/list/listgrid-3.jpg" class="img-fluid" alt="blog-img">
-										</a>
-										<div class="fav-item">
-											<span class="featured-text">Featured</span>
-											<a href="javascript:void(0)" class="fav-icon">
-												<i class="feather-heart"></i>
-											</a>
-										</div>
-									</div>
-									<div class="bloglist-content">
-										<div class="card-body">
-											<div class="blogfeaturelink">
-												<div class="grid-author">
-													<img src="~/assets/img/profiles/avatar-02.jpg" alt="author">
-												</div>
-												<div class="blog-features">
-													<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Electronics</span></a>
-												</div>
-												<div class="blog-author text-end">
-													<span>  <i class="feather-eye"></i>4000  </span>
-												</div>
-											</div>
-											<h6><a href="service-details.html">Customized Apple iMac 21.5" All-In</a></h6>
-											<div class="blog-location-details">
-												<div class="location-info">
-													<i class="feather-map-pin"></i> Los Angeles
-												</div>
-												<div class="location-info">
-													<i class="fa-solid fa-calendar-days"></i> 06 Oct, 2022
-												</div>
-											</div>
-											<div class="amount-details">
-												<div class="amount">
-													<span class="validrate">$350</span>
-													<span>$450</span>
-												</div>
-												<div class="ratings">
-													<span>4.7</span> (50)
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6">
-							<div class="card">
-								<div class="blog-widget">
-									<div class="blog-img">
-										<a href="service-details.html">
-											<img src="~/assets/img/list/listgrid-4.jpg" class="img-fluid" alt="blog-img">
-										</a>
-										<div class="fav-item">
-											<span class="featured-text">Featured</span>
-											<a href="javascript:void(0)" class="fav-icon">
-												<i class="feather-heart"></i>
-											</a>
-										</div>
-									</div>
-									<div class="bloglist-content">
-										<div class="card-body">
-											<div class="blogfeaturelink">
-												<div class="grid-author">
-													<img src="~/assets/img/profiles/avatar-04.jpg" alt="author">
-												</div>
-												<div class="blog-features">
-													<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Electronics</span></a>
-												</div>
-												<div class="blog-author text-end">
-													<span>   <i class="feather-eye"></i>4000  </span>
-												</div>
-											</div>
-											<h6><a href="service-details.html">Fashion Luxury Men Date</a></h6>
-											<div class="blog-location-details">
-												<div class="location-info">
-													<i class="feather-map-pin"></i> Los Angeles
-												</div>
-												<div class="location-info">
-													<i class="fa-solid fa-calendar-days"></i> 06 Oct, 2022
-												</div>
-											</div>
-											<div class="amount-details">
-												<div class="amount">
-													<span class="validrate">$350</span>
-													<span>$450</span>
-												</div>
-												<div class="ratings">
-													<span>4.7</span> (50)
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6">
-							<div class="card">
-								<div class="blog-widget">
-									<div class="blog-img">
-										<a href="service-details.html">
-											<img src="~/assets/img/list/listgrid-5.jpg" class="img-fluid" alt="blog-img">
-										</a>
-										<div class="fav-item">
-											<span class="featured-text">Featured</span>
-											<a href="javascript:void(0)" class="fav-icon">
-												<i class="feather-heart"></i>
-											</a>
-										</div>
-									</div>
-									<div class="bloglist-content">
-										<div class="card-body">
-											<div class="blogfeaturelink">
-												<div class="grid-author">
-													<img src="~/assets/img/profiles/avatar-07.jpg" alt="author">
-												</div>
-												<div class="blog-features">
-													<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Jobs</span></a>
-												</div>
-												<div class="blog-author text-end">
-													<span>   <i class="feather-eye"></i>4000  </span>
-												</div>
-											</div>
-											<h6><a href="service-details.html">CDL A OTR Compnay Driver Job-N</a></h6>
-											<div class="blog-location-details">
-												<div class="location-info">
-													<i class="feather-map-pin"></i> Los Angeles
-												</div>
-												<div class="location-info">
-													<i class="fa-solid fa-calendar-days"></i> 06 Oct, 2022
-												</div>
-											</div>
-											<div class="amount-details">
-												<div class="amount">
-													<span class="validrate">$350</span>
-													<span>$450</span>
-												</div>
-												<div class="ratings">
-													<span>4.7</span> (50)
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6">
-							<div class="card">
-								<div class="blog-widget">
-									<div class="blog-img">
-										<a href="service-details.html">
-											<img src="~/assets/img/list/listgrid-6.jpg" class="img-fluid" alt="blog-img">
-										</a>
-										<div class="fav-item">
-											<span class="featured-text">Featured</span>
-											<a href="javascript:void(0)" class="fav-icon">
-												<i class="feather-heart"></i>
-											</a>
-										</div>
-									</div>
-									<div class="bloglist-content">
-										<div class="card-body">
-											<div class="blogfeaturelink">
-												<div class="grid-author">
-													<img src="~/assets/img/profiles/avatar-05.jpg" alt="author">
-												</div>
-												<div class="blog-features">
-													<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Vehicles</span></a>
-												</div>
-												<div class="blog-author text-end">
-													<span>   <i class="feather-eye"></i>4000  </span>
-												</div>
-											</div>
-											<h6><a href="service-details.html">2022 Audi R8 GT Spyder Convertible</a></h6>
-											<div class="blog-location-details">
-												<div class="location-info">
-													<i class="feather-map-pin"></i> Los Angeles
-												</div>
-												<div class="location-info">
-													<i class="fa-solid fa-calendar-days"></i> 06 Oct, 2022
-												</div>
-											</div>
-											<div class="amount-details">
-												<div class="amount">
-													<span class="validrate">$350</span>
-													<span>$450</span>
-												</div>
-												<div class="ratings">
-													<span>4.7</span> (50)
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6">
-							<div class="card">
-								<div class="blog-widget">
-									<div class="blog-img">
-										<a href="service-details.html">
-											<img src="~/assets/img/list/listgrid-8.jpg" class="img-fluid" alt="blog-img">
-										</a>
-										<div class="fav-item">
-											<span class="featured-text">Featured</span>
-											<a href="javascript:void(0)" class="fav-icon">
-												<i class="feather-heart"></i>
-											</a>
-										</div>
-									</div>
-									<div class="bloglist-content">
-										<div class="card-body">
-											<div class="blogfeaturelink">
-												<div class="grid-author">
-													<img src="~/assets/img/profiles/avatar-03.jpg" alt="author">
-												</div>
-												<div class="blog-features">
-													<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Electronics</span></a>
-												</div>
-												<div class="blog-author text-end">
-													<span>   <i class="feather-eye"></i>4000  </span>
-												</div>
-											</div>
-											<h6><a href="service-details.html">Apple iphone6 16GB 4G LTE</a></h6>
-											<div class="blog-location-details">
-												<div class="location-info">
-													<i class="feather-map-pin"></i> Los Angeles
-												</div>
-												<div class="location-info">
-													<i class="fa-solid fa-calendar-days"></i> 06 Oct, 2022
-												</div>
-											</div>
-											<div class="amount-details">
-												<div class="amount">
-													<span class="validrate">$350</span>
-													<span>$450</span>
-												</div>
-												<div class="ratings">
-													<span>4.7</span> (50)
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6">
-							<div class="card">
-								<div class="blog-widget">
-									<div class="blog-img">
-										<a href="service-details.html">
-											<img src="~/assets/img/list/listgrid-7.jpg" class="img-fluid" alt="blog-img">
-										</a>
-										<div class="fav-item">
-											<span class="featured-text">Featured</span>
-											<a href="javascript:void(0)" class="fav-icon">
-												<i class="feather-heart"></i>
-											</a>
-										</div>
-									</div>
-									<div class="bloglist-content">
-										<div class="card-body">
-											<div class="blogfeaturelink">
-												<div class="grid-author">
-													<img src="~/assets/img/profiles/avatar-06.jpg" alt="author">
-												</div>
-												<div class="blog-features">
-													<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Electronics</span></a>
-												</div>
-												<div class="blog-author text-end">
-													<span>   <i class="feather-eye"></i>4000  </span>
-												</div>
-											</div>
-											<h6><a href="service-details.html">HP Gaming 15.6 Touchscreen 12G</a></h6>
-											<div class="blog-location-details">
-												<div class="location-info">
-													<i class="feather-map-pin"></i> Los Angeles
-												</div>
-												<div class="location-info">
-													<i class="fa-solid fa-calendar-days"></i> 06 Oct, 2022
-												</div>
-											</div>
-											<div class="amount-details">
-												<div class="amount">
-													<span class="validrate">$350</span>
-													<span>$450</span>
-												</div>
-												<div class="ratings">
-													<span>4.7</span> (50)
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+						<div class="col-lg-8 col-md-6 col-sm-7 col-12">
+							<ul class="pagination justify-content-center">
+								<!-- Previous button -->
+								<li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+									<a class="page-link" href="?page=@(Model.PageNumber - 1)" aria-label="Previous">
+										&lt;
+									</a>
+								</li>
+
+								<!-- Page numbers -->
+								@for (int i = 1; i <= Model.PageCount; i++)
+								{
+									<li class="page-item @(Model.PageNumber == i ? "active" : "")">
+										<a class="page-link" href="?page=@i">@i</a>
+									</li>
+								}
+
+								<!-- Ellipsis for skipped pages -->
+								@if (Model.PageCount > 5 && Model.PageNumber > 3)
+								{
+									<li class="page-item disabled">
+										<a class="page-link">…</a>
+									</li>
+								}
+
+								<!-- Next button -->
+								<li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+									<a class="page-link" href="?page=@(Model.PageNumber + 1)" aria-label="Next">
+										&gt;
+									</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
-
-				<!--Pagination-->
-				<div class="blog-pagination">
-					<nav>
-						<ul class="pagination">
-							<li class="page-item previtem">
-								<a class="page-link" href="#"><i class="fas fa-regular fa-arrow-left"></i> Prev</a>
-							</li>
-							<li class="justify-content-center pagination-center">
-								<div class="pagelink">
-									<ul>
-										<li class="page-item">
-											<a class="page-link" href="#">1</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
-										</li>
-										<li class="page-item active">
-											<a class="page-link" href="#">3</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">4</a>
-										</li>
-										<li class="page-item">
-											<a class="page-link" href="#">5</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-							<li class="page-item nextlink">
-								<a class="page-link" href="#">Next <i class="fas fa-regular fa-arrow-right"></i></a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-				<!--Pagination-->
+				 
 			</div>
 		</div>
 	</div>

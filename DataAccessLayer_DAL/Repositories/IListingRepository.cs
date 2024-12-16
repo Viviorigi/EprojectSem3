@@ -18,6 +18,9 @@ namespace DataAccessLayer_DAL.Repositories
 		Task<IEnumerable<Listing>> Search(string? keyword);
 		Task<IEnumerable<Listing>> GetListingTop5ByPriorityAsync();
 
+        Task<IEnumerable<Listing>> GetAllListingAsync(int? page);
 
-	}
+
+
+    }
 }

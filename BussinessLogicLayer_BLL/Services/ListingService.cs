@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace BussinessLogicLayer_BLL.Services
 {
@@ -41,9 +42,17 @@ namespace BussinessLogicLayer_BLL.Services
 			return await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).ToListAsync(); 
 		}
 
-		public async Task<Listing?> GetListingByIdAsync(int listingId)
+        public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page)
+        {
+            int pageSize = 10;
+            int pageNumber = page ?? 1; // Nếu không có trang, mặc định là trang 1
+			var listings = await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.Priority).ToPagedListAsync(pageNumber,pageSize);
+			return listings;
+        }
+
+        public async Task<Listing?> GetListingByIdAsync(int listingId)
 		{
-			var listing = await _context.Listings.FirstOrDefaultAsync(x => x.ListingId ==listingId);
+			var listing = await _context.Listings.Include(x => x.User).Include(x => x.Category).FirstOrDefaultAsync(x => x.ListingId ==listingId);
 			if (listing != null)
 			{
 				return listing;

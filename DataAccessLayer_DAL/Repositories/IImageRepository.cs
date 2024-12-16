@@ -10,7 +10,7 @@ namespace DataAccessLayer_DAL.Repositories
 	public interface IImageRepository
 	{
 		Task<IEnumerable<Image>> GetAllImageAsync();
-		Task<Image> GetImageByListingIdAsync(int listingId);
+		Task<IEnumerable<Image>> GetImageByListingIdAsync(int listingId);
 		Task AddImageAsync(Image image);
 		Task DeleteImageAsync(int imageId);
 	}

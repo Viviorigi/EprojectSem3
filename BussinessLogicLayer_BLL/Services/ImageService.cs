@@ -37,9 +37,9 @@ namespace BussinessLogicLayer_BLL.Services
 			return await _context.Images.ToListAsync();
 		}
 
-		public async  Task<Image> GetImageByListingIdAsync(int listingId)
+		public async  Task<IEnumerable<Image>> GetImageByListingIdAsync(int listingId)
 		{
-			var image =await  _context.Images.FirstOrDefaultAsync(x => x.ListingId == listingId);
+			var image = _context.Images.Where(x => x.ListingId == listingId);
 			if (image != null)
 			{
 				return image ;

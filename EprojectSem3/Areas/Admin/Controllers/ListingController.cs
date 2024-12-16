@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EprojectSem3.Areas.Admin.Controllers
@@ -28,6 +29,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // GET: ListingController
         public async Task<IActionResult> Index()
         {
+            Console.WriteLine(Request.Cookies["NameIdentifier"]);
            var listings = await _listingRepository.GetAllListingAsync();
             return View(listings);
         }
@@ -82,8 +84,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
                 return View(listing);
             }
-            listing.UserId = 1;
-            listing.CreatedAt = DateTime.Now;
+            
+            listing.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			listing.CreatedAt = DateTime.Now;
 
             await _listingRepository.AddListingAsync(listing);
 
@@ -163,8 +166,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
             //    return View(listing);
             //}
 
-            listing.UserId = 1;
-			
+            listing.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
 			//var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
 			//listing.CreatedAt = listingOld.CreatedAt;
 			listing.UpdatedAt = DateTime.Now;

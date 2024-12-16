@@ -1,0 +1,239 @@
+﻿
+@{
+	ViewData["Title"] = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DataAccessLayer_DAL.Models.Listing
+
+<!--Galler Slider Section-->
+
+<!--/Galler Slider Section-->
+<!--Details Description  Section-->
+<section class="details-description" style="margin-top: 80px;">
+	<div class="container">
+		<div class="about-details">
+			<div class="about-headings">
+				<div class="author-img">
+					<img src="~/assets/img/profiles/avatar-10.jpg" alt="authorimg">
+				</div>
+				<div class="authordetails">
+					<h5>@Model.Title</h5>
+					@* <p>Luxury hotel in the heart of Blommsbury</p> *@
+					<div class="rating">
+						<i class="fas fa-star filled"></i>
+						<i class="fas fa-star filled"></i>
+						<i class="fas fa-star filled"></i>
+						<i class="fas fa-star filled"></i>
+						<i class="fa-regular fa-star rating-color"></i>
+						<span class="d-inline-block average-rating"> 4.5 </span>
+					</div>
+				</div>
+			</div>
+			<div class="rate-details">
+				<h2>$ @string.Format("{0:N2}", @Model.Price) </h2>
+				
+			</div>
+		</div>
+		<div class="descriptionlinks">
+			<div class="row">
+				<div class="col-lg-9">
+					<ul>
+						<li><a href="javascript:void(0);"><i class="feather-map"></i> Get Directions</a></li>
+						<li><a href="javascript:void(0);"><img src="~/assets/img/website.svg" alt="website">Website</a></li>
+						<li><a href="javascript:void(0);"><i class="feather-share-2"></i> share</a></li>
+						<li><a href="javascript:void(0);"><i class="fa-regular fa-comment-dots"></i> Write a review</a></li>
+						<li><a href="javascript:void(0);"><i class="feather-flag"></i> report</a></li>
+						<li><a href="javascript:void(0);"><i class="feather-heart"></i> Save</a></li>
+					</ul>
+				</div>
+				<div class="col-lg-3">
+					<div class="callnow">
+						<a href="contact.html"> <i class="feather-phone-call"></i>  Call Now</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--/Details Description  Section-->
+<!--Details Main  Section-->
+<div class="details-main-wrapper listing-section ">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-9">
+				<div class="card ">
+					<div class="card-header">
+						<span class="bar-icon">
+							<span></span>
+							<span></span>
+							<span></span>
+						</span>
+						<h4>Description</h4>
+					</div>
+					<div class="card-body">
+						@Model.Description
+					</div>
+				</div>
+
+				<!--Listing Features Section-->
+				<div class="card ">
+					<div class="card-header">
+						<i class="feather-list"></i>
+						<h4>Listing Features</h4>
+					</div>
+					<div class="card-body">
+						<div class="lisiting-featues">
+							<div class="row">
+								<div class="featureslist d-flex align-items-center col-lg-4 col-md-4">
+									<div class="feature-img">
+										<img src="~/assets/img/featured/Feature-1.svg" alt="Room amenties">
+									</div>
+									<div class="featues-info">
+										<h6>Room <br> amenities</h6>
+									</div>
+								</div>
+								<div class="featureslist d-flex align-items-center col-lg-4 col-md-4">
+									<div class="feature-img">
+										<img src="~/assets/img/featured/Feature-2.svg" alt="Bathroom amenities">
+									</div>
+									<div class="featues-info">
+										<h6>Bathroom <br> amenities</h6>
+									</div>
+								</div>
+								<div class="featureslist d-flex align-items-center col-lg-4 col-md-4">
+									<div class="feature-img">
+										<img src="~/assets/img/featured/Feature-3.svg" alt="Media Technology">
+									</div>
+									<div class="featues-info">
+										<h6>Media & Technology <br> amenities</h6>
+									</div>
+								</div>
+								<div class="featureslist d-flex align-items-center col-lg-4 col-md-4">
+									<div class="feature-img">
+										<img src="~/assets/img/featured/Feature-4.svg" alt="Food Security">
+									</div>
+									<div class="featues-info">
+										<h6>Food & Security  <br> amenities</h6>
+									</div>
+								</div>
+								<div class="featureslist d-flex align-items-center col-lg-4 col-md-4">
+									<div class="feature-img">
+										<img src="~/assets/img/featured/Feature-5.svg" alt="Media Technology">
+									</div>
+									<div class="featues-info">
+										<h6>Services & Extra <br> amenities</h6>
+									</div>
+								</div>
+								<div class="featureslist d-flex align-items-center col-lg-4 col-md-4">
+									<div class="feature-img">
+										<img src="~/assets/img/featured/Feature-6.svg" alt="Media Technology">
+									</div>
+									<div class="featues-info">
+										<h6>Outdoor & View <br> amenities</h6>
+									</div>
+								</div>
+								<div class="featureslist d-flex  access-feature align-items-center col-lg-4 col-md-4">
+									<div class="feature-img">
+										<img src="~/assets/img/featured/Feature-7.svg" alt="Media Technology">
+									</div>
+									<div class="featues-info">
+										<h6>Accessibility <br> amenities</h6>
+									</div>
+								</div>
+								<div class="featureslist d-flex align-items-center access-feature col-lg-4 col-md-4">
+									<div class="feature-img">
+										<img src="~/assets/img/featured/Feature-8.svg" alt="Media Technology">
+									</div>
+									<div class="featues-info">
+										<h6>Safety & Security<br> amenities</h6>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/Listing Features Section-->
+				<!--Gallery Section-->
+				<div class="card gallery-section ">
+					<div class="card-header ">
+						<img src="~/assets/img/galleryicon.svg" alt="gallery">
+						<h4>Gallery</h4>
+					</div>
+					<div class="card-body">
+						<div class="gallery-content">
+							<div class="row">
+								@foreach(var img in (IEnumerable<DataAccessLayer_DAL.Models.Image>)ViewBag.image)
+								{
+									<div class="col-lg-3 col-md-3 col-sm-3">
+										<div class="gallery-widget">
+											<a href="@img.ImagePath" data-fancybox="gallery1">
+												<img class="img-fluid" alt="Image" src="@img.ImagePath">
+											</a>
+										</div>
+									</div>
+								}
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/Gallery Section-->
+				
+
+			</div>
+			<div class="col-lg-3 theiaStickySidebar">
+				<div class="rightsidebar">
+					<div class="card">
+						<h4><img src="~/assets/img/details-icon.svg" alt="details-icon"> Details</h4>
+						<ul>
+							<li>Contract <span>For Rent</span></li>
+							<li>Location <span>New York, USA</span></li>
+							<li>Year Built <span>1988</span></li>
+							<li>Rooms <span>3</span></li>
+							<li>Beds <span>4</span></li>
+							<li>Baths<span>8</span></li>
+							<li>Gadgets <span>6</span></li>
+							<li>Home Area <span>30sqft</span></li>
+							<li>Lot Dimensions <span>30*30*20 ft</span></li>
+							<li class="p-0">Lot Area <span>50 ft</span></li>
+						</ul>
+					</div>
+					
+					
+					<div class="card">
+						<h4> <i class="feather-user"></i> Author</h4>
+						<div class="sidebarauthor-details align-items-center">
+							<div class="sideauthor-img">
+								<img src="~/assets/img/profiles/avatar-12.jpg" alt="author">
+							</div>
+							<div class="sideauthor-info">
+								<p class="authorname">@Model.User.FullName</p>
+								<p>@(Model.User.Role == 0 ? "Private Seller" : Model.User.Role == 1 ? "Agent" : "Admin")</p>
+							</div>
+						</div>
+					</div>
+					<div class="card mb-0">
+						<h4> <i class="feather-phone-call"></i> Contact Business</h4>
+						<form class="contactbusinessform">
+							<div class="form-set">
+								<input type="text" class="form-control" placeholder="Name">
+							</div>
+							<div class="form-set">
+								<input type="email" class="form-control" placeholder="Email Address">
+							</div>
+							<div class="form-set">
+								<textarea rows="6" class="form-control" placeholder="Message"></textarea>
+							</div>
+							<div class="submit-section">
+								<button class="btn btn-primary submit-btn" type="submit">Send Message</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Details Main Section -->
+
