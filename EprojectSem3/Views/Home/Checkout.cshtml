@@ -1,4 +1,5 @@
-﻿@{
+﻿@model DataAccessLayer_DAL.Models.Subscription
+@{
 	ViewData["Title"] = "Checkout";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,7 +12,7 @@
                 <nav aria-label="breadcrumb" class="page-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Add Listing</li>
+                        <li class="breadcrumb-item active" aria-current="page">Check Out</li>
                     </ol>
                 </nav>
             </div>
@@ -26,22 +27,30 @@
 			<div class="messages-form">
 				<div class="card">
 					<div class="card-header">
-						<h4>Subscription</h4>
+						<h4>Subscription Pack</h4>
 					</div>
 					<div class="card-body">
-						<div class="form-set">
-							<label class="col-form-label">Name</label>
-							<input class="form-control pass-input" readonly>
+						<div class="">
+							<label class="col-form-label">Name:</label>
+							<label class="col-form-label">@Model.Name</label>
 						</div>
+						<div class="">
+							<label class="col-form-label">Price:</label>
+							<label class="col-form-label">@Model.Price</label>
+						</div>
+					</div>
+					<div class="card-body">
 						<div class="row">
 							<div class="col-lg-6 col-md-6">
 								<div class="form-set formlast-input">
-									<label class="col-form-label">Quantity</label>
-									<select class="form-control select">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-									</select>
+									<label class="col-form-label">Max ADS: </label>
+									<label class="col-form-label">@Model.MaxAds</label>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6">
+								<div class="form-set formlast-input formlast-input-inner">
+									<label class="col-form-label">Duration: </label>
+									<label class="col-form-label">@Model.Duration</label>
 								</div>
 							</div>
 						</div>
@@ -59,25 +68,6 @@
 						<div class="form-set formlast-input">
 							<label class="col-form-label">Phone </label>
 							<input type="text" class="form-control pass-input" placeholder="">
-						</div>
-					</div>
-				</div>
-				<div class="card">
-					<div class="card-header">
-						<h4>Pay</h4>
-					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-lg-6 col-md-6">
-								<div class="form-set formlast-input">
-									<label class="col-form-label">Pay</label>
-									<select class="form-control select">
-										<option>Paypal</option>
-										<option>Momo</option>
-										<option>Banking</option>
-									</select>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>

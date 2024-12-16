@@ -79,9 +79,18 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var subscription = await _context.Subscriptions.FirstOrDefaultAsync(x => x.SubscriptionId == id);
+            if (subscription == null)
+            {
+                return NotFound();
+            }
+            return View(subscription);
         }
 
         public IActionResult SignUp()
