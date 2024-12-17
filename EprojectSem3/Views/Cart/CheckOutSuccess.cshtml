@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewData["Title"] = "CheckOutSuccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="success-container" id="successContainer">
+    <!-- Success Icon -->
+    <i class="fas fa-check-circle success-icon" id="successIcon"></i>
+    <!-- Success Message -->
+    <h1 id="successMessage">CheckOut Success</h1>
+    <p id="successText">Thank you for your purchase! Your transaction has been completed successfully.</p>
+    <!-- Back to Home Button -->
+    <a class="btn btn-success mt-3" asp-action="Index" asp-controller="Home" id="backHomeButton">Go to Home</a>
+</div>
+
+@section Scripts {
+    <script>
+        // Add styles using JavaScript
+        const container = document.getElementById('successContainer');
+        const successIcon = document.getElementById('successIcon');
+        const successMessage = document.getElementById('successMessage');
+        const successText = document.getElementById('successText');
+        const backHomeButton = document.getElementById('backHomeButton');
+
+        // Container Styles
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.justifyContent = 'center';
+        container.style.alignItems = 'center';
+        container.style.height = '100vh';
+        container.style.textAlign = 'center';
+        container.style.color = '#28a745';
+
+        // Success Icon Styles
+        successIcon.style.fontSize = '100px';
+        successIcon.style.marginBottom = '20px';
+
+        // Message Styles
+        successMessage.style.fontSize = '2.5rem';
+
+        // Text Styles
+        successText.style.fontSize = '1.2rem';
+
+        // Back Button Styles
+        backHomeButton.style.padding = '10px 20px';
+        backHomeButton.style.fontSize = '1rem';
+        backHomeButton.style.backgroundColor = '#28a745';
+        backHomeButton.style.border = 'none';
+        backHomeButton.style.borderRadius = '5px';
+        backHomeButton.style.color = 'white';
+        backHomeButton.style.textDecoration = 'none';
+    </script>
+}

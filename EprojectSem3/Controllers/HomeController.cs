@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Realtors_Portal.Models;
+using Realtors_Portal.Services;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -21,13 +22,16 @@ namespace EprojectSem3.Controllers
         private readonly AppDbContext _context;
         private readonly EmailService _emailService;
         private readonly IListingRepository _listingRepository;
+        private readonly PaypalClient _paypalClient;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context, EmailService emailService, IListingRepository listingRepository)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context, EmailService emailService, IListingRepository listingRepository,
+            PaypalClient paypalClient )
         {
             _logger = logger;
             _context = context;
             _emailService = emailService;
             _listingRepository = listingRepository;
+            _paypalClient = paypalClient;
         }
 
         public async Task<IActionResult> Index()
@@ -92,6 +96,7 @@ namespace EprojectSem3.Controllers
             {
                 return NotFound();
             }
+            ViewBag.PaypalClientId = _paypalClient.ClientId;
             return View(subscription);
         }
 

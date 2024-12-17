@@ -36,7 +36,7 @@
 						</div>
 						<div class="">
 							<label class="col-form-label">Price:</label>
-							<label class="col-form-label">@Model.Price</label>
+							<label class="col-form-label">@Model.Price $</label>
 						</div>
 					</div>
 					<div class="card-body">
@@ -50,30 +50,82 @@
 							<div class="col-lg-6 col-md-6">
 								<div class="form-set formlast-input formlast-input-inner">
 									<label class="col-form-label">Duration: </label>
-									<label class="col-form-label">@Model.Duration</label>
+									<label class="col-form-label">@Model.Duration days</label>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="card">
-					<div class="card-header">
-						<h4>Contact Information </h4>
-					</div>
-					<div class="card-body">
-						<div class="form-set">
-							<label class="col-form-label">Email </label>
-							<input type="text" class="form-control pass-input" placeholder="">
-						</div>
-						<div class="form-set formlast-input">
-							<label class="col-form-label">Phone </label>
-							<input type="text" class="form-control pass-input" placeholder="">
-						</div>
-					</div>
-				</div>
-                <button class="btn btn-primary" type="submit"> Confirm and Pay</button>
+					<div id="paypal-button-container" class="m-auto" style="width:1000px;">
+				</div>	
+			</div>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- /Profile Content -->
+
+@section Scripts{
+	 <script src="https://sandbox.paypal.com/sdk/js?client-id=@ViewBag.PaypalClientId">
+	 </script>
+	 <script>
+		 paypal.Buttons({
+			 style: {
+				disableMaxWidth:true
+			 },
+			createOrder() {
+				return fetch(`/Cart/create-paypal-order?id=@Model.SubscriptionId`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+					.then(response => {
+						if (!response.ok) {
+							return response.json().then(err => {
+								throw err;
+							});
+						}
+						return response.json(); 
+					})
+					.then(order => {
+						return order.id; 
+					})
+					.catch(err => {
+						alert(err.message); 
+						throw err; 
+					});
+			},
+			onApprove(data) {
+				return fetch(`/Cart/capture-paypal-order?orderID=${data.orderID}&subcriptionId=@Model.SubscriptionId`,{
+					method:"POST",
+					body: JSON.stringify({
+						orderID:data.orderID
+					})
+				})
+					.then((response) => {			
+						if (!response.ok) {
+							return response.json().then((err) => {
+								throw err;
+							})
+						}
+						return response.json();
+					})
+					.then((details) => {
+						if (details && details.payer && details.payer.name) {
+							alert(`Transaction completed by ${details.payer.name.given_name}`);
+						} else {
+							alert("Payer information is unavailable.");
+						}
+						window.location.href="/Cart/Success"
+					})
+					.catch(err => {
+						alert(err.message)
+					})
+				
+			}
+
+		}).render('#paypal-button-container')
+	 </script>
+}

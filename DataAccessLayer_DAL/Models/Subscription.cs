@@ -10,7 +10,6 @@
         public bool IsAgent{ get; set; }
         public ICollection<User>? Users { get; set; } // Liên kết đến Users
         public ICollection<UserSubscription>? UserSubscriptions { get; set; }
-        public ICollection<Transaction>? Transactions { get; set; }
     }
 
 }

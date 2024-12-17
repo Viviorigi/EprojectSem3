@@ -9,9 +9,8 @@
         public int MaxAds { get; set; }
         public bool IsPriorityAd { get; set; }
 
-        public ICollection<User>? Users { get; set; } // Liên kết đến Users
+        public ICollection<User>? Users { get; set; } 
         public ICollection<UserSubscription>? UserSubscriptions { get; set; }
-        public ICollection<Transaction>? Transactions { get; set; }
     }
 
 }

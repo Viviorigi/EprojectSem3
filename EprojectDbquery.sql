@@ -93,15 +93,3 @@ CREATE TABLE UserSubscriptions (
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
 );
-
--- Bảng Transactions (Phụ thuộc Users, Subscriptions)
-CREATE TABLE Transactions (
-    TransactionId INT PRIMARY KEY IDENTITY(1,1),
-    UserId INT NOT NULL,
-    SubscriptionId INT NOT NULL,
-    Amount DECIMAL(10,2) NOT NULL,
-    PaymentMethod VARCHAR(50) NOT NULL,
-    TransactionDate DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (UserId) REFERENCES Users(UserId),
-    FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
-);
