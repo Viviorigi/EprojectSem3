@@ -1,7 +1,9 @@
 ﻿@{
     var adminName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
     var adminEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
     var isAdmin = User.Identity?.AuthenticationType == "MyAppAuthenticationAdmin";
+    var image = User.FindFirst("ProfileImage")?.Value;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -24,9 +26,6 @@
     <link rel="stylesheet" href="~/assets/admin/assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="~/assets/admin/assets/plugins/fontawesome/css/all.min.css">
 
-    <!-- Map CSS -->
-    <link rel="stylesheet" href="~/assets/admin/assets/plugins/jvectormap/jquery-jvectormap-2.0.5.css">
-
     <!-- Datatable CSS -->
     <link rel="stylesheet" href="~/assets/admin/assets/plugins/datatables/datatables.min.css">
 
@@ -45,10 +44,10 @@
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <a href="index.html" class="logo">
+                <a href="/Admin" class="logo">
                     <img src="~/assets/admin/assets/img/logo.svg" alt="Logo" width="30" height="30">
                 </a>
-                <a href="index.html" class=" logo-small">
+                <a href="/Admin" class=" logo-small">
                     <img src="~/assets/admin/assets/img/logo-small.svg" alt="Logo" width="30" height="30">
                 </a>
             </div>
@@ -74,7 +73,7 @@
                     <li class="nav-item dropdown">
                         <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
                             <span class="user-img">
-                                <img class="rounded-circle" src="~/assets/admin/assets/img/user.jpg" width="40" alt="Admin">
+                                <img class="rounded-circle" src="/@image" width="40" alt="Admin">
                                 <span class="animate-circle"></span>
                             </span>
                             <span class="user-content">
@@ -85,9 +84,9 @@
                         <div class="dropdown-menu menu-drop-user">
                             <div class="profilemenu ">
                                 <div class="user-detials">
-                                    <a href="account.html">
-                                        <span class="profile-image">
-                                            <img src="~/assets/admin/assets/img/user.jpg" alt="img" class="profilesidebar">
+                                    <a asp-controller="Home" asp-action="Detail" asp-route-id="@userId">
+                                        <span class="profile-image">                                           
+                                            <img src="/@image" class="profilesidebar">
                                         </span>
                                         <span class="profile-content">
                                             <span>@adminName</span>
@@ -98,7 +97,7 @@
                                 <div class="subscription-menu">
                                     <ul>
                                         <li>
-                                            <a href="account-settings.html">Profile</a>
+                                            <a asp-controller="Home" asp-action="Detail" asp-route-id="@userId">Profile</a>
                                         </li>
                                         <li>
                                             <a asp-controller="LoginAdmin" asp-action="ChangePassword">Change Password</a>
@@ -121,10 +120,10 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
-                    <a href="index.html">
+                    <a href="/Admin">
                         <img src="~/assets/admin/assets/img/logo.svg" class="img-fluid logo" alt="">
                     </a>
-                    <a href="index.html">
+                    <a href="/Admin">
                         <img src="~/assets/admin/assets/img/logo-small.svg" class="img-fluid logo-small" alt="">
                     </a>
                 </div>
@@ -236,16 +235,6 @@
 
     <!-- Slimscroll JS -->
     <script src="~/assets/admin/assets/plugins/slimscroll/jquery.slimscroll.min.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
-
-    <!-- Map JS -->
-    <script src="~/assets/admin/assets/plugins/slimscroll/jquery.slimscroll.min.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
-    <script src="~/assets/admin/assets/plugins/jvectormap/jquery-jvectormap-2.0.5.min.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
-    <script src="~/assets/admin/assets/plugins/jvectormap/jquery-jvectormap-world-mill.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
-    <script src="~/assets/admin/assets/plugins/jvectormap/jquery-jvectormap-ru-mill.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
-    <script src="~/assets/admin/assets/plugins/jvectormap/jquery-jvectormap-us-aea.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
-    <script src="~/assets/admin/assets/plugins/jvectormap/jquery-jvectormap-uk_countries-mill.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
-    <script src="~/assets/admin/assets/plugins/jvectormap/jquery-jvectormap-in-mill.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
-    <script src="~/assets/admin/assets/js/jvectormap.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>
 
     <!-- Custom JS -->
     <script src="~/assets/admin/assets/js/admin.js" type="9cdf354c52c4c31d84896533-text/javascript"></script>

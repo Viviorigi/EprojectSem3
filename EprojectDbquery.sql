@@ -42,6 +42,7 @@ CREATE TABLE Users (
     Role TINYINT NOT NULL,
     Status TINYINT NOT NULL,
     SubscriptionId INT,
+	image varchar(255) NULL,
 	ResetPasswordToken NVARCHAR(255),
 	ResetTokenExpiration DATETIME,
     CreatedAt DATETIME DEFAULT GETDATE(),

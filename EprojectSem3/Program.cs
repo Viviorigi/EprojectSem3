@@ -124,6 +124,7 @@ void SeedAdminUser(AppDbContext context)
             Password = BCrypt.Net.BCrypt.HashPassword("123456"), // Encrypt password
             PhoneNumber = "0123456789",
             Address = "123 Admin St",
+            Image = "images/admin.png",
             Role = 2, // Admin role
             Status = 1 // Active
         };

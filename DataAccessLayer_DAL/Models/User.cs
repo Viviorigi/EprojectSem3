@@ -36,8 +36,9 @@ namespace DataAccessLayer_DAL.Models
 
         public int? SubscriptionId { get; set; }
 
+        public string? Image { get; set; }
 
-		public string? ResetPasswordToken { get; set; }
+        public string? ResetPasswordToken { get; set; }
 
 		public DateTime? ResetTokenExpiration { get; set; }
 

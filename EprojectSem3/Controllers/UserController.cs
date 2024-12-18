@@ -3,6 +3,7 @@ using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace EprojectSem3.Controllers
 {
@@ -22,23 +23,35 @@ namespace EprojectSem3.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var u = await _context.Users
                 .Include(u => u.Subscription)
                 .Include(u => u.Listings)
                 .FirstOrDefaultAsync(m => m.UserId == id);
 
-            if (user == null)
+            if (u == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(u);
         }
 
         //Update&Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(int id, [Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status")] User user)
+        public async Task<IActionResult> Index(int id, User user,
+            IFormFile? file)
         {
+            if (file != null && file.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+                user.Image = "images/" + file.FileName;
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+
             if (id != user.UserId)
             {
                 return NotFound();
@@ -68,6 +81,7 @@ namespace EprojectSem3.Controllers
                     existingUser.Role = user.Role;
                     existingUser.Status = user.Status;
                     existingUser.Password = user.Password;
+                    existingUser.Image = user.Image;
                     _context.Users.Update(existingUser);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index");
@@ -77,6 +91,11 @@ namespace EprojectSem3.Controllers
         }
 
         public IActionResult Listing()
+        {
+            return View();
+        }
+
+        public IActionResult Password()
         {
             return View();
         }

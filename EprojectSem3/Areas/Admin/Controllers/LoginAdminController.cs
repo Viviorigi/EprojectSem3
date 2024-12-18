@@ -57,8 +57,10 @@ namespace EprojectSem3.Areas.Admin.Controllers
 						new Claim(ClaimTypes.NameIdentifier,acc.UserId.ToString()),
 						new Claim(ClaimTypes.Name, acc.FullName),
 						new Claim(ClaimTypes.Email, acc.Email),
-						new Claim(ClaimTypes.Role, acc.Role.ToString())
-					}, "MyAppAuthenticationAdmin");
+						new Claim(ClaimTypes.Role, acc.Role.ToString()),
+                        new Claim("ProfileImage",acc.Image ?? null)
+                    }, 
+					"MyAppAuthenticationAdmin");
 
 				var parincipal = new ClaimsPrincipal(identity);
 				await HttpContext.SignInAsync("MyAppAuthenticationAdmin", parincipal);

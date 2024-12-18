@@ -193,8 +193,6 @@ namespace EprojectSem3.Areas.Admin.Controllers
                         await i.CopyToAsync(fileStream);
                     }
                 }
-                
-
             }
 			TempData["msg"] = "Create listing succsessful";
 

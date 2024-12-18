@@ -1,169 +1,141 @@
 ﻿@model DataAccessLayer_DAL.Models.User
 @{
-	ViewData["Title"] = "Detail User";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Detail User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var img = Model.Image;
 }
 
 <!-- Breadscrumb Section -->
 <div class="breadcrumb-bar">
-	<div class="container">
-		<div class="row align-items-center text-center">
-			<div class="col-md-12 col-12">
-				<h2 class="breadcrumb-title">Profile</h2>
-				<nav aria-label="breadcrumb" class="page-breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Profile</li>
-					</ol>
-				</nav>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row align-items-center text-center">
+            <div class="col-md-12 col-12">
+                <h2 class="breadcrumb-title">Profile</h2>
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /Breadscrumb Section -->
 <!-- Profile Content -->
 <div class="dashboard-content listing-section ">
-	<div class="container">
-		<div class="">
-			<ul class="dashborad-menus">
-				<li>
-					<a asp-controller="User">
-						<i class="fa-solid fa-user"></i> <span>Profile</span>
-					</a>
-				</li>
-				<li>
-					<a asp-controller="User" asp-action="Listing">
-						<i class="feather-list"></i> <span>My Listing</span>
-					</a>
-				</li>
-				<li>
-					<a asp-controller="Home" asp-action="Logout">
-						<i class="fas fa-light fa-circle-arrow-left"></i> <span>Logout</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-		<div class="profile-content">
-			<div class="row dashboard-info">
-				<div class="col-lg-9">
-					<div class="card dash-cards">
-						<div class="card-header">
-							<h4>Profile Details</h4>
-						</div>
-						<div class="card-body">
-							<div class="profile-photo">
-								<div class="profile-img">
-									<div class="settings-upload-img">
-										<img src="~/assets/img/profile-img.jpg" alt="profile">
-									</div>
-									<div class="settings-upload-btn">
-										<input type="file" accept="image/*" name="image" class="hide-input image-upload" id="file">
-										<label for="file" class="file-upload">Upload New photo</label>
-									</div>
-									<span>Max file size: 10 MB</span>
-								</div>
-								<a href="javascript:void(0)" class="profile-img-del"><i class="feather-trash-2"></i></a>
-							</div>
-							<div class="profile-form">
-								<form asp-controller="User" asp-action="Index" method="post">
-									<input type="hidden" asp-for="UserId" />
-									<input type="hidden" asp-for="Role" />
-									<input type="hidden" asp-for="Status" />
-									<input type="hidden" asp-for="Password" />
-									<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-									@if (!ViewData.ModelState.IsValid)
-									{
-										<div class="alert alert-danger">
-											<ul>
-												@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-												{
-													<li>@error.ErrorMessage</li>
-												}
-											</ul>
-										</div>
-									}
-									<div class="form-set">
-										<label class="col-form-label">Your Full Name</label>
-										<div class="pass-group group-img">
-											<span class="lock-icon"><i class="feather-user"></i></span>
-											<input type="text" class="form-control" asp-for="FullName">
-											<span asp-validation-for="FullName" class="text-danger"></span>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6 col-md-6">
-											<div class="form-set">
-												<label class="col-form-label">Phone Number</label>
-												<div class="pass-group group-img">
-													<span class="lock-icon"><i class="feather-phone-call"></i></span>
-													<input type="text" class="form-control" asp-for="PhoneNumber">
-													<span asp-validation-for="PhoneNumber" class="text-danger"></span>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-6 col-md-6">
-											<div class="form-set">
-												<label class="col-form-label">Email Address</label>
-												<div class="group-img">
-													<i class="feather-mail"></i>
-													<input type="text" class="form-control" asp-for="Email">
-													<span asp-validation-for="Email" class="text-danger"></span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-set">
-										<label class="col-form-label">Addres</label>
-										<div class="pass-group group-img">
-											<textarea rows="2" class="form-control" asp-for="Address"></textarea>
-											<span asp-validation-for="Address" class="text-danger"></span>
-										</div>
-									</div>
-									<button class="btn btn-primary" type="submit" value="save">Update</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3">
-					<div class="profile-sidebar">
-						<div class="card">
-							<div class="card-header">
-								<h4>Change Password</h4>
-							</div>
-							<div class="card-body">
-								@* <form> *@
-								@* 	<div class="form-set"> *@
-								@* 		<label class="col-form-label">Current Password</label> *@
-								@* 		<div class="pass-group group-img"> *@
-								@* 			<span class="lock-icon"><i class="feather-lock"></i></span> *@
-								@* 			<input type="password" class="form-control pass-input" placeholder="Password"> *@
-								@* 		</div> *@
-								@* 	</div> *@
-								@* 	<div class="form-set"> *@
-								@* 		<label class="col-form-label">New Password</label> *@
-								@* 		<div class="pass-group group-img"> *@
-								@* 			<span class="lock-icon"><i class="feather-lock"></i></span> *@
-								@* 			<input type="password" class="form-control pass-input" value=".............."> *@
-								@* 			<span class="toggle-password feather-eye-off"></span> *@
-								@* 		</div> *@
-								@* 	</div> *@
-								@* 	<div class="form-set"> *@
-								@* 		<label class="col-form-label">Confirm New Password</label> *@
-								@* 		<div class="pass-group group-img"> *@
-								@* 			<span class="lock-icon"><i class="feather-lock"></i></span> *@
-								@* 			<input type="password" class="form-control pass-input" value=".............."> *@
-								@* 			<span class="toggle-password feather-eye-off"></span> *@
-								@* 		</div> *@
-								@* 	</div> *@
-								@* 	<button class="btn btn-primary" type="submit"> Change Password</button> *@
-								@* </form> *@
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="">
+            <ul class="dashborad-menus">
+                <li>
+                    @{
+                        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                    }
+                    <a asp-controller="User" asp-action="Index" asp-route-id="@userId">
+                        <i class="fa-solid fa-user"></i> <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="Password">
+                        <i class="fa-solid fa-user"></i> <span>Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="Listing">
+                        <i class="feather-list"></i> <span>My Listing</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Home" asp-action="Logout">
+                        <i class="fas fa-light fa-circle-arrow-left"></i> <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="profile-content">
+            <div class="row dashboard-info  d-flex justify-content-center">
+                <div class="col-lg-9">
+                    <div class="card dash-cards"> 
+                        <form asp-controller="User" asp-action="Index" method="post" enctype="multipart/form-data">
+                            <div class="card-header">
+                                <h4>Profile Details</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="profile-photo">
+                                    <div class="profile-img">
+                                        <div class="settings-upload-img">
+                                            <img src="/@img" alt="profile">
+                                        </div>
+                                        <div class="settings-upload-btn">
+                                            <input type="file" name="file" class="hide-input image-upload" id="file">
+                                            <label for="file" class="file-upload">Upload New photo</label>
+                                        </div>
+                                        <span>Max file size: 10 MB</span>
+                                    </div>
+                                </div>
+                                <div class="profile-form">
+                                    <input type="hidden" asp-for="UserId" />
+                                    <input type="hidden" asp-for="Role" />
+                                    <input type="hidden" asp-for="Status" />
+                                    <input type="hidden" asp-for="Password" />
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    @if (!ViewData.ModelState.IsValid)
+                                    {
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                                {
+                                                    <li>@error.ErrorMessage</li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    }
+                                    <div class="form-set">
+                                        <label class="col-form-label">Your Full Name</label>
+                                        <div class="pass-group group-img">
+                                            <span class="lock-icon"><i class="feather-user"></i></span>
+                                            <input type="text" class="form-control" asp-for="FullName">
+                                            <span asp-validation-for="FullName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-set">
+                                                <label class="col-form-label">Phone Number</label>
+                                                <div class="pass-group group-img">
+                                                    <span class="lock-icon"><i class="feather-phone-call"></i></span>
+                                                    <input type="text" class="form-control" asp-for="PhoneNumber">
+                                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-set">
+                                                <label class="col-form-label">Email Address</label>
+                                                <div class="group-img">
+                                                    <i class="feather-mail"></i>
+                                                    <input type="text" class="form-control" asp-for="Email">
+                                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-set">
+                                        <label class="col-form-label">Addres</label>
+                                        <div class="pass-group group-img">
+                                            <textarea rows="2" class="form-control" asp-for="Address"></textarea>
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit" value="save">Update</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>              
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /Profile Content -->

@@ -3,7 +3,7 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 		
-<!-- Breadscrumb Section -->
+		<!-- Breadscrumb Section -->
 		<div class="breadcrumb-bar">
 			<div class="container">
 				<div class="row align-items-center text-center">
@@ -24,16 +24,19 @@
 		<!-- Dashboard Content -->
         <div class="dashboard-content listing-section ">		
 			<div class="container">
-				<div class="">			        
+				<div class="">
 					<ul class="dashborad-menus">
-						<li class="active">
-							<a asp-controller="User">
-								<i class="feather-grid"></i> <span>Dashboard</span>
+						<li>
+							@{
+								var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+							}
+							<a asp-controller="User" asp-action="Index" asp-route-id="@userId">
+								<i class="fa-solid fa-user"></i> <span>Profile</span>
 							</a>
 						</li>
 						<li>
-							<a asp-controller="User" asp-action="Detail">
-								<i class="fa-solid fa-user"></i> <span>Profile</span>
+							<a asp-controller="User" asp-action="Password">
+								<i class="fa-solid fa-user"></i> <span>Password</span>
 							</a>
 						</li>
 						<li>
@@ -46,7 +49,7 @@
 								<i class="fas fa-light fa-circle-arrow-left"></i> <span>Logout</span>
 							</a>
 						</li>
-					</ul>															
+					</ul>
 				</div>
 				<div class="dash-listingcontent dashboard-info">
 				    <div class="dash-cards card">

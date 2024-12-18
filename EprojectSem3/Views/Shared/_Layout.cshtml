@@ -101,10 +101,12 @@
                             </li>
                             <li class="nav-item dropdown has-arrow logged-item">
                                 <a href="#" class="dropdown-toggle profile-userlink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="~/assets/img/profile-img.jpg" alt="">
+                                    
                                     @{
                                         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                                        var image = User.FindFirst("ProfileImage")?.Value;
                                     }
+                                    <img src="/@image">
                                     <span>@User.Identity.Name</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
