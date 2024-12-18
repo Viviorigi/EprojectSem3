@@ -22,7 +22,7 @@ builder.Services.AddScoped<IRegionRepository, RegionService>();
 builder.Services.AddScoped<ICityRepository, CityService>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionService>();
 builder.Services.AddScoped<IImageRepository, ImageService>();
-
+builder.Services.AddHostedService<SubscriptionExpiryChecker>();
 builder.Services.AddSingleton(x =>
     new PaypalClient(
         builder.Configuration["PayPalOptions:ClientId"],
@@ -31,9 +31,9 @@ builder.Services.AddSingleton(x =>
     )
 );
 
+
 builder.Services.AddAuthentication(options =>
 {
-    // Set default scheme (optional)
     options.DefaultScheme = "MyAuthenticationSchema";
 })
 .AddCookie("MyAuthenticationSchema", options =>
@@ -61,6 +61,7 @@ builder.Services.AddAuthentication(options =>
     };
     options.LoginPath = new PathString("/Admin/LoginAdmin/Index");
     options.LogoutPath = new PathString("/Admin/LoginAdmin/Logout");
+    options.SlidingExpiration = true;
 });
 
 builder.Services.AddTransient<EmailService>();
