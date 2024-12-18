@@ -96,10 +96,26 @@ CREATE TABLE UserSubscriptions (
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
 );
 
+CREATE TABLE Transactions
+(
+    TransactionId INT IDENTITY(1,1) PRIMARY KEY,  -- Auto-increment primary key
+    UserId INT NOT NULL,  -- Foreign key to User table
+    SubscriptionId INT NOT NULL,  -- Foreign key to Subscription table
+    Amount DECIMAL(18,2) NOT NULL,  -- Payment amount with 2 decimal places
+    TransactionDate DATETIME ,  -- Date of transaction creation
+    PaymentDate DATETIME ,  -- Date of payment confirmation
+    IsPaid BIT NOT NULL,  -- Indicates if the payment was successful (1 = true, 0 = false)
+    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
+);
+
 CREATE TABLE Contacts (
 	ContactId INT PRIMARY KEY IDENTITY(1,1),
 	Name NVARCHAR(255) NOT NULL,
 	Email VARCHAR(255) NOT NULL,
 	Subject VARCHAR(255) NOT NULL,
-	Content TEXT
+	Content TEXT,
+	Reply TEXT
 )
+
+

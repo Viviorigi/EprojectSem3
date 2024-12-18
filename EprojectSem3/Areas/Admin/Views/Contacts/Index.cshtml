@@ -1,0 +1,100 @@
+﻿@model IEnumerable<DataAccessLayer_DAL.Models.Contact>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int index = 1;
+}
+
+<div class="content-page-header content-page-headersplit">
+    <h5>Contacts</h5>
+    <div class="list-btn">
+        <ul>
+            <li>
+                <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        @* <th>Content</th> *@
+                        <th>Reply</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>
+                                <a asp-area="Admin" asp-action="Details" asp-controller="Contacts" asp-route-id="@c.ContactId" class="table-name">
+                                    <span>@Html.DisplayFor(modelc => c.Name)</span>
+                                </a>
+                            </td>
+                            <td>@c.Email</td>
+                            <td>@c.Subject</td>
+                            @* <td>@c.Content</td> *@
+                            <td>@c.Reply</td>
+                            <td>
+                                <div class="table-actions d-flex">
+                                    <a class="delete-table me-2" asp-action="Edit" asp-route-id="@c.ContactId">
+                                        <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
+                                    </a>
+                                    <a class="delete-table" data-id="@c.ContactId" data-bs-toggle="modal" data-bs-target="#delete-item">
+                                        <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Delete -->
+<div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Contact</h5>
+                <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fe fe-x"></i>
+                </button>
+            </div>
+            <form asp-action="Delete" asp-controller="Contacts" method="post">
+                <div class="modal-body py-0">
+                    <div class="del-modal">
+                        <p>Are you sure you want to delete this contact?</p>
+                        <input type="hidden" name="id" id="contact-id" />
+                    </div>
+                </div>
+                <div class="modal-footer pt-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Delete -->
+<script>
+    const deleteModal = document.getElementById('delete-item');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const contactId = button.getAttribute('data-id');
+        const contactIdInput = deleteModal.querySelector('#contact-id');
+        contactIdInput.value = contactId;
+    });
+</script>

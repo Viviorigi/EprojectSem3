@@ -28,6 +28,17 @@ namespace Realtors_Portal.Controllers
 			var totalPrice = buySub.Price.ToString();
 			var currency = "USD";
 			var codeOrder = "Od" + DateTime.Now.Ticks.ToString();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var newTransaction = new Transaction
+			{
+				UserId = int.Parse(userId),
+				SubscriptionId = buySub.SubscriptionId,
+				Amount = buySub.Price,
+				TransactionDate = DateTime.Now,
+                IsPaid= false
+            };
+            await _context.Transactions.AddAsync(newTransaction);
+			await _context.SaveChangesAsync();
 
 			try
 			{
@@ -50,8 +61,9 @@ namespace Realtors_Portal.Controllers
 			try
 			{
 				var response = await _paypalClient.CaptureOrder(orderID);
+                Console.WriteLine(response);
 
-				if (response.status == "COMPLETED")
+                if (response.status == "COMPLETED")
 				{
 					var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -69,8 +81,20 @@ namespace Realtors_Portal.Controllers
 						return BadRequest(new { message = "Subscription not found." });
 					}
 
-					// check UserSubscription 
-					var existingUserSubscription = await _context.UserSubscriptions
+                    var transaction = await _context.Transactions
+                    .FirstOrDefaultAsync(t => t.UserId == user.UserId && t.SubscriptionId == subcriptionId && !t.IsPaid);
+
+                    if (transaction != null)
+                    {
+                        transaction.IsPaid = true;
+						transaction.PaymentDate = DateTime.Now;
+                        _context.Transactions.Update(transaction);
+                        await _context.SaveChangesAsync();
+                    }
+
+
+                    // check UserSubscription 
+                    var existingUserSubscription = await _context.UserSubscriptions
 						.FirstOrDefaultAsync(us => us.UserId == user.UserId && us.SubscriptionId == subcriptionId);
 
 					if (existingUserSubscription != null)

@@ -27,5 +27,7 @@ namespace DataAccessLayer_DAL.Models
         [Required(ErrorMessage = "Content is required.")]
         [StringLength(1000, ErrorMessage = "Content cannot exceed 1000 characters.")]
         public string Content { get; set; }
+
+        public string? Reply { get; set; }
     }
 }
