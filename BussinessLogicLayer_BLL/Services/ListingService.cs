@@ -42,12 +42,39 @@ namespace BussinessLogicLayer_BLL.Services
 			return await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).ToListAsync(); 
 		}
 
-        public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page)
+        public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, int? sort)
         {
-            int pageSize = 10;
+
+            int pageSize = 8;
             int pageNumber = page ?? 1; // Nếu không có trang, mặc định là trang 1
-			var listings = await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.Priority).ToPagedListAsync(pageNumber,pageSize);
-			return listings;
+            var listings =  _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.Priority).Where(x => x.Status == 1).AsQueryable();
+			if (!string.IsNullOrEmpty(keyword))
+			{
+				listings = listings.Where(x => EF.Functions.Like(x.Title, $"%{keyword}%"));
+			}
+			if (cateId.HasValue)
+			{
+				listings = listings.Where(x => x.CategoryId == cateId);
+			}
+			if (cityId.HasValue) 
+			{
+				listings = listings.Where(x => x.CityId == cityId);
+			}
+			if (minPrice.HasValue)
+			{
+				listings = listings.Where(x => x.Price >= minPrice);
+			}
+			if (maxPrice.HasValue)
+			{
+				listings = listings.Where(x => x.Price <= maxPrice);
+			}
+			listings = sort switch
+			{
+				1 => listings.OrderBy(x => x.Price),
+				2 => listings.OrderByDescending(x => x.Price),
+				_ => listings.OrderByDescending(x => x.Priority)
+			};
+            return await listings.ToPagedListAsync(pageNumber , pageSize);
         }
 
         public async Task<Listing?> GetListingByIdAsync(int listingId)

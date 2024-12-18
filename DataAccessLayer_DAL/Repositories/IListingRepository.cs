@@ -18,7 +18,7 @@ namespace DataAccessLayer_DAL.Repositories
 		Task<IEnumerable<Listing>> Search(string? keyword);
 		Task<IEnumerable<Listing>> GetListingTop5ByPriorityAsync();
 
-        Task<IEnumerable<Listing>> GetAllListingAsync(int? page);
+        Task<IEnumerable<Listing>> GetAllListingAsync(int? page , string? keyword , int? cateId , int? cityId , double? minPrice , double? maxPrice , int? sort);
 
 
 

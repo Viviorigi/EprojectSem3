@@ -1,7 +1,12 @@
 ﻿@using X.PagedList.Mvc.Core;
 @{
-    ViewData["Title"] = "Listings";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Listings";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var keyword = Context.Request.Query["keyword"];
+	var cateId = Context.Request.Query["cateId"];
+	var cityId = Context.Request.Query["cityId"];
+	var minPrice = Context.Request.Query["minPrice"];
+	var maxPrice = Context.Request.Query["maxPrice"];
 }
 @model X.PagedList.IPagedList<DataAccessLayer_DAL.Models.Listing>
 <!-- Breadscrumb Section -->
@@ -29,37 +34,32 @@
 				<div class="listings-sidebar">
 					<div class="card">
 						<h4><img src="~/assets/img/details-icon.svg" alt="details-icon"> Filter</h4>
-						<form>
+						<form id="filterForm" asp-controller="Listing" asp-action="Index" method="get">
 							<div class="filter-content looking-input form-set">
-								<input type="text" class="form-control" placeholder="What are you looking for?">
+								<input type="text" value="@keyword" name="keyword" class="form-control" placeholder="What are you looking for?">
 							</div>
 							<div class="filter-content form-set">
-								<select class="form-control select category-select">
-									<option value="">Choose Category</option>
-									<option>Computer</option>
-									<option>Electronics</option>
-									<option>Car wash</option>
+								<select name="cateId" asp-items="@ViewBag.categories" class="form-control select category-select">
+									<option>Select Category</option>
 								</select>
 							</div>
 							<div class="filter-content form-set region">
-								<select class="form-control select region-select">
-									<option value="">Region</option>
-									<option>Canada</option>
-									<option>USA</option>
-									<option>india</option>
+								<select name="cityId" asp-items="@ViewBag.city" class="form-control select region-select">
+									<option>Select City</option>
 								</select>
 							</div>
 							<div class="filter-content amenities mb-0">
 								<h4> Price Range</h4>
 								<div class="form-set mb-0">
-									<input type="text" class="form-control" placeholder="Min">
-									<input type="text" class="form-control me-0" placeholder="Max">
+									<input type="text" value="@minPrice" name="minPrice" class="form-control" placeholder="Min">
+									<input type="text" value="@maxPrice" name="maxPrice" class="form-control me-0" placeholder="Max">
 								</div>
 								<div class="search-btn">
 									<button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
 									<button class="btn btn-reset mb-0" type="submit"> <i class="fas fa-light fa-arrow-rotate-right"></i>Reset Filters</button>
 								</div>
 							</div>
+							<input type="hidden" name="sort" />
 						</form>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 						<div class="sortbyset">
 							<span class="sortbytitle">Sort by</span>
 							<div class="sorting-select">
-								<select class="form-control select">
+								<select name="sort" id="sortSelect" class="form-control select sorting-select">
 									<option>Default</option>
 									<option>Price Low to High</option>
 									<option>Price High to Low</option>
@@ -195,3 +195,33 @@
 </div>
 <!-- /Main Content Section -->
 
+@section Scripts{
+	<script>
+		$(document).ready(function() {
+			// When the sorting select value changes
+			$('select.sorting-select').change(function() {
+				// Get the selected sort value
+				var sortValue = $(this).val();
+
+				// Add the sort value to the form
+				$('input[name="sort"]').val(sortValue);
+
+				// Submit the form via AJAX
+				$.ajax({
+					url: $('#filterForm').attr('action'), // Get form action URL
+					type: 'GET',
+					data: $('#filterForm').serialize(), // Serialize the form data
+					success: function(response) {
+						// Update the results area with the response
+						$('#results-container').html(response);
+					},
+					error: function(xhr, status, error) {
+						console.error('Error during AJAX request:', error);
+					}
+				});
+			});
+		});
+	</script>
+		
+
+}

@@ -8,6 +8,7 @@ namespace DataAccessLayer_DAL.Models
         [Required(ErrorMessage ="Category Name is not required")]
         public string Name { get; set; }
         public string? Description { get; set; }
+        public Byte Status { get; set; }
         public ICollection<Listing>? Listings { get; set; } 
     }
 

@@ -54,6 +54,7 @@
                         <th>#</th>
                         <th>Category Name</th>
                         <th>Description</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -65,6 +66,7 @@
 
                             <td>@c.Name</td>
                             <td>@c.Description</td>
+                            <td>@c.Status</td>
                             <td>
                                 <div class="table-actions d-flex">
                                     <a class="delete-table me-2" asp-controller="Category" asp-action="Edit" asp-route-id="@c.CategoryId">

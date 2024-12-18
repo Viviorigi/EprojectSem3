@@ -53,6 +53,7 @@ CREATE TABLE Users (
 CREATE TABLE Categories (
     CategoryId INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(255) NOT NULL,
+	Status TINYINT NOT NULL,
     Description TEXT
 );
 
@@ -61,7 +62,7 @@ CREATE TABLE Listings (
     ListingId INT PRIMARY KEY IDENTITY(1,1),
     Title NVARCHAR(255) NOT NULL,
     Description TEXT,
-    Price DECIMAL(10,2) NOT NULL,
+    Price float NOT NULL,
     CategoryId INT NOT NULL,
     UserId INT NOT NULL,
     CityId INT NOT NULL,
