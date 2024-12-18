@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Contact";
     Layout = "~/Views/Shared/_Layout.cshtml";
+	@model DataAccessLayer_DAL.Models.Contact
 }
 
 <!--Inner Banner-->
@@ -74,18 +75,22 @@
 			<div class="col-lg-7 col-md-7">
 
 				<div class="contactus-form">
-					<form class="">
+					<form asp-action="Contact" method="post" >
 						<div class="form-set">
-							<input type="text" class="form-control" placeholder="Name*" required>
+							<input type="text" class="form-control" placeholder="Name*" asp asp-for="Name" required>
+							<span asp-validation-for="Name" class="text-danger"></span>
 						</div>
 						<div class="form-set me-0">
-							<input type="email" class="form-control" placeholder="Email*" required>
+							<input type="email" class="form-control" placeholder="Email*" asp-for="Email" required>
+							<span asp-validation-for="Email" class="text-danger"></span>
 						</div>
 						<div class="form-set">
-							<input type="text" class="form-control" placeholder="Subject">
+							<input type="text" class="form-control" placeholder="Subject" asp-for="Subject" >
+							<span asp-validation-for="Subject" class="text-danger"></span>
 						</div>
 						<div class="form-set">
-							<textarea rows="4" class="form-control" placeholder="Write a Message*" required></textarea>
+							<textarea rows="4" class="form-control" placeholder="Write a Message*" asp-for="Content" required></textarea>
+							<span asp-validation-for="Content" class="text-danger"></span>
 						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" type="submit"> Submit </button>

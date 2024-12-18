@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewData["Title"] = "ContactSuccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--Inner Banner-->
+<div class="contactbanner innerbanner">
+	<div class="inner-breadcrumb">
+		<div class="container">
+			<div class="row align-items-center text-center">
+				<div class="col-md-12 col-12 ">
+					<h2 class="breadcrumb-title">Contact Us</h2>
+					<nav aria-label="breadcrumb" class="page-breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Contact us</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/contact Information-->
+<!--contact Form-->
+<section class="contactusform-section">
+	<div class="container">
+		<div class="contact-info mt-5">
+			<h2>Contact <span>Us</span></h2>
+			<p>We are here to help you</p>
+		</div>
+		<div class="row align-items-center">
+			<div class="col-lg-5 col-md-5">
+				<div class="contactform-img">
+					<img src="~/assets/img/contactform-img.svg" class="img-fluid" alt="">
+				</div>
+			</div>
+			<div class="col-lg-7 col-md-7">
+
+				<div class="success-container" id="successContainer">
+					<!-- Success Icon -->
+					<i class="fas fa-check-circle success-icon" id="successIcon"></i>
+					<!-- Success Message -->
+					<h1 id="successMessage">Contact Success</h1>
+					<p id="successText">Thank you for your Contact! Your contact has been completed successfully. We will get back to you shortly. </p>
+					<!-- Back to Home Button -->
+					<a class="btn btn-success mt-3" asp-action="Index" asp-controller="Home" id="backHomeButton">Go to Home</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+@section Scripts {
+	<script>
+		// Add styles using JavaScript
+		const container = document.getElementById('successContainer');
+		const successIcon = document.getElementById('successIcon');
+		const successMessage = document.getElementById('successMessage');
+		const successText = document.getElementById('successText');
+		const backHomeButton = document.getElementById('backHomeButton');
+
+		// Container Styles
+		container.style.display = 'flex';
+		container.style.flexDirection = 'column';
+		container.style.justifyContent = 'center';
+		container.style.alignItems = 'center';
+		container.style.height = '100vh';
+		container.style.textAlign = 'center';
+		container.style.color = '#28a745';
+
+		// Success Icon Styles
+		successIcon.style.fontSize = '100px';
+		successIcon.style.marginBottom = '20px';
+
+		// Message Styles
+		successMessage.style.fontSize = '2.5rem';
+
+		// Text Styles
+		successText.style.fontSize = '1.2rem';
+
+		// Back Button Styles
+		backHomeButton.style.padding = '10px 20px';
+		backHomeButton.style.fontSize = '1rem';
+		backHomeButton.style.backgroundColor = '#28a745';
+		backHomeButton.style.border = 'none';
+		backHomeButton.style.borderRadius = '5px';
+		backHomeButton.style.color = 'white';
+		backHomeButton.style.textDecoration = 'none';
+	</script>
+}

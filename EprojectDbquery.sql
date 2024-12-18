@@ -94,3 +94,11 @@ CREATE TABLE UserSubscriptions (
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
 );
+
+CREATE TABLE Contacts (
+	ContactId INT PRIMARY KEY IDENTITY(1,1),
+	Name NVARCHAR(255) NOT NULL,
+	Email VARCHAR(255) NOT NULL,
+	Subject VARCHAR(255) NOT NULL,
+	Content TEXT
+)

@@ -1,8 +1,10 @@
 ﻿using DataAccessLayer_DAL.Models;
 using EprojectSem3.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Realtors_Portal.Areas.Admin.Models;
 using System.Security.Claims;
 
 namespace EprojectSem3.Areas.Admin.Controllers
@@ -74,5 +76,43 @@ namespace EprojectSem3.Areas.Admin.Controllers
         {
             return View();
         }
+
+        [Authorize(AuthenticationSchemes = "MyAppAuthenticationAdmin")]
+        public IActionResult ChangePassword()
+		{
+			return View();
+		}
+
+        [Authorize(AuthenticationSchemes = "MyAppAuthenticationAdmin")]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordAdmin model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (ModelState.IsValid)
+			{
+				var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+				if (userId == null)
+				{
+					return RedirectToAction("Index");
+				}
+				var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+				if (user == null)
+				{
+					return RedirectToAction("Index");
+				}
+                user.Password = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
+				Logout();
+				return RedirectToAction("Index");
+            }
+            return View();
+        }
+
     }
 }
