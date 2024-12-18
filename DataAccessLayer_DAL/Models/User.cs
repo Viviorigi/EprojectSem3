@@ -46,6 +46,8 @@ namespace DataAccessLayer_DAL.Models
 		public Subscription? Subscription { get; set; }
         public ICollection<Listing>? Listings { get; set; }
         public ICollection<UserSubscription>? UserSubscriptions { get; set; }
+
+        public ICollection<Transaction>? Transactions { get; set; }
     }
 
 

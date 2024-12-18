@@ -16,8 +16,8 @@ namespace  DataAccessLayer_DAL.Models
         public DbSet<Image> Images { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Region> Regions { get; set; }
-
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
     }
 }

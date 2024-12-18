@@ -27,34 +27,43 @@
 			<div class="messages-form">
 				<div class="card">
 					<div class="card-header">
-						<h4>Subscription Pack</h4>
+						<h2 class="text-center m-3">Subscription Pack</h2>
 					</div>
 					<div class="card-body">
-						<div class="">
+					@* 	<div class="">
 							<label class="col-form-label">Name:</label>
 							<label class="col-form-label">@Model.Name</label>
 						</div>
 						<div class="">
 							<label class="col-form-label">Price:</label>
 							<label class="col-form-label">@Model.Price $</label>
-						</div>
-					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-lg-6 col-md-6">
-								<div class="form-set formlast-input">
-									<label class="col-form-label">Max ADS: </label>
-									<label class="col-form-label">@Model.MaxAds</label>
+						</div> *@
+						<div class="col-lg-5 d-flex col-md-6 m-auto">
+							<div class="price-card flex-fill">
+								<div class="price-head">
+									<div class="price-level">
+										<h6>@Model.Name</h6>
+									</div>
+									<h4>$@Model.Price<span>/ @(Model.Duration == 30 ? "month" : "year")</span></h4>
+								</div>
+								<div class="price-body">
+									<p>For most business that want to optimize web queries</p>
+									<ul>
+										<li class="active">Basic listing submission</li>
+										<li class="active">Max listing post ads @Model.MaxAds</li>
+										<li class="active">@Model.Duration days Availabilty</li>
+										<li class="inactive">Limited Support</li>
+										<li class="inactive">Edit your listing</li>
+										@if (Model.IsAgent == true)
+										{
+											<li class="active">Allow Enable/disable featured post ads</li>
+										}
+									</ul>
 								</div>
 							</div>
-							<div class="col-lg-6 col-md-6">
-								<div class="form-set formlast-input formlast-input-inner">
-									<label class="col-form-label">Duration: </label>
-									<label class="col-form-label">@Model.Duration days</label>
-								</div>
-							</div>
 						</div>
 					</div>
+					
 				</div>
 				<div class="card">
 					<div id="paypal-button-container" class="m-auto" style="width:1000px;">

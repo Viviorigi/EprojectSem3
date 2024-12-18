@@ -230,7 +230,7 @@ namespace EprojectSem3.Controllers
                         new Claim(ClaimTypes.NameIdentifier, acc.UserId.ToString() ?? string.Empty),
                         new Claim(ClaimTypes.Name, acc.FullName ?? string.Empty),
                         new Claim(ClaimTypes.Role,acc.Role.ToString()),
-                        new Claim("ProfileImage",acc.Image ?? null)
+                        new Claim("ProfileImage",acc.Image ?? string.Empty)
                      },
                      "MyAuthenticationSchema"
                  ); ;

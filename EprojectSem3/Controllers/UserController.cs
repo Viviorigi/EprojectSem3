@@ -1,8 +1,11 @@
 ﻿using DataAccessLayer_DAL.Models;
 using DataAccessLayer_DAL.Repositories;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Realtors_Portal.Models;
 using System.Reflection;
 
 namespace EprojectSem3.Controllers
@@ -95,9 +98,46 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
-        public IActionResult Password()
+        public IActionResult ChangePassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        {
+            if (ModelState.IsValid) {
+                var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+                var user = await _context.Users.SingleOrDefaultAsync(u=> u.UserId==userId);
+
+                if (user == null)
+                {
+                    // Handle case when user is not found
+                    ModelState.AddModelError(string.Empty, "User not found.");
+                    return View(model);
+                }
+
+                if (!BCrypt.Net.BCrypt.Verify(model.OldPassword, user.Password)) 
+                {
+                    ModelState.AddModelError(string.Empty, "The old password is incorrect.");
+                    return View(model);
+                }
+
+                if (model.NewPassword != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("PasswordMismatch", "Passwords do not match.");
+                    return View(model);
+                }
+
+                user.Password = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+
+                await HttpContext.SignOutAsync("MyAuthenticationSchema");
+                return RedirectToAction("Login","Home");
+            }
+            return View(model);
         }
     }
 }

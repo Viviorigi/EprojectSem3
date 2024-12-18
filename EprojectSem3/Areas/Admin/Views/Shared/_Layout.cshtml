@@ -142,21 +142,20 @@
                             <h6>Home</h6>
                         </li>
                         <li>
-                            <a href="/Admin" class="active"><i class="fe fe-grid"></i> <span>Dashboard</span></a>
-                        </li>
-                        <li class="menu-title">
-                            <h6>Listing</h6>
-                        </li>
-                        <li>
-                            <a asp-controller="Listing" asp-action="Index" >
-                                <i class="fe fe-briefcase"></i>
-                                <span>Listings</span>
+                            <a href="/Admin" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                                <i class="fe fe-grid"></i> <span>Dashboard</span>
                             </a>
                         </li>
                         <li>
-                            <a asp-controller="Category" asp-action="Index">
-                                <i class="fe fe-file-text"></i>
-                                <span>Categories</span>
+                            <a asp-controller="Listing" asp-action="Index"
+                               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Listing" ? "active" : "")">
+                                <i class="fe fe-briefcase"></i> <span>Listings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Category" asp-action="Index"
+                               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")">
+                                <i class="fe fe-file-text"></i> <span>Categories</span>
                             </a>
                         </li>
                         <li class="submenu">
@@ -167,24 +166,32 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a asp-controller="Regions">Regions</a>
+                                    <a asp-controller="Regions"
+                                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Regions" ? "active" : "")">Regions</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="Cities">Cities</a>
+                                    <a asp-controller="Cities"
+                                       class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Cities" ? "active" : "")">Cities</a>
                                 </li>
                             </ul>
-                        </li>                                          
-                        <li>
-                            <a asp-controller="Subscriptions"><i class="fe fe-user"></i> <span>Membership</span></a>
                         </li>
-                        <li> 
-                            <a asp-controller="Users" asp-action="Index">
-                                <i class="fe fe-user"></i>
-                                <span> Users</span>
+                        <li>
+                            <a asp-controller="Subscriptions"
+                               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Subscriptions" ? "active" : "")">
+                                <i class="fe fe-user"></i> <span>Membership</span>
                             </a>
                         </li>
                         <li>
-                            <a href="roles-permissions.html"><i class="fe fe-file-text"></i> <span>Roles & Permissions</span></a>
+                            <a asp-controller="Users" asp-action="Index"
+                               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active" : "")">
+                                <i class="fe fe-user"></i> <span>Users</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Contacts" asp-action="Index"
+                               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Contacts" ? "active" : "")">
+                                <i class="fe fe-file-text"></i> <span>Contacts</span>
+                            </a>
                         </li>
                         <li>
                             <a href="faq.html"><i class="fe fe-help-circle"></i> <span>FAQ</span></a>
