@@ -67,11 +67,11 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddTransient<EmailService>();
 
 //google
-builder.Services.AddAuthentication().AddCookie().AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
-{
-    options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
-    options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
-});
+//builder.Services.AddAuthentication().AddCookie().AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+//{
+//    options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
+//    options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
+//});
 
 var app = builder.Build();
 
