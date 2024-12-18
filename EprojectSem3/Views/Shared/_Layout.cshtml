@@ -108,8 +108,7 @@
                                     <span>@User.Identity.Name</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" asp-controller="User">Dashboard</a>
-                                    <a class="dropdown-item" href="profile.html">Profile Settings</a>
+                                    <a class="dropdown-item" asp-controller="User" asp-route-id="@userId">Profile</a>
                                     <a class="dropdown-item" asp-controller="Home" asp-action="Logout">Logout</a>
                                 </div>
                             </li>

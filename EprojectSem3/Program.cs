@@ -24,11 +24,11 @@ builder.Services.AddScoped<ISubscriptionRepository, SubscriptionService>();
 builder.Services.AddScoped<IImageRepository, ImageService>();
 
 builder.Services.AddSingleton(x =>
-	new PaypalClient(
+    new PaypalClient(
         builder.Configuration["PayPalOptions:ClientId"],
-		builder.Configuration["PayPalOptions:ClientSecret"],
-		builder.Configuration["PayPalOptions:Mode"]
-	)
+        builder.Configuration["PayPalOptions:ClientSecret"],
+        builder.Configuration["PayPalOptions:Mode"]
+    )
 );
 
 builder.Services.AddAuthentication(options =>
@@ -66,19 +66,11 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddTransient<EmailService>();
 
 //google
-//builder.Services.AddAuthentication(options =>
-//{
-//    //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//    //options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//    //options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-//}).AddCookie().AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
-//{
-//    options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
-//    options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
-//});
-
-
-
+builder.Services.AddAuthentication().AddCookie().AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+{
+    options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
+    options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
+});
 
 var app = builder.Build();
 
