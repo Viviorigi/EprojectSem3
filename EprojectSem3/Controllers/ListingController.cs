@@ -2,6 +2,7 @@
 using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace EprojectSem3.Controllers
 {
@@ -31,11 +32,76 @@ namespace EprojectSem3.Controllers
             return View(listings);
         }
 
-        public IActionResult Create()
+		public async Task<ActionResult> Create()
         {
-            return View();
+			ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+			ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+			return View();
         }
-        public async Task<IActionResult> Detail(int id)
+
+		// POST: ListingController/Create
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> Create(Listing listing, IFormFile file, IFormFile[] files)
+		{
+			if (file != null && file.Length > 0)
+			{
+
+				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+				listing.Image = "images/" + file.FileName;
+
+				using (var fileStream = new FileStream(filePath, FileMode.Create))
+				{
+					await file.CopyToAsync(fileStream);
+				}
+			}
+			else
+			{
+				TempData["err"] = "Image is not required";
+				return View(listing);
+			}
+			if (!ModelState.IsValid)
+			{
+				var errors = ModelState.Values.SelectMany(v => v.Errors)
+								   .Select(e => e.ErrorMessage);
+				foreach (var error in errors)
+				{
+					Console.WriteLine(error); // Hoặc log lỗi
+				}
+
+				ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+				ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+				return View(listing);
+			}
+
+			listing.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			listing.CreatedAt = DateTime.Now;
+
+			await _listingRepository.AddListingAsync(listing);
+
+			if (files != null && files.Length > 0)
+			{
+				foreach (IFormFile i in files)
+				{
+
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", i.FileName);
+					Image img = new Image();
+					img.ImagePath = "images/" + i.FileName;
+					img.ListingId = listing.ListingId;
+					await _imageRepository.AddImageAsync(img);
+					using (var fileStream = new FileStream(filePath, FileMode.Create))
+					{
+						await i.CopyToAsync(fileStream);
+					}
+				}
+			}
+
+			TempData["msg"] = "Create listing succsessful";
+
+			return RedirectToAction("Index");
+		}
+
+		public async Task<IActionResult> Detail(int id)
         {
             var listing = await _listingRepository.GetListingByIdAsync(id);
             var image = await _imageRepository.GetImageByListingIdAsync(id);
