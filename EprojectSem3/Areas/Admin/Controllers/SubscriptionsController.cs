@@ -130,8 +130,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         {
             var user = _context.Users.FirstOrDefault(x => x.UserId == id);
             var userSubscriptions = _context.UserSubscriptions.FirstOrDefault(x => x.UserSubscriptionId == id);
-            var transactions = _context.Transactions.FirstOrDefault(x => x.TransactionId == id);
-            if (user == null && userSubscriptions == null && transactions == null)
+            if (user == null && userSubscriptions == null)
             {
                 var subscriptions = _context.Subscriptions.FirstOrDefault(x => x.SubscriptionId == id);
                 if (subscriptions != null)

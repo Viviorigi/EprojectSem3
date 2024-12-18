@@ -1,4 +1,5 @@
-﻿using DataAccessLayer_DAL.Models;
+﻿using BussinessLogicLayer_BLL.Services;
+using DataAccessLayer_DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +12,11 @@ namespace Realtors_Portal.Controllers
 	{
 		private readonly PaypalClient _paypalClient;
 		private readonly AppDbContext _context;
-		public CartController(PaypalClient paypalClient, AppDbContext context) {
+        private readonly EmailService _emailService;
+        public CartController(PaypalClient paypalClient, AppDbContext context,EmailService emailService) {
 			_paypalClient=paypalClient;
 			_context=context;
+			_emailService=emailService;
 		}
 
 		[Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
@@ -68,16 +71,18 @@ namespace Realtors_Portal.Controllers
 
 					// check UserSubscription 
 					var existingUserSubscription = await _context.UserSubscriptions
-						.FirstOrDefaultAsync(us => us.UserId == user.UserId && us.SubscriptionId == subscription.SubscriptionId);
+						.FirstOrDefaultAsync(us => us.UserId == user.UserId && us.SubscriptionId == subcriptionId);
 
 					if (existingUserSubscription != null)
 					{
-						// update EndDate
-						existingUserSubscription.EndDate = DateTime.Now.AddDays(subscription.Duration); /
-						_context.UserSubscriptions.Update(existingUserSubscription);
+                        // update EndDate
+                        existingUserSubscription.EndDate = existingUserSubscription.EndDate.AddDays(subscription.Duration);
+                        _context.UserSubscriptions.Update(existingUserSubscription);
 						await _context.SaveChangesAsync();
-
-						return Ok(new { message = "Payment successful, subscription updated." });
+                        var subject = "Subscription Extended Successfully";
+                        var body = $"Dear {user.FullName},<br/>Your subscription has been successfully extended until <strong>{existingUserSubscription.EndDate:yyyy-MM-dd}</strong>.<br/>Thank you for your continued support!";
+                        await _emailService.SendEmailAsync(user.Email, subject, body);
+                        return Ok(new { message = "Payment successful, subscription updated." });
 					}
 					else
 					{
@@ -92,8 +97,11 @@ namespace Realtors_Portal.Controllers
 
 						_context.UserSubscriptions.Add(newUserSubscription);
 						await _context.SaveChangesAsync();
+                        var subject = "Subscription Activated";
+                        var body = $"Dear {user.FullName},<br/>Your subscription has been activated and is valid until <strong>{newUserSubscription.EndDate:yyyy-MM-dd}</strong>.<br/>Thank you for joining us!";
+                        await _emailService.SendEmailAsync(user.Email, subject, body);
 
-						return Ok(new { message = "Payment successful, and new subscription created." });
+                        return Ok(new { message = "Payment successful, and new subscription created." });
 					}
 				}
 				else

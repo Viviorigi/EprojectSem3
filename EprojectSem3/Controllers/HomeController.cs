@@ -66,7 +66,6 @@ namespace EprojectSem3.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
-        [Authorize(AuthenticationSchemes = "MyAppAuthenticationAdmin")]
         public IActionResult Pricing()
         {
             var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
@@ -80,7 +79,7 @@ namespace EprojectSem3.Controllers
             }
             else
             {
-                ViewBag.Memberships = new List<DataAccessLayer_DAL.Models.Subscription>();
+                ViewBag.Memberships = _context.Subscriptions.ToList();
             }
             return View();
         }
