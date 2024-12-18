@@ -60,7 +60,23 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
-        public IActionResult FAQ()
+        [HttpPost]
+		public async Task<IActionResult> Contact(Contact model)
+		{
+            if (ModelState.IsValid)
+            {
+                 await _context.Contacts.AddAsync(model);
+                 await _context.SaveChangesAsync();
+                return RedirectToAction("ContactSuccess");
+            }
+			return View(model);
+		}
+		public IActionResult ContactSuccess()
+		{
+			return View();
+		}
+
+		public IActionResult FAQ()
         {
             return View();
         }
