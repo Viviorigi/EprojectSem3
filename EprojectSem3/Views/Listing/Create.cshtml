@@ -29,8 +29,24 @@
 			<div class="messages-form">
 				<div class="card">
 					<div class="card-header">
-						<h4>Basic information</h4>
+						<h4>Basic information </h4>
+							<div class="alert alert-info">
+								You can create <strong>@ViewBag.RemainingAds</strong> more ads under your current subscription.
+							</div>
 					</div>
+						@if (TempData["err"] != null)
+						{
+							<div class="alert alert-danger">
+								@TempData["err"]
+							</div>
+						}
+
+						@if (TempData["msg"] != null)
+						{
+							<div class="alert alert-success">
+								@TempData["msg"]
+							</div>
+						}
 					<div class="card-body">
 						<div class="row">
 							<div class="col-md-6">
@@ -84,30 +100,7 @@
 										</li>
 									</ul>
 								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-set">
-									<label>Priority</label>
-									<ul class="custom-radiosbtn d-flex justify-content-evenly">
-										<li>
-											<label class="radiossets d-flex align-center">
-												<input type="radio" asp-for="Priority" checked="checked" value="1" style="margin-right: 10px">
-												Active
-												
-												<span class="checkmark-radio"></span>
-											</label>
-										</li>
-										<li>
-											<label class="radiossets d-flex align-center">
-												<input type="radio" asp-for="Priority" value="0" style="margin-right: 10px">
-												Inactive
-												
-												<span class="checkmark-radio"></span>
-											</label>
-										</li>
-									</ul>
-								</div>
-							</div>
+							</div>						
 							<div class="col-md-12">
 								<label class="col-form-label">Listing Description <span>*</span></label>
 								<textarea id="editor1" asp-for="Description" class="form-control" placeholder="Listing Name"></textarea>
