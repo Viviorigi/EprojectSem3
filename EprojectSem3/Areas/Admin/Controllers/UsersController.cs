@@ -30,22 +30,6 @@ namespace EprojectSem3.Areas.Admin.Controllers
             return View(users);
         }
 
-        // GET: Admin/Users/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var user = await _userRepository.GetUserByIdAsync(id); 
-            if (user == null)
-            {
-                return NotFound("User not found.");
-            }
-            return View(user);
-        }
-
-
         // GET: Admin/Users/Create
         public IActionResult Create()
         {
@@ -65,11 +49,22 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status")] User user)
+        public async Task<IActionResult> Create([Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status")] User user, IFormFile? file)
         {
 
             try
             {
+                if (file != null && file.Length > 0)
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+                    user.Image = "images/" + file.FileName;
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+
                 if (ModelState.IsValid)
                 {
                     await _userRepository.AddUserAsync(user);
@@ -129,8 +124,19 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status")] User user, IFormFile? file)
         {
+            if (file != null && file.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+                user.Image = "images/" + file.FileName;
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+
             if (id != user.UserId)
             {
                 return NotFound();
@@ -159,6 +165,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     existingUser.PhoneNumber = user.PhoneNumber;
                     existingUser.Role = user.Role;
                     existingUser.Status = user.Status;
+                    existingUser.Image = user.Image;
 
                     // Check if password is being changed and hash it
                     if (!BCrypt.Net.BCrypt.Verify(user.Password, existingUser.Password))

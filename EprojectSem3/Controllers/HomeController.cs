@@ -146,6 +146,7 @@ namespace EprojectSem3.Controllers
                     PhoneNumber = model.PhoneNumber,
                     Address = model.Address,
                     Role = model.Role,
+                    Image = "/images/users.png",
                     Status = 0
                 };
 

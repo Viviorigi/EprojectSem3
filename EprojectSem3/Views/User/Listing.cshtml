@@ -8,13 +8,7 @@
 			<div class="container">
 				<div class="row align-items-center text-center">
 		    		<div class="col-md-12 col-12">
-			    	    <h2 class="breadcrumb-title">My Listing</h2>
-				    	<nav aria-label="breadcrumb" class="page-breadcrumb">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">My Listing</li>
-							</ol>
-						</nav>							
+			    	    <h2 class="breadcrumb-title">My Listing</h2>						
 					</div>
 				</div>
 			</div>
@@ -30,7 +24,7 @@
 							@{
 								var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 							}
-							<a asp-controller="User" asp-action="Index" asp-route-id="@userId">
+							<a asp-controller="User" asp-action="Index">
 								<i class="fa-solid fa-user"></i> <span>Profile</span>
 							</a>
 						</li>

@@ -43,13 +43,16 @@
                     {
                         <tr>
                             <td>@index</td>
-                            <td>
-                                <a asp-area="Admin" asp-action="Details" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
+                            <td class="table-namesplit">
+                                <a asp-area="Admin" asp-action="Edit" asp-controller="Users" asp-route-id="@u.UserId" class="table-profileimage">
+                                    <img src="/@u.Image" class="me-2" alt="img">
+                                </a>
+                                <a asp-area="Admin" asp-action="Edit" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
                                     <span>@Html.DisplayFor(modelu => u.FullName)</span>
                                 </a>
                             </td>
                             <td>
-                                <a asp-area="Admin" asp-action="Details" asp-controller="Users" asp-route-id="@u.UserId" class="table-name">
+                                <a class="table-name">
                                     <span>@Html.DisplayFor(modelu => u.Email)</span>
                                 </a>
                             </td>

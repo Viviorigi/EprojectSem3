@@ -38,7 +38,7 @@ CREATE TABLE Users (
     Email VARCHAR(255) NOT NULL UNIQUE,
     Password VARCHAR(255) NOT NULL,
     PhoneNumber VARCHAR(15),
-    Address VARCHAR(255),
+    Address NVARCHAR(255),
     Role TINYINT NOT NULL,
     Status TINYINT NOT NULL,
     SubscriptionId INT,

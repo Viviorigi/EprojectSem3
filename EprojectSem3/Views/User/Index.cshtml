@@ -11,12 +11,6 @@
         <div class="row align-items-center text-center">
             <div class="col-md-12 col-12">
                 <h2 class="breadcrumb-title">Profile</h2>
-                <nav aria-label="breadcrumb" class="page-breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Profile</li>
-                    </ol>
-                </nav>
             </div>
         </div>
     </div>
@@ -31,7 +25,7 @@
                     @{
                         var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
                     }
-                    <a asp-controller="User" asp-action="Index" asp-route-id="@userId">
+                    <a asp-controller="User" asp-action="Index">
                         <i class="fa-solid fa-user"></i> <span>Profile</span>
                     </a>
                 </li>
@@ -78,6 +72,7 @@
                                     <input type="hidden" asp-for="Role" />
                                     <input type="hidden" asp-for="Status" />
                                     <input type="hidden" asp-for="Password" />
+                                    <input type="hidden" asp-for="Image" />
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                     @if (!ViewData.ModelState.IsValid)
                                     {

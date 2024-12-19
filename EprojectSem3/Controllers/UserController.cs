@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Realtors_Portal.Models;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace EprojectSem3.Controllers
 {
@@ -19,8 +20,9 @@ namespace EprojectSem3.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index()
         {
+            var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             if (id == null)
             {
                 return NotFound();
@@ -41,7 +43,7 @@ namespace EprojectSem3.Controllers
         //Update&Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(int id, User user,
+        public async Task<IActionResult> Index(User user,
             IFormFile? file)
         {
             if (file != null && file.Length > 0)
@@ -54,6 +56,8 @@ namespace EprojectSem3.Controllers
                     await file.CopyToAsync(fileStream);
                 }
             }
+
+            var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (id != user.UserId)
             {
