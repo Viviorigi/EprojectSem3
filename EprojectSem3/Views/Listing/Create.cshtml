@@ -109,11 +109,12 @@
 										<div class="file-browse d-flex align-center justify-content-center">
 											<h6>Drag &amp; drop image or </h6>
 											<div class="file-browse-path position-relative" style="cursor:pointer">
-												<input type="file" name="file" style="opacity:0; max-width:60px;position:relative;z-index:9;cursor:pointer">
+													<input type="file" name="file" id="singleFileInput" style="opacity:0; max-width:60px;position:relative;z-index:9;cursor:pointer">
 												<a href="javascript:void(0);" style="position:absolute;left:6px;top:10px;font-size:14px;font-weight:700;color:#C10037; text-decoration:underline;z-index:1;cursor:pointer"> Browse</a>
 											</div>
 										</div>
 										<h5>Supported formates: JPEG, PNG</h5>
+											<div id="singleFilePreview" class="preview-container"></div>
 									</div>
 								</div>
 							</div>
@@ -127,11 +128,12 @@
 										<div class="file-browse d-flex align-center justify-content-center">
 											<h6>Drag &amp; drop image or </h6>
 											<div class="file-browse-path position-relative" style="cursor:pointer">
-												<input type="file" name="files" multiple style="opacity:0; max-width:60px;position:relative;z-index:9;cursor:pointer">
+													<input type="file" name="files" id="multiFileInput" multiple style="opacity:0; max-width:60px;position:relative;z-index:9;cursor:pointer">
 												<a href="javascript:void(0);" style="position:absolute;left:6px;top:10px;font-size:14px;font-weight:700;color:#C10037; text-decoration:underline;z-index:1;cursor:pointer"> Browse</a>
 											</div>
 										</div>
 										<h5>Supported formates: JPEG, PNG</h5>
+											<div id="multiFilePreview" class="preview-container"></div>
 									</div>
 								</div>
 							</div>
@@ -150,5 +152,59 @@
 @section Scripts {
 	<script>
 		CKEDITOR.replace( 'editor1' );
+	</script>
+	<style>
+		.preview-image {
+			max-width: 100px;
+			max-height: 100px;
+			margin: 5px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+		}
+
+		.preview-container {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+	</style>
+	<script>
+		// Hiển thị ảnh từ input đơn
+		document.getElementById('singleFileInput').addEventListener('change', function (event) {
+			const previewContainer = document.getElementById('singleFilePreview');
+			previewContainer.innerHTML = ''; // Xóa preview cũ
+			const file = event.target.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function (e) {
+					const img = document.createElement('img');
+					img.src = e.target.result;
+					img.alt = file.name;
+					img.className = 'preview-image';
+					previewContainer.appendChild(img);
+				};
+				reader.readAsDataURL(file);
+			}
+		});
+
+		// Hiển thị ảnh từ input nhiều file
+		document.getElementById('multiFileInput').addEventListener('change', function (event) {
+			const previewContainer = document.getElementById('multiFilePreview');
+			previewContainer.innerHTML = ''; // Xóa preview cũ
+			const files = event.target.files;
+			Array.from(files).forEach(file => {
+				if (file) {
+					const reader = new FileReader();
+					reader.onload = function (e) {
+						const img = document.createElement('img');
+						img.src = e.target.result;
+						img.alt = file.name;
+						img.className = 'preview-image';
+						previewContainer.appendChild(img);
+					};
+					reader.readAsDataURL(file);
+				}
+			});
+		});
 	</script>
 }

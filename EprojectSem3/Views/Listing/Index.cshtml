@@ -28,7 +28,7 @@
 				<div class="listings-sidebar">
 					<div class="card">
 						<h4><img src="~/assets/img/details-icon.svg" alt="details-icon"> Filter</h4>
-						<form id="filterForm" asp-controller="Listing" asp-action="Index" method="get">
+						<form id="sortForm" asp-controller="Listing" asp-action="Index" method="get">
 							<div class="filter-content looking-input form-set">
 								<input type="text" value="@keyword" name="keyword" class="form-control" placeholder="What are you looking for?">
 							</div>
@@ -53,7 +53,7 @@
 									<button class="btn btn-reset mb-0" type="submit"> <i class="fas fa-light fa-arrow-rotate-right"></i>Reset Filters</button>
 								</div>
 							</div>
-							<input type="hidden" name="sort" />
+							<input id="sort" type="hidden" name="sort" />
 						</form>
 					</div>
 				</div>
@@ -70,9 +70,9 @@
 							<span class="sortbytitle">Sort by</span>
 							<div class="sorting-select">
 								<select name="sort" id="sortSelect" class="form-control select sorting-select">
-									<option>Default</option>
-									<option>Price Low to High</option>
-									<option>Price High to Low</option>
+									<option value="0">Default</option>
+									<option value="1">Price Low to High</option>
+									<option value="2">Price High to Low</option>
 								</select>
 							</div>
 						</div>
@@ -86,7 +86,7 @@
 								<div class="card">
 									<div class="blog-widget">
 										<div class="blog-img">
-											<a href="service-details.html">
+											<a asp-controller="Listing" asp-action="Detail" asp-route-id ="@l.ListingId">
 												<img src="@l.Image" class="img-fluid" alt="blog-img">
 											</a>
 											@if (l.Priority == 1)
@@ -113,7 +113,7 @@
 														<span>  <i class="feather-eye"></i>4000  </span>
 													</div>
 												</div>
-												<h6><a href="service-details.html">@l.Title</a></h6>
+												<h6><a asp-controller="Listing" asp-action="Detail" asp-route-id ="@l.ListingId">@l.Title</a></h6>
 												<div class="blog-location-details">
 													<div class="location-info">
 														<i class="feather-map-pin"></i> @l.City.Name
@@ -190,32 +190,29 @@
 <!-- /Main Content Section -->
 
 @section Scripts{
-	<script>
-		$(document).ready(function() {
-			// When the sorting select value changes
-			$('select.sorting-select').change(function() {
-				// Get the selected sort value
-				var sortValue = $(this).val();
+	 <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sortSelect = document.getElementById('sortSelect'); // Dropdown
+            const sortInput = document.getElementById('sort'); // Hidden input
+            const sortForm = document.getElementById('sortForm'); // Form
 
-				// Add the sort value to the form
-				$('input[name="sort"]').val(sortValue);
+            sortSelect.addEventListener('change', function () {
+                // Kiểm tra nếu form, input và select đều tồn tại
+                if (sortSelect && sortInput && sortForm) {
+                    // Gán giá trị của select vào input ẩn
+                    sortInput.value = sortSelect.value;
 
-				// Submit the form via AJAX
-				$.ajax({
-					url: $('#filterForm').attr('action'), // Get form action URL
-					type: 'GET',
-					data: $('#filterForm').serialize(), // Serialize the form data
-					success: function(response) {
-						// Update the results area with the response
-						$('#results-container').html(response);
-					},
-					error: function(xhr, status, error) {
-						console.error('Error during AJAX request:', error);
-					}
-				});
-			});
-		});
-	</script>
+                    // Gửi form
+                    sortForm.submit();
+                } else {
+                    console.error('Form, Input, hoặc Select không tìm thấy!');
+                }
+            });
+        });
+    </script>
+	
+});
+
 		
 
 }

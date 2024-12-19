@@ -81,6 +81,17 @@ namespace EprojectSem3.Areas.Admin.Controllers
             
         }
 
+        public async Task<IActionResult> Search(string? name)
+        {
+			var category = await _service.Search(name);
+			if (category == null)
+			{
+				TempData["err"] = "Search results do not exist";
+				return RedirectToAction("Index");
+			}
+			return View(category);
+		}
+
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

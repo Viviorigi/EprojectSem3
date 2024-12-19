@@ -20,24 +20,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <div class="filter-sorting">
-                                    <ul>
-                                        <li>
-                                            <a href="javascript:void(0);" class="filter-sets"><img src="~/assets/admin/assets/img/icons/filter1.svg" class="me-2" alt="img">Filter</a>
-                                        </li>
-                                        <li>
-                                            <span><img src="~/assets/admin/assets/img/icons/sort.svg" class="me-2" alt="img"></span>
-                                            <div class="review-sort">
-                                                <select class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                                    <option>Sort by A - Z</option>
-                                                    <option>Sort by Z - A</option>
-                                                </select>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                           
                             <li>
                                 <a class="btn btn-primary" asp-controller="Listing" asp-action="Create" ><i class="fa fa-plus me-2"></i>Add Listing </a>
                             </li>
@@ -94,7 +77,7 @@
                                 </td>
                                 <td>
                                     <div class="table-actions d-flex">
-                                        <a class="delete-table me-2" href="view-listing.html">
+                                    <a class="delete-table me-2" asp-controller="Listing" asp-action="Details" asp-route-id="@l.ListingId">
                                             <img src="~/assets/admin/assets/img/icons/eye.svg" alt="svg">
                                         </a>
                                         <a class="delete-table me-2" asp-controller="Listing" asp-action="Edit" asp-route-id="@l.ListingId">
