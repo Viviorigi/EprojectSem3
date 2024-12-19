@@ -56,10 +56,7 @@
             </a>
             <div class="header-split">
                 <div class="page-headers">
-                    <div class="search-bar">
-                        <span><i class="fe fe-search"></i></span>
-                        <input type="text" placeholder="Search" class="form-control">
-                    </div>
+                   
                 </div>
                 <ul class="nav user-menu">
                
@@ -191,6 +188,12 @@
                             <a asp-controller="Contacts" asp-action="Index"
                                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Contacts" ? "active" : "")">
                                 <i class="fe fe-file-text"></i> <span>Contacts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Transactions" asp-action="Index"
+                               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Transactions" ? "active" : "")">
+                                <i class="fe fe-file-text"></i> <span>Transactions</span>
                             </a>
                         </li>
                         <li>

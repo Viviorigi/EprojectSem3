@@ -23,9 +23,17 @@ namespace Realtors_Portal.Areas.Admin.Controllers
         }
 
         // GET: Admin/Contacts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string keyword = "")
         {
-            return View(await _context.Contacts.ToListAsync());
+            var contacts = _context.Contacts.AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                contacts = contacts.Where(c => c.Name.Contains(keyword) || c.Email.Contains(keyword) || c.Subject.Contains(keyword) || c.Reply.Contains(keyword) );
+            }
+
+            ViewData["Keyword"] = keyword; 
+            return View(await contacts.ToListAsync());
         }
 
         // GET: Admin/Contacts/Details/5

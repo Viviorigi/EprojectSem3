@@ -20,9 +20,38 @@ namespace Realtors_Portal.Areas.Admin.Controllers
         }
 
         // GET: Admin/Transactions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string keyword = "", DateTime? startDate = null, DateTime? endDate = null)
         {
-            var appDbContext = _context.Transactions.Include(t => t.Subscription).Include(t => t.User);
+            var appDbContext = _context.Transactions
+                .Include(t => t.Subscription)
+                .Include(t => t.User)
+                .AsQueryable();
+
+            // Apply keyword filter
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                appDbContext = appDbContext.Where(t =>
+                    t.User.FullName.Contains(keyword) ||
+                    t.Subscription.Name.Contains(keyword) ||
+                    t.User.Email.Contains(keyword)
+                    );
+            }
+
+            // Apply date range filter
+            if (startDate.HasValue)
+            {
+                appDbContext = appDbContext.Where(t => t.TransactionDate >= startDate.Value);
+            }
+            if (endDate.HasValue)
+            {
+                appDbContext = appDbContext.Where(t => t.TransactionDate <= endDate.Value);
+            }
+
+            // Pass filter values back to the view
+            ViewData["Keyword"] = keyword;
+            ViewData["StartDate"] = startDate?.ToString("yyyy-MM-dd");
+            ViewData["EndDate"] = endDate?.ToString("yyyy-MM-dd");
+
             return View(await appDbContext.ToListAsync());
         }
 

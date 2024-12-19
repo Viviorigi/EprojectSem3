@@ -23,9 +23,10 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         // GET: Admin/Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string keyword = "")
         {
-            var users = await _userRepository.GetAllUsersAsync();
+            var users = await _userRepository.GetAllUsersAsync(keyword);
+            ViewData["Keyword"] = keyword; 
             return View(users);
         }
 

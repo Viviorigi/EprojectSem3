@@ -9,7 +9,7 @@ namespace DataAccessLayer_DAL.Repositories
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<IEnumerable<User>> GetAllUsersAsync(string keyword = "");
         Task<User?> GetUserByIdAsync(int? userId);
         Task AddUserAsync(User user);
         Task UpdateUserAsync(User user);

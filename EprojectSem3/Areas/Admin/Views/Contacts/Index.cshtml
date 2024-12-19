@@ -11,7 +11,14 @@
     <div class="list-btn">
         <ul>
             <li>
-                <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Contact</a>
+                <form class="d-flex " id="myForm" asp-controller="Contacts" asp-action="Index" method="get">
+                    <input type="text" name="keyword" placeholder="Search" value="@ViewData["Keyword"]" class="form-control me-2">                
+                    <button type="submit" class="btn btn-danger active">Filter</button>
+                    <a asp-action="Index" asp-controller="Transaction" class="btn btn-secondary">Clear</a>
+                </form>
+            </li>
+            <li>
+                @* <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Contact</a> *@
             </li>
         </ul>
     </div>

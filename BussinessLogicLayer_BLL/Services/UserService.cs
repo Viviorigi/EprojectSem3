@@ -25,9 +25,19 @@ namespace BussinessLogicLayer_BLL.Services
                 .FirstOrDefaultAsync(m => m.UserId == id);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync(string keyword = "")
         {
-            return await _context.Users.ToListAsync();
+            var query = _context.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {             
+                query = query.Where(u =>
+                    u.FullName.ToLower().Contains(keyword) ||
+                    u.Email.ToLower().Contains(keyword) ||
+                    u.PhoneNumber.ToLower().Contains(keyword));
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task AddUserAsync(User user)
