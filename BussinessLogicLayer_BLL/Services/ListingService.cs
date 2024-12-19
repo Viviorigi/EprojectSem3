@@ -47,7 +47,7 @@ namespace BussinessLogicLayer_BLL.Services
 
             int pageSize = 8;
             int pageNumber = page ?? 1; // Nếu không có trang, mặc định là trang 1
-            var listings =  _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.Priority).Where(x => x.Status == 1).AsQueryable();
+            var listings =  _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.Priority).Where(x => x.Status == 1).Where(x => x.Category.Status == 1).AsQueryable();
 			if (!string.IsNullOrEmpty(keyword))
 			{
 				listings = listings.Where(x => EF.Functions.Like(x.Title, $"%{keyword}%"));
@@ -79,7 +79,7 @@ namespace BussinessLogicLayer_BLL.Services
 
         public async Task<Listing?> GetListingByIdAsync(int listingId)
 		{
-			var listing = await _context.Listings.Include(x => x.User).Include(x => x.Category).FirstOrDefaultAsync(x => x.ListingId ==listingId);
+			var listing = await _context.Listings.Include(x => x.City).Include(x => x.User).Include(x => x.Category).FirstOrDefaultAsync(x => x.ListingId ==listingId);
 			if (listing != null)
 			{
 				return listing;
@@ -89,7 +89,7 @@ namespace BussinessLogicLayer_BLL.Services
 
 		public async Task<IEnumerable<Listing>> GetListingTop5ByPriorityAsync()
 		{
-			return await _context.Listings.Include(x => x.Category).Where(x => x.Status == 1 && x.Priority == 1).Take(5).ToListAsync();
+			return await _context.Listings.Include(x => x.Category).Where(x => x.Status == 1 && x.Priority == 1 && x.Category.Status == 1).Take(5).ToListAsync();
 		}
 
 		public async Task<IEnumerable<Listing>> Search(string? keyword)

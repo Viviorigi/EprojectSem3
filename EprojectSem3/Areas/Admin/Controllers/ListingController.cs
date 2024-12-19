@@ -34,16 +34,20 @@ namespace EprojectSem3.Areas.Admin.Controllers
             return View(listings);
         }
 
-        // GET: ListingController/Details/5
-        public ActionResult Details(int id)
-        {
-            var listing = _listingRepository.GetListingByIdAsync(id);
-            return View(listing);
+		// GET: ListingController/Details/5
+		public async Task<IActionResult> Details(int id)
+		{
+			var listing = await _listingRepository.GetListingByIdAsync(id);
+			var image = await _imageRepository.GetImageByListingIdAsync(id);
+			ViewBag.image = image;
 
-        }
+			Console.WriteLine(ViewBag.image);
 
-        // GET: ListingController/Create
-        public async Task<ActionResult> Create()
+			return View(listing);
+		}
+
+		// GET: ListingController/Create
+		public async Task<ActionResult> Create()
         {
             ViewBag.categories = new SelectList( await _categoryRepository.GetAllCategoryAsync(),"CategoryId","Name");
             ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
