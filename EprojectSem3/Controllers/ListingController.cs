@@ -89,6 +89,7 @@ namespace EprojectSem3.Controllers
                 .Where(l => l.UserId == userId && l.Status == 1) // Chỉ tính bài viết đang active
                 .CountAsync();
 
+
             // Nếu đạt giới hạn số lượng bài viết cho gói hiện tại
             if (activeListingsCount >= subscription.MaxAds)
             {
@@ -100,7 +101,7 @@ namespace EprojectSem3.Controllers
             ViewBag.RemainingAds = subscription.MaxAds - activeListingsCount;
 
             // Load danh mục và thành phố cho form
-            ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+            ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
             ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
 
             // Trả về form tạo bài viết
@@ -110,7 +111,7 @@ namespace EprojectSem3.Controllers
 
         // POST: ListingController/Create
         [HttpPost]
-		[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Listing listing, IFormFile file, IFormFile[] files)
         {
             // Lấy thông tin người dùng
@@ -166,11 +167,14 @@ namespace EprojectSem3.Controllers
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
                 listing.Image = "images/" + uniqueFileName;
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
+
+            
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
             }
+        }
 
             // Kiểm tra ModelState
             if (!ModelState.IsValid)
@@ -182,7 +186,7 @@ namespace EprojectSem3.Controllers
                 }
 
                 // Load danh mục và thành phố cho form
-                ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+                ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
                 ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
                 return View(listing);
             }

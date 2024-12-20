@@ -21,24 +21,6 @@
                 </div>
             </li>
             <li>
-                <div class="filter-sorting">
-                    <ul>
-                        <li>
-                            <a href="javascript:void(0);" class="filter-sets"><img src="~/assets/admin/assets/img/icons/filter1.svg" class="me-2" alt="img">Filter</a>
-                        </li>
-                        <li>
-                            <span><img src="~/assets/admin/assets/img/icons/sort.svg" class="me-2" alt="img"></span>
-                            <div class="review-sort">
-                                <select class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                    <option>Sort by A - Z</option>
-                                    <option>Sort by Z - A</option>
-                                </select>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
                 <a class="btn btn-primary" asp-controller="Category" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Categories </a>
             </li>
         </ul>
@@ -142,4 +124,17 @@
         });
     });
 
+</script>
+<script>
+    // Kiểm tra TempData để hiển thị thông báo
+    const message = '@TempData["msg"]';
+    const alertType = '@TempData["AlertType"]';
+
+    if (message) {
+        Swal.fire({
+            icon: alertType || 'info', // Loại alert: success, error, warning, info
+            title: 'Notification',
+            text: message,
+        });
+    }
 </script>

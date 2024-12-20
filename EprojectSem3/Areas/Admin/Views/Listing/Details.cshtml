@@ -92,42 +92,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="service-wrap">
-			<div class="row">
-				<div class="col-md-6">
-					<h5>Gallery</h5>
-				</div>
-				<div class="col-md-6 text-md-end">
-					<div class="owl-nav mynav3">
-						<button type="button" role="presentation" class="owl-prev">
-							<i class="fa-solid fa-angle-left"></i>
-						</button>
-						<button type="button" role="presentation" class="owl-next">
-							<i class="fa-solid fa-angle-right"></i>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="owl-carousel gallery-slider owl-loaded owl-drag">
-				<div class="owl-stage-outer">
-					<div class="owl-stage" style="transform: translate3d(-808px, 0px, 0px); transition: all; width: 2696px;">
-						@foreach (var img in (IEnumerable<DataAccessLayer_DAL.Models.Image>)ViewBag.image)
-						{
-							<div class="owl-item cloned" style="width: 245.6px; margin-right: 24px;">
-								<div class="gallery-widget">
-									<a href="/@img.ImagePath" data-fancybox="gallery">
-										<img class="img-fluid" alt="Image" src="/@img.ImagePath">
-									</a>
-								</div>
-							</div>
-						}
-					</div>
-				</div>
-				<div class="owl-dots disabled"></div>
-				
-				
-			</div>
-		</div>
 	</div>
 	<div class="col-xl-4">
 		<div class="card card-provide">
@@ -138,125 +102,32 @@
 						<p class="serv-review"><i class="fa-solid fa-star"></i> <span>4.9 </span>(255 reviews)</p>
 					</div>
 					<div class="serv-proimg">
-						<img src="assets/img/profiles/avatar-02.jpg" class="img-fluid" alt="img">
+						<img src="/@Model.User.Image" class="img-fluid" alt="img">
 						<span><i class="fa-solid fa-circle-check"></i></span>
 					</div>
 				</div>
-				<div class="package-widget">
-					<h5>Available Service Packages</h5>
-					<ul>
-						<li>Full car wash and clean</li>
-						<li>Auto Electrical</li>
-						<li>Pre Purchase Inspection</li>
-						<li>Pre Purchase Inspection</li>
-					</ul>
-				</div>
+				
 				<div class="package-widget pack-service">
 					<h5>Additional Service</h5>
 					<ul>
-						<li>
-							<div class="add-serving">
-								<label class="custom_check">
-									<input type="checkbox" name="rememberme">
-									<span class="checkmark"></span>
-								</label>
-								<div class="add-serv-item">
-									<div class="add-serv-img">
-										<img src="assets/img/services/service-09.jpg" alt="">
-									</div>
-									<div class="add-serv-info">
-										<h6>House Cleaning</h6>
-										<p><i class="fe fe-map-pin"></i> Alabama, USA</p>
-									</div>
+						@foreach (var img in (IEnumerable<DataAccessLayer_DAL.Models.Image>)ViewBag.image)
+						{
+							<div class="add-serving" style="width: 245.6px; margin-right: 24px;">
+								<div class="gallery-widget">
+									<a href="/@img.ImagePath" data-fancybox="gallery">
+										<img class="img-fluid" alt="Image" src="/@img.ImagePath">
+									</a>
 								</div>
 							</div>
-							<div class="add-serv-amt">
-								<h6>$500.75</h6>
-							</div>
-						</li>
-						<li>
-							<div class="add-serving">
-								<label class="custom_check">
-									<input type="checkbox" name="rememberme">
-									<span class="checkmark"></span>
-								</label>
-								<div class="add-serv-item">
-									<div class="add-serv-img">
-										<img src="assets/img/services/service-16.jpg" alt="">
-									</div>
-									<div class="add-serv-info">
-										<h6>Air Conditioner Service</h6>
-										<p><i class="fe fe-map-pin"></i> Illinois, USA</p>
-									</div>
-								</div>
-							</div>
-							<div class="add-serv-amt">
-								<h6>$500.75</h6>
-							</div>
-						</li>
-						<li>
-							<div class="add-serving">
-								<label class="custom_check">
-									<input type="checkbox" name="rememberme">
-									<span class="checkmark"></span>
-								</label>
-								<div class="add-serv-item">
-									<div class="add-serv-img">
-										<img src="assets/img/services/service-07.jpg" alt="">
-									</div>
-									<div class="add-serv-info">
-										<h6>Interior Designing</h6>
-										<p><i class="fe fe-map-pin"></i> California, USA</p>
-									</div>
-								</div>
-							</div>
-							<div class="add-serv-amt">
-								<h6>$500.75</h6>
-							</div>
-						</li>
-						<li>
-							<div class="add-serving">
-								<label class="custom_check">
-									<input type="checkbox" name="rememberme">
-									<span class="checkmark"></span>
-								</label>
-								<div class="add-serv-item">
-									<div class="add-serv-img">
-										<img src="assets/img/services/service-03.jpg" alt="">
-									</div>
-									<div class="add-serv-info">
-										<h6>Wooden Carpentry Work</h6>
-										<p><i class="fe fe-map-pin"></i> Alabama, USA</p>
-									</div>
-								</div>
-							</div>
-							<div class="add-serv-amt">
-								<h6>$354.45</h6>
-							</div>
-						</li>
+						}
+						
+						
+						
+						
 					</ul>
 				</div>
-				<div class="card card-available">
-					<div class="card-body">
-						<div class="available-widget">
-							<div class="available-info">
-								<h5>Service Availability</h5>
-								<ul>
-									<li>Monday <span>9:30 AM - 7:00 PM</span> </li>
-									<li>Tuesday <span>9:30 AM - 7:00 PM</span> </li>
-									<li>Wednesday <span>9:30 AM - 7:00 PM</span> </li>
-									<li>Thursday <span>9:30 AM - 7:00 PM</span> </li>
-									<li>Friday <span>9:30 AM - 7:00 PM</span> </li>
-									<li>Saturday <span>9:30 AM - 7:00 PM</span> </li>
-									<li>Sunday <span class="text-danger">Closed</span> </li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="map-grid">
-					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="contact-map"></iframe>
-				</div>
+				
+				
 			</div>
 		</div>
 	</div>

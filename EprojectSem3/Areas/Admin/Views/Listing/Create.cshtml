@@ -94,12 +94,8 @@
 					<div class="col-md-12">
 						<div class="form-set">
 							<label>ShowContact</label>
-							<select asp-for="ContactViaForm" class="form-control">
+							<select asp-for="ContactViaForm" asp-items="@ViewBag.showContact" class="form-control">
 								<option value="">Show Contact</option>
-								@foreach (var contact in ViewBag.showContact)
-								{
-									<option value="@contact.Value">@contact.Text</option>
-								}
 							</select>
 							<span asp-validation-for="ContactViaForm" class="text-danger"></span>
 						</div>
@@ -226,3 +222,16 @@
 		});
 	</script>
 }
+<script>
+	// Kiểm tra TempData để hiển thị thông báo
+	const message = '@TempData["msg"]';
+	const alertType = '@TempData["AlertType"]';
+
+	if (message) {
+		Swal.fire({
+			icon: alertType || 'info', // Loại alert: success, error, warning, info
+			title: 'Notification',
+			text: message,
+		});
+	}
+</script>

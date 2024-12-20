@@ -44,7 +44,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 return View(category);
             }
             await _service.AddCategoryAsync(category);
-			TempData["msg"] = "Create successful";
+            TempData["msg"] = "Create successful";
+            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
             return  RedirectToAction("Index");
 
 
@@ -55,7 +56,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
             var category = await _service.GetCategoryByIdAsync(id);
             if (category == null)
             {
-				TempData["err"] = "category does not exist";
+				TempData["msg"] = "category does not exist";
+                TempData["AlertType"] = "error";
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -76,7 +78,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			}
              await _service.UpdateCategoryAsync(category);
 			 TempData["msg"] = "Update category successful";
-             return RedirectToAction("Index");
+            TempData["AlertType"] = "success";
+            return RedirectToAction("Index");
             
             
         }
@@ -86,8 +89,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			var category = await _service.Search(name);
 			if (category == null)
 			{
-				TempData["err"] = "Search results do not exist";
-				return RedirectToAction("Index");
+				TempData["msg"] = "Search results do not exist";
+                TempData["AlertType"] = "error";
+                return RedirectToAction("Index");
 			}
 			return View(category);
 		}
@@ -103,10 +107,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 {
                    await _service.DeleteCategoryAsync(id);
                     TempData["msg"] = "Delete Category successful";
+                    TempData["AlertType"] = "success";
                     return RedirectToAction("Index");
                 }
             }
-            TempData["err"] = "Existing posts cannot be deleted.";
+            TempData["msg"] = "Existing posts cannot be deleted.";
+            TempData["AlertType"] = "error";
             return View("index");
         }
     }

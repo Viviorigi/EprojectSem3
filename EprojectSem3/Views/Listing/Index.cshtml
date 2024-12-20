@@ -69,7 +69,7 @@
 						<div class="sortbyset">
 							<span class="sortbytitle">Sort by</span>
 							<div class="sorting-select">
-								<select name="sort" id="sortSelect" class="form-control select sorting-select">
+								<select name="sort" id="sortSelect" onchange="submitSortForm()" class="form-control select sorting-select">
 									<option value="0">Default</option>
 									<option value="1">Price Low to High</option>
 									<option value="2">Price High to Low</option>
@@ -191,24 +191,12 @@
 
 @section Scripts{
 	 <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sortSelect = document.getElementById('sortSelect'); // Dropdown
-            const sortInput = document.getElementById('sort'); // Hidden input
-            const sortForm = document.getElementById('sortForm'); // Form
-
-            sortSelect.addEventListener('change', function () {
-                // Kiểm tra nếu form, input và select đều tồn tại
-                if (sortSelect && sortInput && sortForm) {
-                    // Gán giá trị của select vào input ẩn
-                    sortInput.value = sortSelect.value;
-
-                    // Gửi form
-                    sortForm.submit();
-                } else {
-                    console.error('Form, Input, hoặc Select không tìm thấy!');
-                }
-            });
-        });
+       function submitSortForm(){
+			var sort = document.getElementById('sortSelect').value;
+		   
+			document.getElementById('sort').value = sort;
+		   document.getElementById('sortForm').submit();
+	   }
     </script>
 	
 });

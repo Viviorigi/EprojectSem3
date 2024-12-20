@@ -77,7 +77,15 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			}
 			else
 			{
-                TempData["err"] = "Image is not required";
+                TempData["msg"] = "Image is not required";
+                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+				ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+				ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+				ViewBag.showContact = new SelectList(new[]
+				 {
+					new { Value = 0, Text = "Hide" },
+					new { Value = 1, Text = "Show" },
+				}, "Value", "Text");
 				return View(listing);
 			}
 			if (!ModelState.IsValid)
@@ -122,6 +130,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }
 
             TempData["msg"] = "Create listing succsessful";
+            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
 
             return RedirectToAction("Index");
         }
@@ -132,8 +141,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
             var listing = await _listingRepository.GetListingByIdAsync(id);
             if(listing == null)
             {
-				TempData["err"] = "Listing does not exist";
-				return RedirectToAction("Index");
+				TempData["msg"] = "Listing does not exist";
+                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+                return RedirectToAction("Index");
 			}
 			ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
 			ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
@@ -219,8 +229,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 }
             }
 			TempData["msg"] = "Create listing succsessful";
+            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
 
-			return RedirectToAction("Index");
+            return RedirectToAction("Index");
 		}
 
         // GET: ListingController/Delete/5
@@ -231,12 +242,14 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			{
 				await _listingRepository.DeleteListingAsync(id);
 
-				TempData["msg"] = "Delete Category successful";
-				return RedirectToAction("Index");
+				TempData["msg"] = "Delete Listing successful";
+                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                return RedirectToAction("Index");
 
 			}
-			TempData["err"] = "Existing posts cannot be deleted.";
-			return View("index");
+			TempData["msg"] = "Existing posts cannot be deleted.";
+            TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+            return View("index");
 		}
 
         public async Task<IActionResult> Search(string? keyword)
@@ -244,7 +257,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
           var listing = await _listingRepository.Search(keyword);
           if(listing == null)
             {
-				TempData["err"] = "Search results do not exist";
+				TempData["msg"] = "Search results do not exist";
+                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
                 return RedirectToAction("Index");
             }
           return View(listing);
