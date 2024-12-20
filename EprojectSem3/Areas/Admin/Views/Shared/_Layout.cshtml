@@ -163,17 +163,17 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a asp-controller="Regions"
+                                    <a asp-controller="Regions" asp-action="Index"
                                        class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Regions" ? "active" : "")">Regions</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="Cities"
+                                    <a asp-controller="Cities" asp-action="Index"
                                        class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Cities" ? "active" : "")">Cities</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a asp-controller="Subscriptions"
+                            <a asp-controller="Subscriptions" asp-action="Index"
                                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Subscriptions" ? "active" : "")">
                                 <i class="fe fe-user"></i> <span>Membership</span>
                             </a>
@@ -193,7 +193,7 @@
                         <li>
                             <a asp-controller="Transactions" asp-action="Index"
                                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Transactions" ? "active" : "")">
-                                <i class="fe fe-file-text"></i> <span>Transactions</span>
+                                <i class="fe fe-file-text"></i> <span>Transactions History</span>
                             </a>
                         </li>
                         <li>

@@ -51,6 +51,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
         {
             ViewBag.categories = new SelectList( await _categoryRepository.GetAllCategoryAsync(),"CategoryId","Name");
             ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+            ViewBag.showContact = new SelectList(new[]
+              {
+                new { Value = 0, Text = "Hide" },
+                new { Value = 1, Text = "Show" },
+            }, "Value", "Text");
             return View();
         }
 
@@ -86,6 +91,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
                 ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
                 ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+                ViewBag.showContact = new SelectList(new[]
+                 {
+                    new { Value = 0, Text = "Hide" },
+                    new { Value = 1, Text = "Show" },
+                }, "Value", "Text");
                 return View(listing);
             }
             
@@ -127,7 +137,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			}
 			ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
 			ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
-			return View(listing);
+            ViewBag.showContact = new SelectList(new[]
+             {
+                new { Value = 0, Text = "Hide" },
+                new { Value = 1, Text = "Show" },
+            }, "Value", "Text");
+            return View(listing);
 
 		}
 
@@ -161,6 +176,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
                 ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
                 ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+                ViewBag.showContact = new SelectList(new[]
+             {
+                new { Value = 0, Text = "Hide" },
+                new { Value = 1, Text = "Show" },
+            }, "Value", "Text");
                 return View(listing);
             }
             //var data = _context.Listings.Where(x => x.ListingId != listing.ListingId && x.Title == listing.Title);
