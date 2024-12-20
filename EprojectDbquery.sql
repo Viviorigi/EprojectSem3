@@ -68,7 +68,7 @@ CREATE TABLE Listings (
     UserId INT NOT NULL,
     CityId INT NOT NULL,
     Status TINYINT NOT NULL,
-	image varchar(255) not null,
+	image varchar(255) NOT NULL,
     Priority TINYINT NOT NULL,
     CreatedAt DATETIME DEFAULT GETDATE(),
     UpdatedAt DATETIME DEFAULT GETDATE(),
@@ -118,4 +118,6 @@ CREATE TABLE Contacts (
 	Reply TEXT
 )
 
+ALTER TABLE Listings
+ADD ContactViaForm TINYINT DEFAULT 0;
 

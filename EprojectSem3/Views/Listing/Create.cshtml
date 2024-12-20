@@ -25,7 +25,8 @@
 					<div class="card-header">
 						<h4>Basic information </h4>
 							<div class="alert alert-info">
-								You can create <strong>@ViewBag.RemainingAds</strong> more ads under your current subscription.
+								<p>You can create <strong>@ViewBag.RemainingAds</strong> more ads under your current subscription.</p>
+								 <p>Your subscription is valid for <strong>@ViewBag.RemainingDays</strong> more days.</p>
 							</div>
 					</div>
 						@if (TempData["err"] != null)
@@ -74,7 +75,7 @@
 
 							<div class="col-md-6">
 								<div class="form-set">
-									<label>Status</label>
+									<label class="col-form-label">Status <span>*</span></label>
 									<ul class="custom-radiosbtn d-flex justify-content-evenly">
 										<li>
 											<label class="radiossets d-flex align-center">
@@ -94,7 +95,21 @@
 										</li>
 									</ul>
 								</div>
-							</div>						
+							</div>		
+							@if(ViewBag.User.Role == 1)
+								{
+									<div class="col-md-12 mb-3">			
+											<label class="col-form-label">ShowContact <span>*</span></label>
+										<select asp-for="ContactViaForm" class="form-control">
+											<option value="">Show Contact</option>
+											@foreach (var contact in ViewBag.showContact)
+											{
+												<option value="@contact.Value">@contact.Text</option>
+											}
+										</select>
+										<span asp-validation-for="ContactViaForm" class="text-danger"></span>				
+									</div>
+								}
 							<div class="col-md-12">
 								<label class="col-form-label">Listing Description <span>*</span></label>
 								<textarea id="editor1" asp-for="Description" class="form-control" placeholder="Listing Name"></textarea>
@@ -138,11 +153,11 @@
 								</div>
 							</div>
 						</div>
-						
-						
+
+							<button class="btn btn-primary " type="submit"> Submit</button>
 					</div>
 				</div>
-				<button class="btn btn-primary" type="submit"> Submit</button>
+				
 			</div>
 			</form>
 		</div>

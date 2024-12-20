@@ -1,0 +1,116 @@
+﻿@{
+	ViewData["Title"] = "RenewSubscription";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var memberships = ViewBag.Memberships as IEnumerable<DataAccessLayer_DAL.Models.Subscription>;
+	var purchasedMemberships = ViewBag.PurchasedMemberships as IEnumerable<DataAccessLayer_DAL.Models.Subscription>;
+}
+
+<!-- Breadscrumb Section -->
+<div class="breadcrumb-bar">
+	<div class="container">
+		<div class="row align-items-center text-center">
+			<div class="col-md-12 col-12">
+				<h2 class="breadcrumb-title">RenewSubscription</h2>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Breadscrumb Section -->
+<!-- Pricing Plan Section -->
+<section class="pricingplan-section pricing-page">
+	<div class="section-heading">
+		<div class="container">
+			<div class="row text-center">
+				<h2>Our RenewSubscription <span>Pla</span>n</h2>
+				<p>Checkout these latest cool ads from our members</p>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			@if (memberships != null && memberships.Any())
+			{
+				@foreach (var membership in memberships)
+				{
+					<div class="col-lg-3 d-flex col-md-6">
+						<div class="price-card flex-fill">
+							<div class="price-head">
+								<div class="price-level">
+									<h6>@membership.Name</h6>
+								</div>
+								<h4>$@membership.Price<span>/ @(membership.Duration == 30 ? "month" : "year")</span></h4>
+							</div>
+							<div class="price-body">
+								<p>For most business that want to optimize web queries</p>
+								<ul>
+									<li class="active">Basic listing submission</li>
+									<li class="active">Max listing post ads @membership.MaxAds</li>
+									<li class="active">@membership.Duration days Availability</li>
+									<li class="inactive">Limited Support</li>
+									<li class="inactive">Edit your listing</li>
+									@if (membership.IsAgent == true)
+									{
+										<li class="active">Allow Enable/disable email address </li>
+									}
+								</ul>
+								<div>
+									<a asp-controller="Home" asp-action="CheckOut" asp-route-id="@membership.SubscriptionId" class="btn viewdetails-btn">Buy</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			}
+			else
+			{
+				<h3>No memberships available.</h3>
+			}
+		</div>
+	</div>
+</section>
+<!-- /Pricing Plan Section -->
+<!-- Purchased Memberships Section -->
+<section class="purchased-memberships-section">
+	<div class="section-heading">
+		<div class="container">
+			<div class="row text-center">
+				<h2>Your Purchased </h2>
+				<p>Here are the subscriptions you have already purchased.</p>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			@if (purchasedMemberships != null && purchasedMemberships.Any())
+			{
+				@foreach (var membership in purchasedMemberships)
+				{
+					<div class="col-lg-3 d-flex col-md-6">
+						<div class="price-card flex-fill purchased-card">
+							<div class="price-head">
+								<div class="price-level">
+									<h6>@membership.Name</h6>
+								</div>
+								<h4>$@membership.Price<span>/ @(membership.Duration == 30 ? "month" : "year")</span></h4>
+							</div>
+							<div class="price-body">
+								<p>This is one of your active memberships.</p>
+								<ul>
+									<li class="active">Basic listing submission</li>
+									<li class="active">Max listing post ads @membership.MaxAds</li>
+									<li class="active">@membership.Duration days Availability</li>
+									<li class="active">Edit your listing</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				}
+			}
+			else
+			{
+				<h3>You haven't purchased any memberships yet.</h3>
+			}
+		</div>
+	</div>
+</section>
+<!-- /Purchased Memberships Section -->

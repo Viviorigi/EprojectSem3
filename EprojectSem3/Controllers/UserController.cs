@@ -11,13 +11,16 @@ using System.Security.Claims;
 
 namespace EprojectSem3.Controllers
 {
-    public class UserController : Controller
+	[Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+	public class UserController : Controller
     {
         private readonly AppDbContext _context;
+		private readonly IListingRepository _listingRepository;
 
-        public UserController(AppDbContext context)
+		public UserController(AppDbContext context,IListingRepository listingRepository)
         {
             _context = context;
+            _listingRepository = listingRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -99,7 +102,17 @@ namespace EprojectSem3.Controllers
 
         public IActionResult Listing()
         {
-            return View();
+			var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			if (id == null)
+			{
+				return NotFound();
+			}
+            var userListings = _context.Listings.Include(l => l.Category)
+	       .Where(l => l.UserId == id) // Lọc theo UserId
+	       .ToList();
+
+            ViewBag.Listings = userListings;
+			return View();
         }
 
         public IActionResult ChangePassword()
@@ -143,5 +156,22 @@ namespace EprojectSem3.Controllers
             }
             return View(model);
         }
-    }
+
+		[Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var listing = await _listingRepository.GetListingByIdAsync(id);
+			if (listing != null)
+			{
+				await _listingRepository.DeleteListingAsync(id);
+
+				TempData["msg"] = "Delete Category successful";
+				return RedirectToAction("Listing", "User");
+
+			}
+			TempData["err"] = "Existing posts cannot be deleted.";
+			return View("Listing");
+		}
+	}
+	
 }

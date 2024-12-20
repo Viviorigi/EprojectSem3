@@ -20,8 +20,11 @@ namespace DataAccessLayer_DAL.Models
         public City? City { get; set; } // Navigation property
         public byte Status { get; set; }
         public byte Priority { get; set; } = 0;
+
+        public byte ContactViaForm { get; set; } = 1;
+
         public DateTime? CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; } 
 
         public ICollection<Image>? Images { get; set; } // Liên kết đến Images
     }
