@@ -20,7 +20,33 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            var count_listing = _context.Listings.Where(l => l.Status == 1).Count();
+            var count_user = _context.Users.Count();
+            var count_user_saler = _context.Users.Where(u => u.Role == 0).Count();
+            var count_user_agent = _context.Users.Where(u => u.Role == 1).Count();
+            var count_usersubscription = _context.UserSubscriptions.Count();
+            var count_transaction = _context.Transactions.Where(t => t.IsPaid == true).Count();
+            ViewBag.CountListing = count_listing;
+            ViewBag.CountUser = count_user;
+            ViewBag.CountUser0 = count_user_saler;
+            ViewBag.CountUser1 = count_user_agent;
+            ViewBag.CountUserSubscription = count_usersubscription;
+            ViewBag.CountTransaction = count_transaction;
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetChartData()
+        {
+            var data = _context.Transactions
+            .Select(x => new
+            {
+                date = x.PaymentDate.Value.ToString("yyyy-MM-dd"),
+                price = x.Amount
+            })
+            .ToList();
+
+            return Json(data);
         }
 
         public IActionResult Privacy()
