@@ -104,7 +104,7 @@ namespace EprojectSem3.Controllers
 			ViewBag.User = user;
 
 			// Load danh mục và thành phố cho form
-			ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+			ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
 			ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
 			ViewBag.showContact = new SelectList(new[]
 			{
