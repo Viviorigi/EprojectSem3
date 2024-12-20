@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer_DAL.Models;
 using DataAccessLayer_DAL.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -83,7 +84,7 @@ namespace EprojectSem3.Controllers
 			ViewBag.RemainingAds = subscription.MaxAds - activeListingsCount;
 
 			// Load danh mục và thành phố cho form
-			ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+			ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
 			ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
 
 			// Trả về form tạo bài viết
@@ -149,7 +150,7 @@ namespace EprojectSem3.Controllers
 				}
 
 				// Load danh mục và thành phố cho form
-				ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+				ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
 				ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
 				return View(listing);
 			}
