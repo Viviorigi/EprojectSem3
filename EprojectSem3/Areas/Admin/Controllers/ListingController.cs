@@ -109,7 +109,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             
             listing.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 			listing.CreatedAt = DateTime.Now;
-
+            listing.UpdatedAt = DateTime.Now;
             await _listingRepository.AddListingAsync(listing);
 
             if (files != null && files.Length > 0)

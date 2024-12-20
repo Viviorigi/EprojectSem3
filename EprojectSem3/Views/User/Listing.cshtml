@@ -1,6 +1,7 @@
 ﻿@{
 	ViewData["Title"] = "My Listing";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	var listings = ViewBag.Listings as IEnumerable<DataAccessLayer_DAL.Models.Listing>;
 }
 		
 		<!-- Breadscrumb Section -->
@@ -49,7 +50,7 @@
 				    <div class="dash-cards card">
 					    <div class="card-header">
 						    <h4>My Listings</h4>
-						    <a class="nav-link add-listing" href="add-listing.html"><span><i class="fa-solid fa-plus"></i></span>Add Listing</a>									
+						    <a class="nav-link add-listing" asp-controller="Listing" asp-action="Create" ><span><i class="fa-solid fa-plus"></i></span>Add Listing</a>									
 						</div>
                         <div class="card-body">
 							<div class="listing-search">
@@ -79,164 +80,38 @@
 									    <th class="no-sort" >Image</th>										 
 									    <th class="no-sort">Details</th>										 
 									    <th>Status</th>										 
-									    <th class="no-sort">Views</th>										 
+									    <th class="no-sort">CreateAt</th>	
+										<th class="no-sort">UpdateAt</th>	
 									    <th class="no-sort">Action</th>										 
 									 </tr>	
                                      </thead>
-                                     <tbody>									 
-                                     <tr>
+                                     <tbody>	
+										 @foreach (var item in listings)
+								{
+									   <tr>
 									     <td>
-										    <div class="listingtable-img"> <a href="service-details.html"><img class="img-fluid avatar-img" src="~/assets/img/list/tablelist-1.jpg" alt=""></a></div>
+										    <div class="listingtable-img"> <a asp-action="Detail" asp-controller="Listing" asp-route-id ="@item.ListingId" ><img class="img-fluid avatar-img" src="/@item.Image" alt=""></a></div>
 										 </td>
 									     <td>
-										     <h6><a href="service-details.html">Villa 457 sq.m. In Benidorm Fully Qquipped House</a></h6>
-										     <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> Electronics</a> <span class="discount-amt">$350000.00</span><span class="fixed-amt">$40000</span></div>
-										     <p>Mauris vestibulum lorem a condimentum vulputate.</p>
+										     <h6><a asp-action="Detail" asp-controller="Listing" asp-route-id ="@item.ListingId">@item.Title</a></h6>
+										     <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> @item.Category.Name</a> <span class="discount-amt">$ @item.Price</span></div>
+										      @*   <p>Mauris vestibulum lorem a condimentum vulputate.</p> *@
 										 </td>
-									     <td><span class="status-text">Published</span></td>
-									     <td><Span class="views-count">1523</span></td>
+									     <td><span class="status-text" >@(item.Status==1 ?"Published" :"UnPublished")</span></td>
+									     <td><span class="views-count"> @(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("dd-MM-yyyy") : "N/A")</span></td>
+										<td><span class="views-count"> @(item.UpdatedAt.HasValue ? item.UpdatedAt.Value.ToString("dd-MM-yyyy") : "N/A") </span></td>
 									     <td>
 										    <div class="action">
-        										<a href="javascript:void(0)" class="action-btn btn-view"><i class="feather-eye"></i></a>
+        										<a asp-action="Detail" asp-controller="Listing" asp-route-id ="@item.ListingId" class="action-btn btn-view"><i class="feather-eye"></i></a>
 											    <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-trash"><i class="feather-trash-2"></i></a>
-											
-										    </div>
-										 </td>
-                                     </tr> 
-                                     <tr>
-									     <td>
-										      <div class="listingtable-img"><a href="service-details.html"><img class="img-fluid avatar-img" src="~/assets/img/list/tablelist-2.jpg" alt=""></a></div>
-										 </td>
-									     <td>
-										     <h6><a href="service-details.html">CDL A OTR Compnay Driver Job-N</a></h6>
-										     <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> Electronics</a> <span class="discount-amt">$350000.00</span><span class="fixed-amt">$40000</span></div>
-										     <p>Mauris vestibulum lorem a condimentum vulputate.</p>
-										 </td>
-									     <td><span class="status-text">Published</span></td>
-									     <td><Span class="views-count">1523</span></td>
-									     <td>
-        									<div class="action">
-        										<a href="javascript:void(0)" class="action-btn btn-view"><i class="feather-eye"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-trash"><i class="feather-trash-2"></i></a>						 										 
-										    </div>						 										 
-										 </td>
-                                     </tr> 
-                                     <tr>
-									     <td>
-										      <div class="listingtable-img"><a href="service-details.html"><img class="img-fluid avatar-img" src="~/assets/img/list/tablelist-3.jpg" alt=""></a></div>
-										 </td>
-									     <td>
-										     <h6><a href="service-details.html">HP Gaming 15.6 Touchscren 12G</a></h6>
-										      <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> Electronics</a> <span class="discount-amt">$350000.00</span><span class="fixed-amt">$40000</span></div>
-										     <p>Mauris vestibulum lorem a condimentum vulputate.</p>
-										 </td>
-									     <td><span class="status-text">Published</span></td>
-									     <td><Span class="views-count">1523</span></td>
-									      <td>
-        									<div class="action">
-        										<a href="javascript:void(0)" class="action-btn btn-view"><i class="feather-eye"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-trash"><i class="feather-trash-2"></i></a>						 										 
-										    </div>						 										 
+												<a class="delete-table" data-id="@item.ListingId" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
+													<img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
+												</a>
+											</div>
 										 </td>
                                      </tr>
-                                      <tr>
-									     <td>
-										     <div class="listingtable-img"> <a href="service-details.html"><img class="img-fluid avatar-img" src="~/assets/img/list/tablelist-4.jpg" alt=""></a></div>
-										 </td>
-									     <td>
-										     <h6><a href="service-details.html">2012 AudiR8  GT Spider Convrtibile</a></h6>
-										      <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> Electronics</a> <span class="discount-amt">$350000.00</span><span class="fixed-amt">$40000</span></div>
-										     <p>Mauris vestibulum lorem a condimentum vulputate.</p>
-										 </td>
-									     <td><span class="status-text">Published</span></td>
-									     <td><Span class="views-count">1523</span></td>
-									      <td>
-        									<div class="action">
-        										<a href="javascript:void(0)" class="action-btn btn-view"><i class="feather-eye"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-trash"><i class="feather-trash-2"></i></a>						 										 
-										    </div>						 										 
-										 </td>
-                                     </tr>   
-                                     <tr>
-									     <td>
-										     <div class="listingtable-img"> <a href="service-details.html"><img class="img-fluid avatar-img" src="~/assets/img/list/tablelist-5.jpg" alt=""></a></div>
-										 </td>
-									     <td>
-										     <h6><a href="service-details.html">2017 Gulfsteam Ameri-Lite</a></h6>
-										      <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> Electronics</a> <span class="discount-amt">$350000.00</span><span class="fixed-amt">$40000</span></div>
-										     <p>Mauris vestibulum lorem a condimentum vulputate.</p>
-										 </td>
-									     <td><span class="status-text">Published</span></td>
-									     <td><Span class="views-count">1523</span></td>
-									      <td>
-        									<div class="action">
-        										<a href="javascript:void(0)" class="action-btn btn-view"><i class="feather-eye"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-trash"><i class="feather-trash-2"></i></a>						 										 
-										    </div>						 										 
-										 </td>
-                                     </tr>   
-                                     <tr>
-									     <td>
-										    <div class="listingtable-img">  <a href="service-details.html"><img class="img-fluid avatar-img" src="~/assets/img/list/tablelist-6.jpg" alt=""></a></div>
-										 </td>
-									     <td>
-										     <h6><a href="service-details.html">Fashion Luxury Men Date</a></h6>
-										      <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> Electronics</a> <span class="discount-amt">$350000.00</span><span class="fixed-amt">$40000</span></div>
-										     <p>Mauris vestibulum lorem a condimentum vulputate.</p>
-										 </td>
-									     <td><span class="status-text">Published</span></td>
-									     <td><Span class="views-count">1523</span></td>
-									      <td>
-        									<div class="action">
-        										<a href="javascript:void(0)" class="action-btn btn-view"><i class="feather-eye"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-trash"><i class="feather-trash-2"></i></a>						 										 
-										    </div>						 										 
-										 </td>
-                                     </tr>
-                                     <tr>
-									     <td>
-										     <div class="listingtable-img"> <a href="service-details.html"><img class="img-fluid avatar-img" src="~/assets/img/list/tablelist-7.jpg" alt=""></a></div>
-										 </td>
-									     <td>
-										     <h6><a href="service-details.html">Apple iPhone 6 16GB 4G LTE </a></h6>
-										      <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> Electronics</a> <span class="discount-amt">$350000.00</span><span class="fixed-amt">$40000</span></div>
-										     <p>Mauris vestibulum lorem a condimentum vulputate.</p>
-										 </td>
-									     <td><span class="status-text">Published</span></td>
-									     <td><Span class="views-count">1523</span></td>
-									      <td>
-        									<div class="action">
-        										<a href="javascript:void(0)" class="action-btn btn-view"><i class="feather-eye"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-trash"><i class="feather-trash-2"></i></a>						 										 
-										    </div>						 										 
-										 </td>
-                                     </tr>
-                                     <tr>
-									     <td>
-										     <div class="listingtable-img"> <a href="service-details.html"><img class="img-fluid avatar-img" src="~/assets/img/list/tablelist-8.jpg" alt=""></a></div>
-										 </td>
-									     <td>
-										     <h6><a href="service-details.html">Customized Apple iMac 21.5″ All-In </a></h6>
-										      <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> Electronics</a> <span class="discount-amt">$350000.00</span><span class="fixed-amt">$40000</span></div>
-										     <p>Mauris vestibulum lorem a condimentum vulputate.</p>
-										 </td>
-									     <td><span class="status-text unpublish">Un Published</span></td>
-									     <td><Span class="views-count">1523</span></td>
-									      <td>
-        									<div class="action">
-        										<a href="javascript:void(0)" class="action-btn btn-view"><i class="feather-eye"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
-											    <a href="javascript:void(0)" class="action-btn btn-trash"><i class="feather-trash-2"></i></a>						 										 
-										    </div>						 										 
-										 </td>
-                                     </tr>	
+								}
+                                                            
                                      </tbody>									 
 							    </table>				
 							</div>
@@ -273,3 +148,59 @@
 			</div>				
 		</div>			
 	    <!-- /Dashboard Content -->
+
+<div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Delete Listing</h5>
+				<button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close">
+					<i class="fe fe-x"></i>
+				</button>
+			</div>
+			<form asp-action="Delete" asp-controller="Listing" method="post">
+				<div class="modal-body py-0">
+					<div class="del-modal">
+						<p>Are you sure want to Delete?</p>
+						<!-- ID được chèn động thông qua JavaScript -->
+						<input type="hidden" name="id" id="listing-id" />
+					</div>
+				</div>
+				<div class="modal-footer pt-0">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-primary">Yes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- /Delete -->
+<script>
+	// Bắt sự kiện khi Modal mở
+	const deleteModal = document.getElementById('delete-item');
+	deleteModal.addEventListener('show.bs.modal', function (event) {
+		// Lấy phần tử nút bấm đã kích hoạt Modal
+		const button = event.relatedTarget;
+		// Lấy giá trị ID từ data-id
+		const categoryId = button.getAttribute('data-id');
+
+		// Cập nhật giá trị ID vào input hidden trong Modal
+		const categoryIdInput = deleteModal.querySelector('#listing-id');
+		categoryIdInput.value = categoryId;
+	});
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const form = document.getElementById("myForm");
+
+		// Lắng nghe sự kiện keydown trên toàn bộ form
+		form.addEventListener("keydown", function (event) {
+			// Kiểm tra nếu phím được nhấn là Enter
+			if (event.key === "Enter") {
+				event.preventDefault(); // Ngăn trình duyệt thực hiện hành động mặc định (nếu cần)
+				form.submit(); // Submit form
+			}
+		});
+	});
+
+</script>
