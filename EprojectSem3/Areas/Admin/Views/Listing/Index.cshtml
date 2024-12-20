@@ -41,6 +41,7 @@
                                         <th>Date</th>
                                         <th>Status</th>
                                         <th>Priority</th>
+                                        <th>ShowContact</th>
                                         <th>Created By</th>
                                         <th>Action</th>
                                     </tr>
@@ -67,7 +68,9 @@
                                 <td>
                                     <h6 class="@(l.Priority == 1 ? "badge-active" : "badge-inactive") ">@(l.Priority == 1 ? "Active" : "Inactive")</h6>
                                 </td>
-                               
+                                <td>
+                                <h6 class="@(l.ContactViaForm == 1 ? "badge-active" : "badge-inactive") ">@(l.ContactViaForm == 1 ? "Show" : "Hide")</h6>
+                                </td>
 
                                 <td>
                                     <a href="javascript:void(0);" class="table-profileimage">

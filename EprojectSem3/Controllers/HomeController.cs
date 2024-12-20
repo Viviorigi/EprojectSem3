@@ -100,6 +100,47 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
+        [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+        public IActionResult RenewSubscription()
+        {
+            // Lấy UserId từ Claims
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+
+            // Lấy danh sách các Subscription mà người dùng đã mua
+            var purchasedSubscriptions = _context.UserSubscriptions
+                .Where(us => us.UserId == userId)
+                .Select(us => us.SubscriptionId)
+                .ToList();
+
+            // Lấy danh sách các Subscription dựa trên Role và lọc các gói chưa mua
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (userRole == "0") // User thông thường
+            {
+                ViewBag.Memberships = _context.Subscriptions
+                    .Where(s => s.IsAgent == false)
+                    .ToList();
+            }
+            else if (userRole == "1") // Agent
+            {
+                ViewBag.Memberships = _context.Subscriptions
+                    .Where(s => s.IsAgent == true )
+                    .ToList();
+            }
+            else // Admin hoặc không có Role cụ thể
+            {
+                ViewBag.Memberships = _context.Subscriptions.ToList();
+            }
+
+            // Gửi danh sách các gói đã mua (để hiển thị hoặc xử lý nếu cần)
+            ViewBag.PurchasedMemberships = _context.Subscriptions
+                .Where(s => purchasedSubscriptions.Contains(s.SubscriptionId))
+                .ToList();
+
+            return View();
+        }
+
+
+
         public async Task<IActionResult> Checkout(int? id)
         {
             if (id == null)

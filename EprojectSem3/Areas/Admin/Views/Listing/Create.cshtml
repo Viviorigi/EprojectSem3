@@ -92,6 +92,19 @@
 						</div>
 					</div>
 					<div class="col-md-12">
+						<div class="form-set">
+							<label>ShowContact</label>
+							<select asp-for="ContactViaForm" class="form-control">
+								<option value="">Show Contact</option>
+								@foreach (var contact in ViewBag.showContact)
+								{
+									<option value="@contact.Value">@contact.Text</option>
+								}
+							</select>
+							<span asp-validation-for="ContactViaForm" class="text-danger"></span>
+						</div>
+					</div>
+					<div class="col-md-12">
 						<div class="">
 							<label>Description</label>
 							<textarea  id="editor1" asp-for="Description" class="form-control" placeholder="Listing Name"></textarea>
