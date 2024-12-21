@@ -19,6 +19,7 @@ namespace EprojectSem3.Controllers
         private readonly AppDbContext _context;
         private readonly EmailService _emailService;
         private readonly IListingRepository _listingRepository;
+ 
 
         public HomeController(ILogger<HomeController> logger, AppDbContext context,EmailService emailService , IListingRepository listingRepository)
         {
@@ -40,11 +41,6 @@ namespace EprojectSem3.Controllers
         }
 
         public IActionResult AboutUs()
-        {
-            return View();
-        }
-
-        public IActionResult Blog()
         {
             return View();
         }
