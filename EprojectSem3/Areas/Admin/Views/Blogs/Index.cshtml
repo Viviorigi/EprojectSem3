@@ -66,7 +66,7 @@
                     {
                         <tr>
                             <td>@index</td>
-                            <td>@b.Title</td>
+                            <td>@Html.Raw(b.Title.Length > 10 ? b.Title.Substring(0, 10) + "..." : b.Title)</td>
                             <td title="@b.Content">@Html.Raw(b.Content.Length > 20 ? b.Content.Substring(0, 20) + "..." : b.Content)</td>
                             <td><img class="overflow-hidden" src="~/@b.Image" height="100px" width="150px"/></td>
                             <td>

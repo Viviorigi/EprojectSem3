@@ -108,7 +108,15 @@ CREATE TABLE Transactions
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
 );
-
+-- Bảng Blogs
+CREATE TABLE Blogs (
+    BlogId INT PRIMARY KEY IDENTITY(1,1),
+    Title NVARCHAR(255) NOT NULL,
+    Content TEXT NOT NULL,
+	Image varchar(255) not null,
+    Status TINYINT NOT NULL, -- 0: Draft, 1: Published, 2: Archived
+    CreatedAt DATETIME DEFAULT GETDATE(),
+);
 CREATE TABLE Contacts (
 	ContactId INT PRIMARY KEY IDENTITY(1,1),
 	Name NVARCHAR(255) NOT NULL,
