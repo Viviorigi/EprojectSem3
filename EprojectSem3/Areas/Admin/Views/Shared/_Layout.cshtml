@@ -177,6 +177,9 @@
                             </ul>
                         </li>
                         <li>
+                            <a asp-controller="Blogs"><i class="fe fe-file-text"></i> <span>Blog</span></a>
+                        </li>
+                        <li>
                             <a asp-controller="Subscriptions" asp-action="Index"
                                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Subscriptions" ? "active" : "")">
                                 <i class="fe fe-user"></i> <span>Membership</span>
