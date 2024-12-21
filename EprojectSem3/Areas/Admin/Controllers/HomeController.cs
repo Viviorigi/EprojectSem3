@@ -36,9 +36,26 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Route("GetChartData")]
         public async Task<IActionResult> GetChartData()
         {
             var data = _context.Transactions
+            .Select(x => new
+            {
+                date = x.PaymentDate.Value.ToString("yyyy-MM-dd"),
+                price = x.Amount
+            })
+            .ToList();
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        [Route("GetChartDataBySelect")]
+        public IActionResult GetChartDataBySelect(DateTime startDate, DateTime endDate)
+        {
+            var data = _context.Transactions
+            .Where(x => x.PaymentDate >= startDate && x.PaymentDate <= endDate)
             .Select(x => new
             {
                 date = x.PaymentDate.Value.ToString("yyyy-MM-dd"),
