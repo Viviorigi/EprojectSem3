@@ -23,6 +23,7 @@ builder.Services.AddScoped<ICityRepository, CityService>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionService>();
 builder.Services.AddScoped<IImageRepository, ImageService>();
 builder.Services.AddHostedService<SubscriptionExpiryChecker>();
+builder.Services.AddScoped<IBlogRepository, BlogService>();
 builder.Services.AddSingleton(x =>
     new PaypalClient(
         builder.Configuration["PayPalOptions:ClientId"],

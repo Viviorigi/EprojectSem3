@@ -1,0 +1,132 @@
+﻿@model IEnumerable<DataAccessLayer_DAL.Models.Blog>
+
+@{
+    ViewData["Title"] = "Search Blog";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var index = 1;
+}
+
+<div class="content-page-header content-page-headersplit">
+    <h5>Blog</h5>
+    <div class="list-btn">
+        <ul>
+            <li>
+                <div class="page-headers">
+                    <div class="search-bar">
+                        <span><i class="fe fe-search"></i></span>
+                        <form class="d-flex" id="myForm" asp-controller="Blogs" asp-action="Search" method="get">
+                            <input type="text" name="keyword" placeholder="Search" class="form-control">
+                            <button class="btn btn-success">Sreach</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="filter-sorting">
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0);" class="filter-sets"><img src="~/assets/admin/assets/img/icons/filter1.svg" class="me-2" alt="img">Filter</a>
+                        </li>
+                        <li>
+                            <span><img src="~/assets/admin/assets/img/icons/sort.svg" class="me-2" alt="img"></span>
+                            <div class="review-sort">
+                                <select class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option>Sort by A - Z</option>
+                                    <option>Sort by A - Z</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Blog</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 ">
+        <div class="table-resposnive">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>Image</th>
+                        <th>Status</th>
+                        <th>CreatedAt</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var b in Model)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>@b.Title</td>
+                            <td title="@b.Content">@Html.Raw(b.Content.Length > 20 ? b.Content.Substring(0, 20) + "..." : b.Content)</td>
+                            <td><img src="~/@b.Image" width="100px" /></td>
+                            <td>
+                                <h6 class="@(b.Status == 1 ? "badge-active" : "badge-inactive") ">@(b.Status == 1 ? "Active" : "Inactive")</h6>
+                            </td>
+                            <td>@b.CreatedAt</td>
+                            <td>
+                                <div class="table-actions d-flex">
+                                    <a class="delete-table me-2" asp-action="Edit" asp-route-id="@b.BlogId">
+                                        <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
+                                    </a>
+                                    <a class="delete-table" data-id="@b.BlogId" data-bs-toggle="modal" data-bs-target="#delete-item">
+                                        <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Delete -->
+<div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete blog</h5>
+                <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fe fe-x"></i>
+                </button>
+            </div>
+            <form asp-action="Delete" asp-controller="Blogs" method="post">
+                <div class="modal-body py-0">
+                    <div class="del-modal">
+                        <p>Are you sure want to Delete?</p>
+                        <!-- ID được chèn động thông qua JavaScript -->
+                        <input type="hidden" name="id" id="Blog-id" />
+                    </div>
+                </div>
+                <div class="modal-footer pt-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /Delete -->
+<script>
+    // Bắt sự kiện khi Modal mở
+    const deleteModal = document.getElementById('delete-item');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        // Lấy phần tử nút bấm đã kích hoạt Modal
+        const button = event.relatedTarget;
+        // Lấy giá trị ID từ data-id
+        const blogid = button.getAttribute('data-id');
+        // Cập nhật giá trị ID vào input hidden trong Modal
+        const citiesIdInput = deleteModal.querySelector('#Blog-id');
+        citiesIdInput.value = blogid;
+    });
+</script>

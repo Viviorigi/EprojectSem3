@@ -1,0 +1,88 @@
+﻿@model DataAccessLayer_DAL.Models.Blog
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <form asp-controller="Blogs" asp-action="Create" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-7 col-sm-12 m-auto">
+                <div class="content-page-header">
+                    <h5>Add Blog</h5>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-set">
+                            <label>Titles</label>
+                            <input type="text" asp-for="Title" class="form-control" placeholder="Enter Titles">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-set">
+                            <label>Content<span>(Meta Tag)</span></label>
+                            <textarea id="editor1" asp-for="Content" class="form-control" placeholder="Listing Name"></textarea>
+                        </div>
+                            <div class="col-lg-12">
+                                <div class="form-set mb-1">
+                                    <label>Blog Image</label>
+                                </div>
+                                <div class="form-uploads mb-4">
+                                    <div class="form-uploads-path">
+                                        <img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
+                                        <div class="file-browse">
+                                            <h6>Drag & drop image or </h6>
+                                            <div class="file-browse-path">
+                                            <input type="file" name="file">
+                                                <a href="javascript:void(0);"> Browse</a>
+                                            </div>
+                                        </div>
+                                        <h5>Supported formates: JPEG, PNG</h5>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-set">
+                            <label>Status</label>
+                            <ul class="custom-radiosbtn">
+                                <li>
+                                    <label class="radiossets">
+                                        Active
+                                        <!-- Use asp-for to bind and automatically handle checked status -->
+                                        <input type="radio" asp-for="Status" value="1" checked/>
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="radiossets">
+                                        Inactive
+                                        <!-- Use asp-for to bind and automatically handle checked status -->
+                                        <input type="radio" asp-for="Status" value="0" />
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="btn-path">
+                            <a asp-controller="Blogs" asp-action="index" class="btn btn-cancel me-3">Cancel</a>
+                            <button type="submit" class="btn btn-submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        CKEDITOR.replace( 'editor1' );
+    </script>
+}

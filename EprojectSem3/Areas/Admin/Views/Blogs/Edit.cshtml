@@ -1,0 +1,102 @@
+﻿@model DataAccessLayer_DAL.Models.Blog
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <form asp-controller="Blogs" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-7 col-sm-12 m-auto">
+                <div class="content-page-header">
+                    <h5>Edit Blog</h5>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-set">
+                            <label>Blog ID</label>
+                            <input type="text" asp-for="BlogId" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-set">
+                            <label>Title</label>
+                            <input type="text" asp-for="Title" class="form-control" placeholder="Enter Title" />
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-set">
+                            <label>Content<span>(Meta Tag)</span></label>
+                            <textarea id="editor1" asp-for="Content" class="form-control" placeholder="Content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-set mb-1">
+                            <label>Blog Image</label>
+                        </div>
+                        <div class="form-uploads mb-4">
+                            <div class="form-uploads-path">
+                                <img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
+                                <div class="file-browse">
+                                    <h6>Drag & drop image or </h6>
+                                    <div class="file-browse-path">
+                                        <input type="file" name="file">
+                                        <a href="javascript:void(0);"> Browse</a>
+                                    </div>
+                                </div>
+                                <h5>Supported formats: JPEG, PNG</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-set">
+                            <label>Status</label>
+                            <ul class="custom-radiosbtn">
+                                <li>
+                                    <label class="radiossets">
+                                        Active
+                                        <input type="radio" checked="checked" asp-for="Status" value="1">
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="radiossets">
+                                        Inactive
+                                        <input type="radio" asp-for="Status" value="0">
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="form-set">
+                            <label>Created At</label>
+                            <input type="text" asp-for="CreatedAt" class="form-control" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="btn-path">
+                            <a asp-controller="Blogs" asp-action="Index" class="btn btn-cancel me-3">Cancel</a>
+                            <button type="submit" class="btn btn-submit">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ 
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        CKEDITOR.replace( 'editor1' );
+    </script>
+}

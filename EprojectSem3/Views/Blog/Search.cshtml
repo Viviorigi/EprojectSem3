@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Blog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<DataAccessLayer_DAL.Models.Blog>
+@await Html.PartialAsync("~/Views/Shared/_PaginationPartial.cshtml", ((int)ViewBag.CurrentPage, (int)ViewBag.TotalPages, "Index"))
+
+<!-- Breadscrumb Section -->
+<div class="breadcrumb-bar">
+    <div class="container">
+        <div class="row align-items-center text-center">
+            <div class="col-md-12 col-12">
+                <h2 class="breadcrumb-title">Listings-Blog</h2>
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadscrumb Section -->
+<!-- /Search-->
+<div class="page-headers mt-4">
+    <div class="search-bar container">
+        <span><i class="fe fe-search"></i></span>
+        <form class="d-flex justify-content-end w-100" id="myForm" asp-controller="Blog" asp-action="Search" method="get">
+            <input type="text" name="keyword" placeholder="Search" class="form-control w-50">
+            <button class="btn btn-success">Sreach</button>
+        </form>
+    </div>
+</div>
+<!-- /End Search-->
+<div class="bloglist-section blog-gridpage listing-section ">
+    <div class="container">
+        <div class="row align-items-center justify-content-center all-blog-height">
+            @foreach (var blog in Model)
+            {
+                <div class="col-lg-4 col-md-6 d-lg-flex">
+                    <div class="blog grid-blog">
+                        <div class="blog-image">
+                            <a asp-action="Details" asp-controller="Blog" asp-route-id="@blog.BlogId">
+                                <img class="img-fluid" src="~/@blog.Image" alt="@blog.Title">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <ul class="entry-meta meta-item">
+                                <li>
+                                    <span>Posted by Admin</span>
+                                </li>
+                                <li class="date-icon"><i class="fa-solid fa-calendar-days"></i> @blog.CreatedAt?.ToString("MMMM d, yyyy")</li>
+
+                            </ul>
+                            <h3 class="blog-title">
+                                <a asp-action="Details" asp-controller="Blog" asp-route-id="@blog.BlogId">@blog.Title</a>
+                            </h3>
+                            <p class="blog-description">@Html.Raw(blog.Content.Length > 150 ? blog.Content.Substring(0, 150) + "..." : blog.Content)</p>
+                            <div class="viewlink">
+                                <a asp-action="Details" asp-controller="Blog" asp-route-id="@blog.BlogId">View Details <i class="feather-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        z
+        <!-- Pagination -->
+        <div class="blog-pagination">
+            <nav>
+                <ul class="pagination justify-content-center pagination-center">
+                    @if (ViewBag.CurrentPage > 1)
+                    {
+                        <li class="page-item previtem">
+                            <a class="page-link" href="@Url.Action("Index", new { pageNumber = ViewBag.CurrentPage - 1 })">Prev <i class="fas fa-regular fa-arrow-left"></i></a>
+                        </li>
+                    }
+                    <li class="">
+                        <div class="pagelink">
+                            <ul>
+                                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                {
+                                    @if (i == 1 || i == ViewBag.TotalPages ||
+                                   (i >= ViewBag.CurrentPage - 2 && i <= ViewBag.CurrentPage + 2))
+                                    {
+                                        <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                                            <a class="page-link" href="@Url.Action("Index", new { pageNumber = i })">@i</a>
+                                        </li>
+                                    }
+                                    else if (i == ViewBag.CurrentPage - 3 || i == ViewBag.CurrentPage + 3)
+                                    {
+                                        <li class="page-item">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </li>
+                    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                    {
+                        <li class="page-item nextlink">
+                            <a class="page-link" href="@Url.Action("Index", new { pageNumber = ViewBag.CurrentPage + 1 })">Next <i class="fas fa-regular fa-arrow-right"></i></a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+<!-- /Blog List -->
