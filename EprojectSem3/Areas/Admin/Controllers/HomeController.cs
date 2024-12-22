@@ -40,10 +40,10 @@ namespace EprojectSem3.Areas.Admin.Controllers
         public async Task<IActionResult> GetChartData()
         {
             var data = _context.Statisticals
+            .Where(x => x.ListingCount + x.TransactionCount + x.UserCount > 0)
             .Select(x => new
             {
                 date = x.CreatedAt.Value.ToString("yyyy-MM-dd"),
-                price = x.PriceCount,
                 listing = x.ListingCount,
                 transaction = x.TransactionCount,
                 user = x.UserCount
@@ -62,10 +62,41 @@ namespace EprojectSem3.Areas.Admin.Controllers
             .Select(x => new
             {
                 date = x.CreatedAt.Value.ToString("yyyy-MM-dd"),
-                price = x.PriceCount,
                 listing = x.ListingCount,
                 transaction = x.TransactionCount,
                 user = x.UserCount
+            })
+            .ToList();
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        [Route("GetChartData2")]
+        public async Task<IActionResult> GetChartData2()
+        {
+            var data = _context.Statisticals
+            .Where(x => x.PriceCount > 0)
+            .Select(x => new
+            {
+                date = x.CreatedAt.Value.ToString("yyyy-MM-dd"),
+                price = x.PriceCount
+            })
+            .ToList();
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        [Route("GetChartDataBySelect2")]
+        public IActionResult GetChartDataBySelect2(DateTime startDate, DateTime endDate)
+        {
+            var data = _context.Statisticals
+            .Where(x => x.CreatedAt >= startDate && x.CreatedAt <= endDate)
+            .Select(x => new
+            {
+                date = x.CreatedAt.Value.ToString("yyyy-MM-dd"),
+                price = x.PriceCount
             })
             .ToList();
 

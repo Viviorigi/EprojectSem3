@@ -95,9 +95,9 @@
 <div class="row">
     <div class="card">
         <div class="home-head-user">
-            <h2>Filter</h2>
+            <h2>Dashboard</h2>
             <select class="btn filter-select">
-                <option>Select</option>
+                <option>Filter</option>
                 <option value="1">Day</option>
                 <option value="7">Week</option>
                 <option value="30">Month</option>
@@ -110,9 +110,9 @@
     </div>
     <div class="card">
         <div class="home-head-user">
-            <h2>Filter</h2>
+            <h2>Price</h2>
             <select class="btn filter-select2">
-                <option>Select</option>
+                <option>Filter</option>
                 <option value="1">Day</option>
                 <option value="7">Week</option>
                 <option value="30">Month</option>
@@ -131,8 +131,8 @@
                  element: 'myfirstchart',
                  data: [],
                  xkey: 'date',
-                 ykeys: [/* 'price', */'transaction','listing','user'],
-                 labels: [/* "tong tien", */"so luong goi ban ra","so luong quang cao","new user"]
+                 ykeys: ['transaction','listing','user'],
+                 labels: ["so luong goi ban ra","so luong quang cao","new user"]
             });
 
             $.ajax({
@@ -144,7 +144,6 @@
                         ChartMorris.setData(data.map(function (item) {
                             return {
                                 date: item.date,
-                                //price: item.price,
                                 transaction: item.transaction,
                                 listing: item.listing,
                                 user: item.user
@@ -183,7 +182,6 @@
                             {
                                 return {
                                     date: item.date,
-                                    //price: item.price,
                                     transaction: item.transaction,
                                     listing: item.listing,
                                     user: item.user
@@ -214,7 +212,7 @@
             });
 
             $.ajax({
-                url: "@Url.Action("GetChartData", "Home")",
+                url: "@Url.Action("GetChartData2", "Home")",
                 type: "POST",
                 dataType: "json",
                 success: function (data) {
@@ -245,7 +243,7 @@
                // alert(startDate);
                // alert(endDate);
                $.ajax({
-                    url: "@Url.Action("GetChartDataBySelect", "Home")",
+                    url: "@Url.Action("GetChartDataBySelect2", "Home")",
                     type: "POST",
                     dataType: "json",
                     data: {
