@@ -174,15 +174,11 @@ namespace EprojectSem3.Controllers
                 var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
                 listing.Image = "images/" + uniqueFileName;
-
-
-            
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
             }
-        }
 
             // Kiểm tra ModelState
             if (!ModelState.IsValid)
@@ -202,9 +198,32 @@ namespace EprojectSem3.Controllers
             // Gán thêm thông tin cho bài viết
             listing.UserId = userId;
             listing.CreatedAt = DateTime.Now;
-			listing.UpdatedAt = DateTime.Now;
 			// Thêm bài viết
 			await _listingRepository.AddListingAsync(listing);
+
+            //add data to Statistical
+            var Statistical = await _context.Statisticals
+                            .FirstOrDefaultAsync(x => x.CreatedAt.Value.Date == listing.CreatedAt.Value.Date);
+
+            if (Statistical != null)
+            {
+                Statistical.ListingCount += 1;
+                _context.Update(Statistical);
+            }
+            else
+            {
+                int ListingCount = 1;
+
+                Statistical = new Statistical
+                {
+                    TransactionCount = 0,
+                    PriceCount = 0,
+                    CreatedAt = listing.CreatedAt,
+                    ListingCount = ListingCount,
+                    UserCount = 0
+                };
+                _context.Add(Statistical);
+            }
 
             // Xử lý file hình ảnh phụ
             if (files != null && files.Length > 0)
@@ -246,7 +265,5 @@ namespace EprojectSem3.Controllers
 
             return View(listing);
         }
-
-
 	}
 }

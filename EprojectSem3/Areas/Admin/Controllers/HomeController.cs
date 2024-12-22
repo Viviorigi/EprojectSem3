@@ -39,11 +39,14 @@ namespace EprojectSem3.Areas.Admin.Controllers
         [Route("GetChartData")]
         public async Task<IActionResult> GetChartData()
         {
-            var data = _context.Transactions
+            var data = _context.Statisticals
             .Select(x => new
             {
-                date = x.PaymentDate.Value.ToString("yyyy-MM-dd"),
-                price = x.Amount
+                date = x.CreatedAt.Value.ToString("yyyy-MM-dd"),
+                price = x.PriceCount,
+                listing = x.ListingCount,
+                transaction = x.TransactionCount,
+                user = x.UserCount
             })
             .ToList();
 
@@ -54,12 +57,15 @@ namespace EprojectSem3.Areas.Admin.Controllers
         [Route("GetChartDataBySelect")]
         public IActionResult GetChartDataBySelect(DateTime startDate, DateTime endDate)
         {
-            var data = _context.Transactions
-            .Where(x => x.PaymentDate >= startDate && x.PaymentDate <= endDate)
+            var data = _context.Statisticals
+            .Where(x => x.CreatedAt >= startDate && x.CreatedAt <= endDate)
             .Select(x => new
             {
-                date = x.PaymentDate.Value.ToString("yyyy-MM-dd"),
-                price = x.Amount
+                date = x.CreatedAt.Value.ToString("yyyy-MM-dd"),
+                price = x.PriceCount,
+                listing = x.ListingCount,
+                transaction = x.TransactionCount,
+                user = x.UserCount
             })
             .ToList();
 

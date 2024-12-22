@@ -1,6 +1,7 @@
 ﻿using BussinessLogicLayer_BLL.Services;
 using DataAccessLayer_DAL.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Realtors_Portal.Services;
@@ -92,6 +93,33 @@ namespace Realtors_Portal.Controllers
                         await _context.SaveChangesAsync();
                     }
 
+					if (transaction.IsPaid == true)
+					{
+						var Statistical = await _context.Statisticals
+							.FirstOrDefaultAsync(x => x.CreatedAt.Value.Date == transaction.PaymentDate.Value.Date);
+
+						if(Statistical != null)
+						{
+							Statistical.TransactionCount += 1;
+							Statistical.PriceCount += transaction.Amount;
+							_context.Update(Statistical);
+						}
+						else
+						{
+							int TransactionCount = 1;
+							decimal PriceCount = transaction.Amount;
+
+							Statistical = new Statistical
+							{
+								TransactionCount = TransactionCount,
+								PriceCount = PriceCount,
+                                CreatedAt = transaction.PaymentDate,
+								ListingCount = 0,
+								UserCount = 0
+                            };
+							_context.Add(Statistical);
+                        }
+                    }
 
                     // check UserSubscription 
                     var existingUserSubscription = await _context.UserSubscriptions
@@ -148,8 +176,5 @@ namespace Realtors_Portal.Controllers
 		{
 			return View();
 		}
-
-
-
 	}
 }

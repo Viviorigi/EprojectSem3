@@ -139,8 +139,6 @@ namespace EprojectSem3.Controllers
             return View();
         }
 
-
-
         public async Task<IActionResult> Checkout(int? id)
         {
             if (id == null)
@@ -187,6 +185,7 @@ namespace EprojectSem3.Controllers
                     PhoneNumber = model.PhoneNumber,
                     Address = model.Address,
                     Role = model.Role,
+                    CreatedAt = DateTime.Now,
                     Image = "/images/users.png",
                     Status = 0
                 };
@@ -194,6 +193,31 @@ namespace EprojectSem3.Controllers
                 // Save to database
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
+
+                //add data to Statistical
+                var Statistical = await _context.Statisticals
+                                .FirstOrDefaultAsync(x => x.CreatedAt.Value.Date == user.CreatedAt.Value.Date);
+
+                if (Statistical != null)
+                {
+                    Statistical.UserCount += 1;
+                    _context.Update(Statistical);
+                }
+                else
+                {
+                    int UserCount = 1;
+
+                    Statistical = new Statistical
+                    {
+                        TransactionCount = 0,
+                        PriceCount = 0,
+                        CreatedAt = user.CreatedAt,
+                        ListingCount = 0,
+                        UserCount = UserCount
+                    };
+                    _context.Add(Statistical);
+                }
+
                 string verificationUrl = Url.Action("VerifyAccount", "Home", new { email = model.Email }, protocol: Request.Scheme);
 
                 // Create the email subject and body

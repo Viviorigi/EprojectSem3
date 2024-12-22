@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer_DAL.Models;
 using DataAccessLayer_DAL.Repositories;
+using System.Reflection;
 
 namespace EprojectSem3.Areas.Admin.Controllers
 {
@@ -40,7 +41,6 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 new { Value = 2, Text = "Admin" }
             }, "Value", "Text");
 
-
             return View();
         }
 
@@ -65,9 +65,40 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     }
                 }
 
+                if (user.Image ==  null)
+                {
+                    user.Image = "images/users.png";
+                }
+
                 if (ModelState.IsValid)
                 {
+                    user.CreatedAt = DateTime.Now; 
                     await _userRepository.AddUserAsync(user);
+
+                    //add data to Statistical
+                    var Statistical = await _context.Statisticals
+                                    .FirstOrDefaultAsync(x => x.CreatedAt.Value.Date == user.CreatedAt.Value.Date);
+
+                    if (Statistical != null)
+                    {
+                        Statistical.UserCount += 1;
+                        _context.Update(Statistical);
+                    }
+                    else
+                    {
+                        int UserCount = 1;
+
+                        Statistical = new Statistical
+                        {
+                            TransactionCount = 0,
+                            PriceCount = 0,
+                            CreatedAt = user.CreatedAt,
+                            ListingCount = 0,
+                            UserCount = UserCount
+                        };
+                        _context.Add(Statistical);
+                    }
+
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -124,7 +155,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FullName,Email,Password,PhoneNumber,Address,Role,Status")] User user, IFormFile? file)
+        public async Task<IActionResult> Edit(int id, User user, IFormFile? file)
         {
             if (file != null && file.Length > 0)
             {
@@ -166,6 +197,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     existingUser.Role = user.Role;
                     existingUser.Status = user.Status;
                     existingUser.Image = user.Image;
+                    existingUser.UpdatedAt = DateTime.Now;
 
                     // Check if password is being changed and hash it
                     if (!BCrypt.Net.BCrypt.Verify(user.Password, existingUser.Password))
@@ -176,6 +208,31 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     try
                     {
                         await _userRepository.UpdateUserAsync(existingUser);
+
+                        //add data to Statistical
+                        var Statistical = await _context.Statisticals
+                                        .FirstOrDefaultAsync(x => x.CreatedAt.Value.Date == user.CreatedAt.Value.Date);
+
+                        if (Statistical != null)
+                        {
+                            Statistical.UserCount += 1;
+                            _context.Update(Statistical);
+                        }
+                        else
+                        {
+                            int UserCount = 1;
+
+                            Statistical = new Statistical
+                            {
+                                TransactionCount = 0,
+                                PriceCount = 0,
+                                CreatedAt = existingUser.CreatedAt,
+                                ListingCount = 0,
+                                UserCount = UserCount
+                            };
+                            _context.Add(Statistical);
+                        }
+
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateConcurrencyException)

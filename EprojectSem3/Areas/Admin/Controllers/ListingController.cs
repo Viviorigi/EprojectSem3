@@ -1,5 +1,4 @@
-﻿
-using DataAccessLayer_DAL.Models;
+﻿using DataAccessLayer_DAL.Models;
 using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,38 +17,38 @@ namespace EprojectSem3.Areas.Admin.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly ICityRepository _cityRepository;
         private readonly IImageRepository _imageRepository;
-        public ListingController(AppDbContext context , IListingRepository service , ICategoryRepository categoryRepository , ICityRepository cityRepository , IImageRepository imageRepository)
+        public ListingController(AppDbContext context, IListingRepository service, ICategoryRepository categoryRepository, ICityRepository cityRepository, IImageRepository imageRepository)
         {
             _context = context;
             _imageRepository = imageRepository;
             _listingRepository = service;
             _categoryRepository = categoryRepository;
-            _cityRepository = cityRepository;   
+            _cityRepository = cityRepository;
         }
         // GET: ListingController
         public async Task<IActionResult> Index()
         {
             Console.WriteLine(Request.Cookies["NameIdentifier"]);
-           var listings = await _listingRepository.GetAllListingAsync();
+            var listings = await _listingRepository.GetAllListingAsync();
             return View(listings);
         }
 
-		// GET: ListingController/Details/5
-		public async Task<IActionResult> Details(int id)
-		{
-			var listing = await _listingRepository.GetListingByIdAsync(id);
-			var image = await _imageRepository.GetImageByListingIdAsync(id);
-			ViewBag.image = image;
-
-			Console.WriteLine(ViewBag.image);
-
-			return View(listing);
-		}
-
-		// GET: ListingController/Create
-		public async Task<ActionResult> Create()
+        // GET: ListingController/Details/5
+        public async Task<IActionResult> Details(int id)
         {
-            ViewBag.categories = new SelectList( await _categoryRepository.GetAllCategoryAsync(),"CategoryId","Name");
+            var listing = await _listingRepository.GetListingByIdAsync(id);
+            var image = await _imageRepository.GetImageByListingIdAsync(id);
+            ViewBag.image = image;
+
+            Console.WriteLine(ViewBag.image);
+
+            return View(listing);
+        }
+
+        // GET: ListingController/Create
+        public async Task<ActionResult> Create()
+        {
+            ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
             ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
             ViewBag.showContact = new SelectList(new[]
               {
@@ -64,31 +63,31 @@ namespace EprojectSem3.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Listing listing, IFormFile file, IFormFile[] files)
         {
-			if (file != null && file.Length > 0)
-			{
+            if (file != null && file.Length > 0)
+            {
 
-				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
-				listing.Image = "images/" + file.FileName;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+                listing.Image = "images/" + file.FileName;
 
-				using (var fileStream = new FileStream(filePath, FileMode.Create))
-				{
-					await file.CopyToAsync(fileStream);
-				}
-			}
-			else
-			{
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            else
+            {
                 TempData["msg"] = "Image is not required";
                 TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
-				ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
-				ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
-				ViewBag.showContact = new SelectList(new[]
-				 {
-					new { Value = 0, Text = "Hide" },
-					new { Value = 1, Text = "Show" },
-				}, "Value", "Text");
-				return View(listing);
-			}
-			if (!ModelState.IsValid)
+                ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+                ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+                ViewBag.showContact = new SelectList(new[]
+                 {
+                    new { Value = 0, Text = "Hide" },
+                    new { Value = 1, Text = "Show" },
+                }, "Value", "Text");
+                return View(listing);
+            }
+            if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors)
                                    .Select(e => e.ErrorMessage);
@@ -106,11 +105,34 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 }, "Value", "Text");
                 return View(listing);
             }
-            
+
             listing.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-			listing.CreatedAt = DateTime.Now;
-            listing.UpdatedAt = DateTime.Now;
+            listing.CreatedAt = DateTime.Now;
             await _listingRepository.AddListingAsync(listing);
+
+            //add data to Statistical
+            var Statistical = await _context.Statisticals
+                            .FirstOrDefaultAsync(x => x.CreatedAt.Value.Date == listing.CreatedAt.Value.Date);
+
+            if (Statistical != null)
+            {
+                Statistical.ListingCount += 1;
+                _context.Update(Statistical);
+            }
+            else
+            {
+                int ListingCount = 1;
+
+                Statistical = new Statistical
+                {
+                    TransactionCount = 0,
+                    PriceCount = 0,
+                    CreatedAt = listing.CreatedAt,
+                    ListingCount = ListingCount,
+                    UserCount = 0
+                };
+                _context.Add(Statistical);
+            }
 
             if (files != null && files.Length > 0)
             {
@@ -139,14 +161,14 @@ namespace EprojectSem3.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var listing = await _listingRepository.GetListingByIdAsync(id);
-            if(listing == null)
+            if (listing == null)
             {
-				TempData["msg"] = "Listing does not exist";
+                TempData["msg"] = "Listing does not exist";
                 TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
                 return RedirectToAction("Index");
-			}
-			ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
-			ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+            }
+            ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+            ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
             ViewBag.showContact = new SelectList(new[]
              {
                 new { Value = 0, Text = "Hide" },
@@ -154,28 +176,28 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }, "Value", "Text");
             return View(listing);
 
-		}
+        }
 
         // POST: ListingController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Listing listing, IFormFile? file, IFormFile[] files )
+        public async Task<ActionResult> Edit(Listing listing, IFormFile? file, IFormFile[] files)
         {
             //var data = await _listingRepository.GetListingByIdAsync(listing.ListingId);
             //Console.WriteLine(data.Image);
-			if (file != null && file.Length > 0)
-			{
+            if (file != null && file.Length > 0)
+            {
 
-				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
-				listing.Image = "images/" + file.FileName;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+                listing.Image = "images/" + file.FileName;
 
-				using (var fileStream = new FileStream(filePath, FileMode.Create))
-				{
-					await file.CopyToAsync(fileStream);
-				}
-			}
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
             //listing.Image = data.Image;
-			if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors)
                                    .Select(e => e.ErrorMessage);
@@ -202,9 +224,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
             listing.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-			//var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
-			//listing.CreatedAt = listingOld.CreatedAt;
-			listing.UpdatedAt = DateTime.Now;
+            //var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
+            //listing.CreatedAt = listingOld.CreatedAt;
+            listing.UpdatedAt = DateTime.Now;
             await _listingRepository.UpdateListingAsync(listing);
 
             if (files != null && files.Length > 0)
@@ -212,7 +234,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 var imageOld = _context.Images.Where(x => x.ListingId == listing.ListingId).ToList();
                 foreach (var i in imageOld)
                 {
-                   await _imageRepository.AddImageAsync(i);
+                    await _imageRepository.AddImageAsync(i);
                 }
                 foreach (IFormFile i in files)
                 {
@@ -228,40 +250,40 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     }
                 }
             }
-			TempData["msg"] = "Create listing succsessful";
+            TempData["msg"] = "Create listing succsessful";
             TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
 
             return RedirectToAction("Index");
-		}
+        }
 
         // GET: ListingController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-			var listing = await _listingRepository.GetListingByIdAsync(id);
-			if (listing != null)
-			{
-				await _listingRepository.DeleteListingAsync(id);
+            var listing = await _listingRepository.GetListingByIdAsync(id);
+            if (listing != null)
+            {
+                await _listingRepository.DeleteListingAsync(id);
 
-				TempData["msg"] = "Delete Listing successful";
+                TempData["msg"] = "Delete Listing successful";
                 TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
                 return RedirectToAction("Index");
 
-			}
-			TempData["msg"] = "Existing posts cannot be deleted.";
+            }
+            TempData["msg"] = "Existing posts cannot be deleted.";
             TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
             return View("index");
-		}
+        }
 
         public async Task<IActionResult> Search(string? keyword)
         {
-          var listing = await _listingRepository.Search(keyword);
-          if(listing == null)
+            var listing = await _listingRepository.Search(keyword);
+            if (listing == null)
             {
-				TempData["msg"] = "Search results do not exist";
+                TempData["msg"] = "Search results do not exist";
                 TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
                 return RedirectToAction("Index");
             }
-          return View(listing);
+            return View(listing);
         }
 
     }

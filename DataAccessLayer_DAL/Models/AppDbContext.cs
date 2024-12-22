@@ -19,6 +19,7 @@ namespace  DataAccessLayer_DAL.Models
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Statistical> Statisticals { get; set; }
 
     }
 }

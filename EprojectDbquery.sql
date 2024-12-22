@@ -42,11 +42,11 @@ CREATE TABLE Users (
     Role TINYINT NOT NULL,
     Status TINYINT NOT NULL,
     SubscriptionId INT,
-	image varchar(255) NULL,
+	Image varchar(255) NULL,
 	ResetPasswordToken NVARCHAR(255),
 	ResetTokenExpiration DATETIME,
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    UpdatedAt DATETIME DEFAULT GETDATE(),
+    CreatedAt DATETIME,
+    UpdatedAt DATETIME,
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
 );
 
@@ -124,8 +124,15 @@ CREATE TABLE Contacts (
 	Subject VARCHAR(255) NOT NULL,
 	Content TEXT,
 	Reply TEXT
-)
-
+);
+CREATE TABLE Statisticals (
+	StatisticalId INT IDENTITY(1,1) PRIMARY KEY,
+	ListingCount INT,
+	TransactionCount INT,
+	UserCount INT,
+	PriceCount DECIMAL(18,2),
+	CreatedAt DATETIME
+);
 ALTER TABLE Listings
 ADD ContactViaForm TINYINT DEFAULT 0;
 

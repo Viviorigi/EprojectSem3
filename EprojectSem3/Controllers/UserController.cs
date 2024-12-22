@@ -92,6 +92,7 @@ namespace EprojectSem3.Controllers
                     existingUser.Status = user.Status;
                     existingUser.Password = user.Password;
                     existingUser.Image = user.Image;
+                    existingUser.UpdatedAt = DateTime.Now;
                     _context.Users.Update(existingUser);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index");

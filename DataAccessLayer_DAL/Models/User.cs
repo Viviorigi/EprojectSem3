@@ -42,13 +42,14 @@ namespace DataAccessLayer_DAL.Models
 
 		public DateTime? ResetTokenExpiration { get; set; }
 
-		// Navigation property
-		public Subscription? Subscription { get; set; }
+        public DateTime? CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+
+        // Navigation property
+        public Subscription? Subscription { get; set; }
         public ICollection<Listing>? Listings { get; set; }
         public ICollection<UserSubscription>? UserSubscriptions { get; set; }
-
         public ICollection<Transaction>? Transactions { get; set; }
     }
-
-
 }
