@@ -105,7 +105,7 @@
                                         <td>
                                             <div class="action">
                                                 <a asp-action="Detail" asp-controller="Listing" asp-route-id="@item.ListingId" class="action-btn btn-view"><i class="feather-eye"></i></a>
-                                                <a href="javascript:void(0)" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
+                                                <a asp-controller="Listing" asp-action="Edit" asp-route-id="@item.ListingId" class="action-btn btn-edit"><i class="feather-edit-3"></i></a>
                                                 <a class="delete-table" data-id="@item.ListingId" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
                                                     <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
                                                 </a>
@@ -205,4 +205,17 @@
         });
     });
 
+</script>
+<script>
+    // Kiểm tra TempData để hiển thị thông báo
+    const message = '@TempData["msg"]';
+    const alertType = '@TempData["AlertType"]';
+
+    if (message) {
+        Swal.fire({
+            icon: alertType || 'info', // Loại alert: success, error, warning, info
+            title: 'Notification',
+            text: message,
+        });
+    }
 </script>

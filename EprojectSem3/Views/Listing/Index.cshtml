@@ -70,9 +70,9 @@
 							<span class="sortbytitle">Sort by</span>
 							<div class="sorting-select">
 								<select name="sort" id="sortSelect" onchange="submitSortForm()" class="form-control select sorting-select">
-									<option value="0">Default</option>
-									<option value="1">Price Low to High</option>
-									<option value="2">Price High to Low</option>
+									<!option @(ViewBag.sort == "0" ? "selected" : "") value="0">Default</!option>
+									<!option @(ViewBag.sort == "Price_des" ? "selected" : "") value="Price_des">Price Low to High</!option>
+									<!option @(ViewBag.sort == "Price_asc" ? "selected" : "") value="Price_asc">Price High to Low</!option>
 								</select>
 							</div>
 						</div>
@@ -151,7 +151,7 @@
 							<ul class="pagination justify-content-center">
 								<!-- Previous button -->
 								<li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-									<a class="page-link" href="?page=@(Model.PageNumber - 1)" aria-label="Previous">
+									<a class="page-link" href="?cateId=@cateId&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@ViewBag.keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@(Model.PageNumber - 1)" aria-label="Previous">
 										&lt;
 									</a>
 								</li>
@@ -160,7 +160,7 @@
 								@for (int i = 1; i <= Model.PageCount; i++)
 								{
 									<li class="page-item @(Model.PageNumber == i ? "active" : "")">
-										<a class="page-link" href="?page=@i">@i</a>
+										<a class="page-link" href="?cateId=@cateId&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@i">@i</a>
 									</li>
 								}
 
@@ -174,7 +174,7 @@
 
 								<!-- Next button -->
 								<li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-									<a class="page-link" href="?page=@(Model.PageNumber + 1)" aria-label="Next">
+									<a class="page-link" href="?cateId=@cateId;&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@(Model.PageNumber + 1)" aria-label="Next">
 										&gt;
 									</a>
 								</li>
@@ -199,8 +199,7 @@
 	   }
     </script>
 	
-});
+}
 
 		
 
-}

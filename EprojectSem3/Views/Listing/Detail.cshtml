@@ -96,8 +96,12 @@
 						<ul>
 							<li>Contract <span>@Model.Category.Name</span></li>
 							<li>Location <span>@Model.City.Name</span></li>
-							<li>Email <span>@Model.User.Email</span></li>
-							<li>Phone <span>@Model.User.PhoneNumber</span></li>
+							@if(Model.ContactViaForm == 1)
+							{
+								<li>Email <span>@Model.User.Email</span></li>
+								<li>Phone <span>@Model.User.PhoneNumber</span></li>
+							}
+							
 							
 						</ul>
 					</div>

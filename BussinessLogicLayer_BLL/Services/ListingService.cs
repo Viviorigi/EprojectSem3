@@ -42,7 +42,7 @@ namespace BussinessLogicLayer_BLL.Services
 			return await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).ToListAsync(); 
 		}
 
-        public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, int? sort)
+        public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, string? sort)
         {
 
             int pageSize = 8;
@@ -70,8 +70,8 @@ namespace BussinessLogicLayer_BLL.Services
 			}
 			listings = sort switch
 			{
-				1 => listings.OrderBy(x => x.Price),
-				2 => listings.OrderByDescending(x => x.Price),
+				"Price_des" => listings.OrderBy(x => x.Price),
+				"Price_asc" => listings.OrderByDescending(x => x.Price),
 				_ => listings.OrderByDescending(x => x.Priority)
 			};
             return await listings.ToPagedListAsync(pageNumber , pageSize);

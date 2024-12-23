@@ -113,7 +113,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }
             TempData["msg"] = "Existing posts cannot be deleted.";
             TempData["AlertType"] = "error";
-            return View("index");
+            return RedirectToAction("index");
         }
     }
 }

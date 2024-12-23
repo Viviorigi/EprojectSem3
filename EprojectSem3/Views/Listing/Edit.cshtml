@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewData["Title"] = "Edit Listing";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model DataAccessLayer_DAL.Models.Listing
+
+<!-- Breadscrumb Section -->
+<div class="breadcrumb-bar">
+	<div class="container">
+		<div class="row align-items-center text-center">
+			<div class="col-md-12 col-12">
+				<h2 class="breadcrumb-title">Add Listing</h2>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Breadscrumb Section -->
+<!-- Profile Content -->
+<div class="dashboard-content listing-section ">
+	<div class="container">
+		<div class="profile-content">
+			<form asp-controller="Listing" asp-action="Edit" method="post" enctype="multipart/form-data">
+				<input type="hidden" asp-for="CreatedAt" />
+				<div class="messages-form">
+					<div class="card">
+						<div class="card-header">
+							<h4>Basic information </h4>
+							<div class="alert alert-info">
+								<p>You can create <strong>@ViewBag.RemainingAds</strong> more ads under your current subscription.</p>
+								<p>Your subscription is valid for <strong>@ViewBag.RemainingDays</strong> more days.</p>
+							</div>
+						</div>
+						@if (TempData["err"] != null)
+						{
+							<div class="alert alert-danger">
+								@TempData["err"]
+							</div>
+						}
+
+						@if (TempData["msg"] != null)
+						{
+							<div class="alert alert-success">
+								@TempData["msg"]
+							</div>
+						}
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-set">
+										<label class="col-form-label">Listing Title <span>*</span></label>
+										<input type="text" asp-for="Title" class="form-control pass-input" placeholder="Title">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-set">
+										<label class="col-form-label">Price <span>*</span></label>
+										<input type="number" asp-for="Price" class="form-control pass-input" placeholder="Title">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-set">
+										<label class="col-form-label">Category <span>*</span></label>
+										<select asp-for="CategoryId" asp-items="ViewBag.categories" class="select form-control">
+										</select>
+
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-set">
+										<label class="col-form-label">City <span>*</span></label>
+										<select asp-for="CityId" asp-items="ViewBag.city" class="select form-control">
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-set">
+										<label class="col-form-label">Status <span>*</span></label>
+										<ul class="custom-radiosbtn d-flex justify-content-evenly">
+											<li>
+												<label class="radiossets d-flex align-center">
+													<input type="radio" asp-for="Status" checked="checked" value="1" style="margin-right: 10px">
+													Active
+
+													<span class="checkmark-radio"></span>
+												</label>
+											</li>
+											<li>
+												<label class="radiossets d-flex align-center">
+													<input type="radio" asp-for="Status" value="0" style="margin-right: 10px">
+													Inactive
+
+													<span class="checkmark-radio"></span>
+												</label>
+											</li>
+										</ul>
+									</div>
+								</div>
+								@if (ViewBag.User.Role == 1)
+								{
+									<div class="col-md-12 mb-3">
+										<label class="col-form-label">ShowContact <span>*</span></label>
+										<select asp-for="ContactViaForm" class="form-control">
+											<option value="">Show Contact</option>
+											@foreach (var contact in ViewBag.showContact)
+											{
+												<option value="@contact.Value">@contact.Text</option>
+											}
+										</select>
+										<span asp-validation-for="ContactViaForm" class="text-danger"></span>
+									</div>
+								}
+								<div class="col-md-12">
+									<label class="col-form-label">Listing Description <span>*</span></label>
+									<textarea id="editor1" asp-for="Description" class="form-control" placeholder="Listing Name"></textarea>
+								</div>
+								<div class="col-md-6">
+									<div class="sub-title m-3">
+										<h6>Image</h6>
+									</div>
+									<div class="form-uploads mb-4">
+										<div class="form-uploads-path" style="background:#ffffff; border: 1px solid #E3E3E3; border-radius:10px; padding:30px; text-align:center ">
+											<img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
+											<div class="file-browse d-flex align-center justify-content-center">
+												<h6>Drag &amp; drop image or </h6>
+												<div class="file-browse-path position-relative" style="cursor:pointer">
+													<input type="file" name="file" id="singleFileInput" style="opacity:0; max-width:60px;position:relative;z-index:9;cursor:pointer">
+													<a href="javascript:void(0);" style="position:absolute;left:6px;top:10px;font-size:14px;font-weight:700;color:#C10037; text-decoration:underline;z-index:1;cursor:pointer"> Browse</a>
+												</div>
+											</div>
+											<h5>Supported formates: JPEG, PNG</h5>
+											<div id="singleFilePreview" class="preview-container"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="sub-title m-3">
+										<h6>Images</h6>
+									</div>
+									<div class="form-uploads mb-4">
+										<div class="form-uploads-path" style="background:#ffffff; border: 1px solid #E3E3E3; border-radius:10px; padding:30px; text-align:center ">
+											<img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
+											<div class="file-browse d-flex align-center justify-content-center">
+												<h6>Drag &amp; drop image or </h6>
+												<div class="file-browse-path position-relative" style="cursor:pointer">
+													<input type="file" name="files" id="multiFileInput" multiple style="opacity:0; max-width:60px;position:relative;z-index:9;cursor:pointer">
+													<a href="javascript:void(0);" style="position:absolute;left:6px;top:10px;font-size:14px;font-weight:700;color:#C10037; text-decoration:underline;z-index:1;cursor:pointer"> Browse</a>
+												</div>
+											</div>
+											<h5>Supported formates: JPEG, PNG</h5>
+											<div id="multiFilePreview" class="preview-container"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<button class="btn btn-primary " type="submit"> Submit</button>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- /Profile Content -->
+@section Scripts {
+	<script>
+		CKEDITOR.replace( 'editor1' );
+	</script>
+	<style>
+		.preview-image {
+			max-width: 100px;
+			max-height: 100px;
+			margin: 5px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+		}
+
+		.preview-container {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+	</style>
+	<script>
+		// Hiển thị ảnh từ input đơn
+		document.getElementById('singleFileInput').addEventListener('change', function (event) {
+			const previewContainer = document.getElementById('singleFilePreview');
+			previewContainer.innerHTML = ''; // Xóa preview cũ
+			const file = event.target.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function (e) {
+					const img = document.createElement('img');
+					img.src = e.target.result;
+					img.alt = file.name;
+					img.className = 'preview-image';
+					previewContainer.appendChild(img);
+				};
+				reader.readAsDataURL(file);
+			}
+		});
+
+		// Hiển thị ảnh từ input nhiều file
+		document.getElementById('multiFileInput').addEventListener('change', function (event) {
+			const previewContainer = document.getElementById('multiFilePreview');
+			previewContainer.innerHTML = ''; // Xóa preview cũ
+			const files = event.target.files;
+			Array.from(files).forEach(file => {
+				if (file) {
+					const reader = new FileReader();
+					reader.onload = function (e) {
+						const img = document.createElement('img');
+						img.src = e.target.result;
+						img.alt = file.name;
+						img.className = 'preview-image';
+						previewContainer.appendChild(img);
+					};
+					reader.readAsDataURL(file);
+				}
+			});
+		});
+	</script>
+}
