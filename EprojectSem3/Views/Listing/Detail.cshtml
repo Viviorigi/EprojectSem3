@@ -1,9 +1,8 @@
-﻿
+﻿@model DataAccessLayer_DAL.Models.Listing
 @{
 	ViewData["Title"] = "Detail";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model DataAccessLayer_DAL.Models.Listing
 
 <!--Details Description  Section-->
 <section class="details-description" style="margin-top: 80px;">
@@ -11,7 +10,7 @@
 		<div class="about-details">
 			<div class="about-headings">
 				<div class="author-img">
-					<img src="/@Model.User.Image" alt="authorimg">
+					<img src="/@Model.User.Image">
 				</div>
 				<div class="authordetails">
 					<h5>@Model.Title</h5>
@@ -49,21 +48,6 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card ">
-					<div class="card-header">
-						<span class="bar-icon">
-							<span></span>
-							<span></span>
-							<span></span>
-						</span>
-						<h4>Description</h4>
-					</div>
-					<div class="card-body">
-						@Html.Raw(Model.Description)
-					</div>
-				</div>
-
-				
 				<!--Gallery Section-->
 				<div class="card gallery-section ">
 					<div class="card-header ">
@@ -90,10 +74,22 @@
 					</div>
 				</div>
 				<!--/Gallery Section-->
-				
 
+				<div class="card ">
+					<div class="card-header">
+						<span class="bar-icon">
+							<span></span>
+							<span></span>
+							<span></span>
+						</span>
+						<h4>Description</h4>
+					</div>
+					<div class="card-body">
+						@Html.Raw(Model.Description)
+					</div>
+				</div>
 			</div>
-			<div class="col-lg-3 theiaStickySidebar">
+			<div class="col-lg-3">
 				<div class="rightsidebar">
 					<div class="card">
 						<h4><img src="~/assets/img/details-icon.svg" alt="details-icon"> Details</h4>

@@ -58,6 +58,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         public IActionResult GetChartDataBySelect(DateTime startDate, DateTime endDate)
         {
             var data = _context.Statisticals
+            .Where(x => x.ListingCount + x.TransactionCount + x.UserCount > 0)
             .Where(x => x.CreatedAt >= startDate && x.CreatedAt <= endDate)
             .Select(x => new
             {
@@ -92,6 +93,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         public IActionResult GetChartDataBySelect2(DateTime startDate, DateTime endDate)
         {
             var data = _context.Statisticals
+            .Where(x => x.PriceCount > 0)
             .Where(x => x.CreatedAt >= startDate && x.CreatedAt <= endDate)
             .Select(x => new
             {

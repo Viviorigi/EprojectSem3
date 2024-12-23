@@ -31,6 +31,68 @@ namespace EprojectSem3.Controllers
                 return NotFound();
             }
 
+            var count_listing = _context.Listings.Where(x => x.Status == 1).Where(x => x.UserId == id).Count();
+            ViewBag.CountListing = count_listing;
+
+            var u = await _context.Users
+                .Include(u => u.Subscription)
+                .Include(u => u.Listings)
+                .FirstOrDefaultAsync(m => m.UserId == id);
+
+            if (u == null)
+            {
+                return NotFound();
+            }
+            return View(u);
+        }
+
+        [HttpPost]
+        [Route("GetChartData3")]
+        public async Task<IActionResult> GetChartData3()
+        {
+            var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var data = _context.Listings
+            .Where(x => x.Status == 1 && x.UserId == id && x.CreatedAt.HasValue)
+            .GroupBy(x => new { Year = x.CreatedAt.Value.Year, Month = x.CreatedAt.Value.Month })
+            .Select(x => new
+            {
+                date = x.Key.Year + "-" + x.Key.Month.ToString("D2"),
+                listing = x.Count()
+
+            })
+            .ToList();
+
+            return Json(data);
+        }
+
+        //[HttpPost]
+        //[Route("GetChartDataBySelect3")]
+        //public IActionResult GetChartDataBySelect3(DateTime startDate, DateTime endDate)
+        //{
+        //    var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+        //    var data = _context.Listings
+        //    .Where(x => x.Status == 1)
+        //    .Where(x => x.UserId == id)
+        //    .Select(x => new
+        //    {
+        //        date = x.CreatedAt.Value.ToString("yyyy-MM-dd"),
+        //        listing = _context.Listings.Where(x => x.Status == 1).Where(x => x.UserId == id).Count()
+        //    })
+        //    .ToList();
+
+        //    return Json(data);
+        //}
+
+        public async Task<IActionResult> Detail()
+        {
+            var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var u = await _context.Users
                 .Include(u => u.Subscription)
                 .Include(u => u.Listings)
@@ -46,7 +108,7 @@ namespace EprojectSem3.Controllers
         //Update&Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(User user,
+        public async Task<IActionResult> Detail(User user,
             IFormFile? file)
         {
             if (file != null && file.Length > 0)

@@ -1,8 +1,7 @@
 ﻿@model DataAccessLayer_DAL.Models.User
 @{
-    ViewData["Title"] = "Detail User";
+    ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var img = Model.Image;
 }
 
 <!-- Breadscrumb Section -->
@@ -10,22 +9,24 @@
     <div class="container">
         <div class="row align-items-center text-center">
             <div class="col-md-12 col-12">
-                <h2 class="breadcrumb-title">Profile</h2>
+                <h2 class="breadcrumb-title">Dashboard</h2>
             </div>
         </div>
     </div>
 </div>
 <!-- /Breadscrumb Section -->
-<!-- Profile Content -->
-<div class="dashboard-content listing-section ">
+<!-- Dashboard Content -->
+<div class="dashboard-content">
     <div class="container">
         <div class="">
             <ul class="dashborad-menus">
                 <li>
-                    @{
-                        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-                    }
                     <a asp-controller="User" asp-action="Index">
+                        <i class="fa-solid fa-user"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="Detail">
                         <i class="fa-solid fa-user"></i> <span>Profile</span>
                     </a>
                 </li>
@@ -46,91 +47,169 @@
                 </li>
             </ul>
         </div>
-        <div class="profile-content">
-            <div class="row dashboard-info  d-flex justify-content-center">
-                <div class="col-lg-11">
-                    <div class="card dash-cards"> 
-                        <form asp-controller="User" asp-action="Index" method="post" enctype="multipart/form-data">
-                            <div class="card-header">
-                                <h4>Profile Details</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="profile-photo">
-                                    <div class="profile-img">
-                                        <div class="settings-upload-img">
-                                            <img src="/@img" alt="profile">
-                                        </div>
-                                        <div class="settings-upload-btn">
-                                            <input type="file" name="file" class="hide-input image-upload" id="file">
-                                            <label for="file" class="file-upload">Upload New photo</label>
-                                        </div>
-                                        <span>Max file size: 10 MB</span>
-                                    </div>
-                                </div>
-                                <div class="profile-form">
-                                    <input type="hidden" asp-for="UserId" />
-                                    <input type="hidden" asp-for="Role" />
-                                    <input type="hidden" asp-for="Status" />
-                                    <input type="hidden" asp-for="Password" />
-                                    <input type="hidden" asp-for="Image" />
-                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                    @if (!ViewData.ModelState.IsValid)
-                                    {
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                                                {
-                                                    <li>@error.ErrorMessage</li>
-                                                }
-                                            </ul>
-                                        </div>
-                                    }
-                                    <div class="form-set">
-                                        <label class="col-form-label">Your Full Name</label>
-                                        <div class="pass-group group-img">
-                                            <span class="lock-icon"><i class="feather-user"></i></span>
-                                            <input type="text" class="form-control" asp-for="FullName">
-                                            <span asp-validation-for="FullName" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-set">
-                                                <label class="col-form-label">Phone Number</label>
-                                                <div class="pass-group group-img">
-                                                    <span class="lock-icon"><i class="feather-phone-call"></i></span>
-                                                    <input type="text" class="form-control" asp-for="PhoneNumber">
-                                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="form-set">
-                                                <label class="col-form-label">Email Address</label>
-                                                <div class="group-img">
-                                                    <i class="feather-mail"></i>
-                                                    <input type="text" class="form-control" asp-for="Email">
-                                                    <span asp-validation-for="Email" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-set">
-                                        <label class="col-form-label">Addres</label>
-                                        <div class="pass-group group-img">
-                                            <textarea rows="2" class="form-control" asp-for="Address"></textarea>
-                                            <span asp-validation-for="Address" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary" type="submit" value="save">Update</button>
-
+        <div class="dashboard-details">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="card dash-cards">
+                        <div class="card-body">
+                            <div class="dash-top-content">
+                                <div class="dashcard-img">
+                                    <img src="~/assets/img/icons/verified.svg" class="img-fluid" alt="">
                                 </div>
                             </div>
-                        </form>
+                            <div class="dash-widget-info">
+                                <h6>Active Listing</h6>
+                                <h3 class="counter">@ViewBag.CountListing</h3>
+                            </div>
+                        </div>
                     </div>
-                </div>              
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="card dash-cards">
+                        <div class="card-body">
+                            <div class="dash-top-content">
+                                <div class="dashcard-img">
+                                    <img src="~/assets/img/icons/rating.svg" class="img-fluid" alt="">
+                                </div>
+                            </div>
+                            <div class="dash-widget-info">
+                                <h6>Total Reviews</h6>
+                                <h3>No Data</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="card dash-cards">
+                        <div class="card-body">
+                            <div class="dash-top-content">
+                                <div class="dashcard-img">
+                                    <img src="~/assets/img/icons/chat.svg" class="img-fluid" alt="">
+                                </div>
+                            </div>
+                            <div class="dash-widget-info">
+                                <h6>Messages</h6>
+                                <h3>No Data</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="card dash-cards">
+                        <div class="card-body">
+                            <div class="dash-top-content">
+                                <div class="dashcard-img">
+                                    <img src="~/assets/img/icons/bookmark.svg" class="img-fluid" alt="">
+                                </div>
+                            </div>
+                            <div class="dash-widget-info">
+                                <h6>Bookmark</h6>
+                                <h3>No Data</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row dashboard-info">
+                <div class="card dash-cards">
+                    <div class="card-header">
+                        <h4>Page Views</h4>
+                        @* <select class="btn filter-select3">
+                            <option>Filter</option>
+                            <option value="1">Day</option>
+                            <option value="7">Week</option>
+                            <option value="30">Month</option>
+                            <option value="90">3 Month</option>
+                            <option value="180">6 Month</option>
+                            <option value="365">Year</option>
+                        </select> *@
+                    </div>
+                    <div class="card-body">
+                        <div id="mychart" style="height: 250px;"></div>
+                        <div id="no-data-message" style="display: none; text-align: center; color: gray; font-size: 16px;">
+                            No data available to display.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- /Profile Content -->
+<!-- /Dashboard Content -->
+@section Scripts {
+    <script>
+        $(document).ready(function (){
+            var ChartMorris = new Morris.Bar({
+                 element: 'mychart',
+                 data: [],
+                 xkey: 'date',
+                 ykeys: ['listing'],
+                 labels: ["total listing"]
+            });
+
+            $.ajax({
+                url: "@Url.Action("GetChartData3", "User")",
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    if(data && data.length > 0){
+                        ChartMorris.setData(data.map(function (item) {
+                            return {
+                                date: item.date,
+                                listing: item.listing,
+                            };
+                        }));
+                        $('#no-data-message').hide();
+                    }
+                    else
+                    {
+                        $('#mychart').hide();
+                        $('#no-data-message').show();
+                    }
+                },
+                error: function (error) {
+                    console.error("Error loading data:", error);
+                    $('#mychart').hide(); // Ẩn biểu đồ nếu xảy ra lỗi
+                    $('#no-data-message').text("An error occurred while loading data.").show(); // Thông báo lỗi
+                }
+            });
+
+            // $('.filter-select3').on('change', function()
+            // {
+            //    var days = $(this).val();
+            //    var endDate = new Date();
+            //    var startDate = new Date(endDate.getTime() - days * 24 * 60 * 60 * 1000);
+            //    // alert(startDate);
+            //    // alert(endDate);
+            //    $.ajax({
+            //         url: "@Url.Action("GetChartDataBySelect2", "User")",
+            //         type: "POST",
+            //         dataType: "json",
+            //         data: {
+            //             startDate: startDate.toISOString().split('T')[0],
+            //             endDate: endDate.toISOString().split('T')[0]
+            //         },
+            //         success: function(data){
+            //             if(data){
+            //                 ChartMorris.setData(data.map(function(item)
+            //                 {
+            //                     return {
+            //                         date: item.date,
+            //                         listing: item.listing,
+            //                     };
+            //                 }));
+            //             }
+            //             else
+            //             {
+            //                 console.warn("no data.");
+            //                 ChartMorris.setData([]);
+            //             };
+            //         },
+            //         error: function(error){
+            //             console.error("Error Data", error);
+            //         }
+            //    });
+            // });
+        });
+    </script>
+}

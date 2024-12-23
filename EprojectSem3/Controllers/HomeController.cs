@@ -40,11 +40,6 @@ namespace EprojectSem3.Controllers
             return View(listingTop);
         }
 
-        public IActionResult Plan()
-        {
-            return View();
-        }
-
         public IActionResult AboutUs()
         {
             return View();
