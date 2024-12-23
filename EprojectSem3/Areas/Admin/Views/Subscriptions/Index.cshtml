@@ -12,28 +12,11 @@
     <div class="list-btn">
         <ul>
             <li>
-                <a class="btn-filters active" href="review-type.html"><i class="fe fe-list"></i> </a>
-            </li>
-            <li>
-                <a class="btn-filters" href="localization.html"><i class="fe fe-settings"></i> </a>
-            </li>
-            <li>
-                <div class="filter-sorting">
-                    <ul>
-                        <li>
-                            <a href="javascript:void(0);" class="filter-sets"><img src="~/assets/admin/assets/img/icons/filter1.svg" class="me-2" alt="img">Filter</a>
-                        </li>
-                        <li>
-                            <span><img src="~/assets/admin/assets/img/icons/sort.svg" class="me-2" alt="img"></span>
-                            <div class="review-sort">
-                                <select class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                    <option>Sort by A - Z</option>
-                                    <option>Sort by A - Z</option>
-                                </select>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <form class="d-flex " id="myForm" asp-controller="Subscriptions" asp-action="Index" method="get">
+                    <input type="text" name="keyword" placeholder="Search" value="@ViewData["Keyword"]" class="form-control me-2">
+                    <button type="submit" class="btn btn-danger active">Filter</button>
+                    <a asp-action="Index" asp-controller="Subscriptions" class="btn btn-secondary">Clear</a>
+                </form>
             </li>
             <li>
                 <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add New</a>

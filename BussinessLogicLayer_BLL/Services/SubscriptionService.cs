@@ -34,9 +34,15 @@ namespace BussinessLogicLayer_BLL.Services
             }
         }
 
-        public async Task<IEnumerable<Subscription>> GetAllSubscriptionsAsync()
+        public async Task<IEnumerable<Subscription>> GetAllSubscriptionsAsync(string? keyword)
         {
-            return await _context.Subscriptions.ToListAsync();
+            var subscriptions = _context.Subscriptions.AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                subscriptions = subscriptions.Where(c => c.Name.Contains(keyword));
+            }
+            return await subscriptions.ToListAsync();
         }
 
         public async Task<Subscription?> GetSubscriptionByIdAsync(int? id)
