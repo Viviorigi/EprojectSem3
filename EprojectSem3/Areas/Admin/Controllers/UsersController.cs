@@ -268,24 +268,57 @@ namespace EprojectSem3.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var listing = _context.Listings.FirstOrDefault(x => x.UserId == id);
-            if (listing == null)
-            {
-                var user = await _context.Users.Include(u => u.Subscription).FirstOrDefaultAsync(m => m.UserId == id);
-                if (user != null)
+		public async Task<IActionResult> Delete(int id)
+		{
+			
+				// Check for related listings (posts)
+				var listing = await _context.Listings.FirstOrDefaultAsync(x => x.UserId == id);
+				if (listing != null)
+				{
+					// If listings exist, prevent deletion and set message
+					TempData["Message"] = "User cannot be deleted because they have existing posts.";
+					return RedirectToAction("Index");
+				}
+
+				// Check for the user and their subscriptions
+				var user = await _context.Users
+					.Include(u => u.Subscription)
+					.FirstOrDefaultAsync(u => u.UserId == id);
+
+				if (user == null)
+				{
+					// If the user doesn't exist, redirect with an error message
+					TempData["Message"] = "User not found.";
+					return RedirectToAction("Index");
+				}
+
+                var subscriptionsExist = _context.UserSubscriptions.Any(s => s.UserId == id);
+                if (subscriptionsExist)
                 {
-                    await _userRepository.DeleteUserAsync(id);
-                    ViewBag.message = "Delete user successful";
+                    // If subscriptions exist, prevent deletion and set message
+                    TempData["ErrorMessage"] = "User cannot be deleted because they have active subscriptions.";
                     return RedirectToAction("Index");
                 }
-            }
-            ViewBag.message = "Existing posts cannot be deleted.";
-            return View("index");
-        }
 
-        private bool UserExists(int id)
+            var transactions = _context.Transactions.Any(s => s.UserId == id);
+            if (transactions)
+            {
+                // If subscriptions exist, prevent deletion and set message
+                TempData["ErrorMessage"] = "User cannot be deleted because they have transactions .";
+                return RedirectToAction("Index");
+            }
+
+            // Delete the user
+            await _userRepository.DeleteUserAsync(id);
+				TempData["Message"] = "User deleted successfully.";
+				return RedirectToAction("Index");
+			
+		
+		}
+
+
+
+		private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);
         }

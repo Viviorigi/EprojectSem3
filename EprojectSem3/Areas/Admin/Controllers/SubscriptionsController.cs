@@ -24,10 +24,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
         }
 
         // GET: Admin/Subscriptions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? keyword)
         {
-            var susubscription = await _subscription.GetAllSubscriptionsAsync();
-            return View(susubscription);
+            var subscription = await _subscription.GetAllSubscriptionsAsync(keyword);
+            ViewData["Keyword"] = keyword;
+            return View(subscription);
         }
 
         // GET: Admin/Subscriptions/Create

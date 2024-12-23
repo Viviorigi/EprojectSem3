@@ -9,7 +9,7 @@ namespace DataAccessLayer_DAL.Repositories
 {
     public interface ISubscriptionRepository
     {
-        Task<IEnumerable<Subscription>> GetAllSubscriptionsAsync();
+        Task<IEnumerable<Subscription>> GetAllSubscriptionsAsync(string? keyword);
         Task<Subscription?> GetSubscriptionByIdAsync(int? subscriptionId);
         Task AddSubscriptionAsync(Subscription subscription);
         Task UpdateSubscriptionAsync(Subscription subscription);
