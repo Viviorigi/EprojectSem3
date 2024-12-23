@@ -11,15 +11,6 @@
                     <h1 class="aos" data-aos="fade-up" data-aos-anchor-placement="top-bottom">Find Your Dream Home</h1>
                     <h6 class="mb-0 aos" data-aos="fade-up" data-aos-anchor-placement="top-bottom">Only real estate platform with 10,000+ highly rated sellers</h6>
                     <p class="aos" data-aos="fade-up" data-aos-delay="200">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                    <div class="banner-nine-btn-group">
-                        <a href="categories.html" class="aos" data-aos="fade-up" data-aos-delay="300">
-                            <span>Add Listing</span>
-                        </a>
-                        <a href="categories.html" class="aos" data-aos="fade-up" data-aos-delay="300">
-                            <span>Search Property</span>
-                        </a>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -40,7 +31,7 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                             <div class="search-tab-col">
-                                <form action="https://listee.dreamstechnologies.com/html/listing-grid-sidebar.html">
+                                <form>
                                     <div class="row align-items-center search-form">
                                         <div class="col-12 col-lg-10 datepicker-col search-group">
                                             <div class="row">
@@ -121,219 +112,16 @@
                                 <div class="green-logo">
                                     <img src="~/assets/img/featured/feature-text-logo.png" class="img-fluid" alt="">
                                 </div>
-                                 @* <div class="select-favourite-room">
-                                     <div class="favourite-small-user">
-                                         <img src="~/assets/img/profiles/avatar-01.jpg" class="img-fluid" alt="">
-                                     </div>
-                                     <i class="fa-solid fa-heart"></i>
-                                 </div> *@
-                                
                                  <div class="home-img-text">
-                                    @*<div class="star-rated">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <span>2.8</span>
-                                    </div> *@
                                     <h3><a asp-controller="Listing" asp-action="Detail" asp-route-id ="@l.ListingId" >@l.Title</a></h3>
                                     <span>$ @string.Format("{0:N2}", @l.Price)</span>
-                                    @* <div class="top-room-details">
-                                        <div class="area">
-                                            <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                        </div>
-                                        <div class="area">
-                                            <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                        </div>
-                                        <div class="area">
-                                            <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                        </div>
-                                    </div> *@
                                     <div class="house-type">
                                         <span class="room-type"><i class="feather-home"></i>@l.Category.Name</span>
                                         <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
                                     </div>
                                 </div>
                             </div>
-                        }
-                        
-                       @*  <div class="feature-rent">
-                            <div class="feature-home-img">
-                                <a href="listingmap-list.html"><img src="~/assets/img/featured/property-feature-2.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="green-logo">
-                                <img src="~/assets/img/featured/feature-text-logo.png" class="img-fluid" alt="">
-                            </div>
-                            <div class="select-favourite-room">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-02.jpg" class="img-fluid" alt="">
-                                </div>
-                                <i class="fa-solid fa-heart"></i>
-                            </div>
-                            <div class="house-location">
-                                <span>$510/m</span>
-                                <p><i class="feather-map-pin"></i>Sydney CBD, NSW</p>
-                            </div>
-                            <div class="home-img-text">
-                                <div class="star-rated">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <span>2.8</span>
-                                </div>
-                                <h3><a href="listingmap-list.html">Iris Watson, Frederick Nebraska 20620</a></h3>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                </div>
-                                <div class="house-type">
-                                    <span class="room-type"><i class="feather-home"></i>Condos</span>
-                                    <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="feature-rent">
-                            <div class="feature-home-img">
-                                <a href="listingmap-list.html"><img src="~/assets/img/featured/property-feature-3.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="green-logo">
-                                <img src="~/assets/img/featured/feature-text-logo.png" class="img-fluid" alt="">
-                            </div>
-                            <div class="select-favourite-room">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-03.jpg" class="img-fluid" alt="">
-                                </div>
-                                <i class="fa-solid fa-heart"></i>
-                            </div>
-                            <div class="house-location">
-                                <span>$600/m</span>
-                                <p><i class="feather-map-pin"></i>Sydney CBD, NSW</p>
-                            </div>
-                            <div class="home-img-text">
-                                <div class="star-rated">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <span>2.8</span>
-                                </div>
-                                <h3><a href="listingmap-list.html">Store in Woodside Park, New York</a></h3>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                </div>
-                                <div class="house-type">
-                                    <span class="room-type"><i class="feather-home"></i>Apartments</span>
-                                    <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="feature-rent">
-                            <div class="feature-home-img">
-                                <a href="listingmap-list.html"><img src="~/assets/img/featured/property-feature-2.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="green-logo">
-                                <img src="~/assets/img/featured/feature-text-logo.png" class="img-fluid" alt="">
-                            </div>
-                            <div class="select-favourite-room">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-04.jpg" class="img-fluid" alt="">
-                                </div>
-                                <i class="fa-solid fa-heart"></i>
-                            </div>
-                            <div class="house-location">
-                                <span>$510/m</span>
-                                <p><i class="feather-map-pin"></i>Sydney CBD, NSW</p>
-                            </div>
-                            <div class="home-img-text">
-                                <div class="star-rated">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <span>2.8</span>
-                                </div>
-                                <h3><a href="listingmap-list.html">Iris Watson, Frederick Nebraska 20620</a></h3>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                </div>
-                                <div class="house-type">
-                                    <span class="room-type"><i class="feather-home"></i>Condos</span>
-                                    <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="feature-rent">
-                            <div class="feature-home-img">
-                                <a href="listingmap-list.html"><img src="~/assets/img/featured/property-feature-1.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="green-logo">
-                                <img src="~/assets/img/featured/feature-text-logo.png" class="img-fluid" alt="">
-                            </div>
-                            <div class="select-favourite-room">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-01.jpg" class="img-fluid" alt="">
-                                </div>
-                                <i class="fa-solid fa-heart"></i>
-                            </div>
-                            <div class="house-location">
-                                <span>$700/m</span>
-                                <p><i class="feather-map-pin"></i>Sydney CBD, NSW</p>
-                            </div>
-                            <div class="home-img-text">
-                                <div class="star-rated">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <span>2.8</span>
-                                </div>
-                                <h3><a href="listingmap-list.html">MS Northbound, Peachfield Road, Uk</a></h3>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                </div>
-                                <div class="house-type">
-                                    <span class="room-type"><i class="feather-home"></i>Apartments</span>
-                                    <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
-                                </div>
-                            </div>
-                        </div> *@
+                        }                        
                     </div>
                 </div>
             </div>
@@ -394,387 +182,27 @@
 <!-- Perfect Holiday Cabin Section -->
 <section class="perfect-holiday-cabin-section">
     <div class="holiday-cabin-img-slider owl-carousel">
-        <div class="item">
-            <img src="~/assets/img/bg/holiday-cabin-slider-img-1.jpg" class="img-fluid" alt="">
-            <div class="container">
-                <div class="holiday-cabin-info" data-aos="fade-up">
-                    <div class="rate-per-day">
-                        <span>$64 /</span>
-                        <h6>Per night</h6>
-                    </div>
-                    <div class="section-heading">
-                        <h2>Perfect Holiday Cabin</h2>
-                        <p>Spectacular Condo In Summerlin! View of Spring Mountains and Charleston Peak!!! 1 Bedrooms, Private Bathroom and a Queen Size Vertical Wall Bed. Fireplace, Kitchen, Dishwasher and Microwave , Open And Spacious Floorplan! Great Summerlin Location!  </p>
-                    </div>
-                    <div class="room-categories">
-                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                        <span><img src="~/assets/img/icons/floor-icon.svg" class="img-fluid" alt="">Floors:4</span>
-                        <span><img src="~/assets/img/icons/guest-icon.svg" class="img-fluid" alt="">Guest:4</span>
+        @foreach (var l in Model)
+        {
+            <div class="item">
+                <a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId"><img src="@l.Image" class="img-fluid" alt=""></a>
+                <div class="container">
+                    <div class="holiday-cabin-info" data-aos="fade-up">
+                        <div class="rate-per-day">
+                            <span>$ @string.Format("{0:N2}", @l.Price) /</span>
+                            <h6>Per night</h6>
+                        </div>
+                        <div class="section-heading">
+                            <h2><a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId">@l.Title</a></h2>
+                            <p>@l.Category.Description</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="item">
-            <img src="~/assets/img/bg/holiday-cabin-slider-img-2.jpg" class="img-fluid" alt="">
-            <div class="container">
-                <div class="holiday-cabin-info">
-                    <div class="rate-per-day">
-                        <span>$64</span>
-                        <h6>Per night</h6>
-                    </div>
-                    <div class="section-heading">
-                        <h2>Perfect Holiday Cabin</h2>
-                        <p>Spectacular Condo In Summerlin! View of Spring Mountains and Charleston Peak!!! 1 Bedrooms, Private Bathroom and a Queen Size Vertical Wall Bed. Fireplace, Kitchen, Dishwasher and Microwave , Open And Spacious Floorplan! Great Summerlin Location!  </p>
-                    </div>
-                    <div class="room-categories">
-                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                        <span><img src="~/assets/img/icons/floor-icon.svg" class="img-fluid" alt="">Floors:4</span>
-                        <span><img src="~/assets/img/icons/guest-icon.svg" class="img-fluid" alt="">Guest:4</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/assets/img/bg/holiday-cabin-slider-img-1.jpg" class="img-fluid" alt="">
-            <div class="container">
-                <div class="holiday-cabin-info">
-                    <div class="rate-per-day">
-                        <span>$64</span>
-                        <h6>Per night</h6>
-                    </div>
-                    <div class="section-heading">
-                        <h2>Perfect Holiday Cabin</h2>
-                        <p>Spectacular Condo In Summerlin! View of Spring Mountains and Charleston Peak!!! 1 Bedrooms, Private Bathroom and a Queen Size Vertical Wall Bed. Fireplace, Kitchen, Dishwasher and Microwave , Open And Spacious Floorplan! Great Summerlin Location!  </p>
-                    </div>
-                    <div class="room-categories">
-                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                        <span><img src="~/assets/img/icons/floor-icon.svg" class="img-fluid" alt="">Floors:4</span>
-                        <span><img src="~/assets/img/icons/guest-icon.svg" class="img-fluid" alt="">Guest:4</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </section>
 <!-- /Perfect Holiday Cabin Section -->
-<!-- Explore Our Categories -->
-<section class="explore-categories ">
-    <div class="container">
-        <div class="section-heading section-heading-nine  aos" data-aos="fade-up">
-            <div class="row align-items-center">
-                <div class="col-md-3"></div>
-                <div class="col-md-6 aos aos-init aos-animate text-center" data-aos="fade-up">
-                    <h2>Explore Our Categories</h2>
-                    <p>The most trendy accommodations available</p>
-                </div>
-                <div class="col-md-3 text-md-end aos aos-init aos-animate" data-aos="fade-up">
-                    <a href="categories.html" class="btn  btn-view">View all Catgeorries</a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="car-class-carousel">
-                    <div class="best-places-rent-slider owl-carousel owl-theme" data-aos="fade-right">
-                        <div class="best-room">
-                            <div class="best-room-img">
-                                <a href="listing-list-sidebar.html"><img src="~/assets/img/featured/best-room-img-1.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <a href="listing-list-sidebar.html">
-                                <div class="best-room-type">
-                                    <h5>Shared Rooms</h5>
-                                    <span>40 Listings</span>
-                                    <i class="fa-solid fa-arrow-right-long"></i>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="best-room">
-                            <div class="best-room-img">
-                                <a href="listing-list-sidebar.html"><img src="~/assets/img/featured/best-room-img-2.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <a href="listing-list-sidebar.html">
-                                <div class="best-room-type">
-                                    <h5>Bed Room</h5>
-                                    <span>30 Listings</span>
-                                    <i class="fa-solid fa-arrow-right-long"></i>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="best-room">
-                            <div class="best-room-img">
-                                <a href="listing-list-sidebar.html"><img src="~/assets/img/featured/best-room-img-3.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <a href="listing-list-sidebar.html">
-                                <div class="best-room-type">
-                                    <h5>Villas</h5>
-                                    <span>50 Listings</span>
-                                    <i class="fa-solid fa-arrow-right-long"></i>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="best-room">
-                            <div class="best-room-img">
-                                <a href="listing-list-sidebar.html"><img src="~/assets/img/featured/best-room-img-4.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <a href="listing-list-sidebar.html">
-                                <div class="best-room-type">
-                                    <h5>Condos</h5>
-                                    <span>45 Listings</span>
-                                    <i class="fa-solid fa-arrow-right-long"></i>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="best-room">
-                            <div class="best-room-img">
-                                <a href="listing-list-sidebar.html"><img src="~/assets/img/featured/best-room-img-1.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <a href="listing-list-sidebar.html">
-                                <div class="best-room-type">
-                                    <h5>Shared Rooms</h5>
-                                    <span>40 Listings</span>
-                                    <i class="fa-solid fa-arrow-right-long"></i>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="best-room">
-                            <div class="best-room-img">
-                                <a href="listing-list-sidebar.html"><img src="~/assets/img/featured/best-room-img-2.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <a href="listing-list-sidebar.html">
-                                <div class="best-room-type">
-                                    <h5>Bed Room</h5>
-                                    <span>30 Listings</span>
-                                    <i class="fa-solid fa-arrow-right-long"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- /Explore Our Categories -->
-<!-- Recent Properties for Rent -->
-<section class="property-for-rent ">
-    <div class="footer-six-bg footer-nine-bg">
-        <img src="~/assets/img/bg/feature-bg.png" alt="">
-    </div>
-    <div class="container">
-        <div class="section-heading section-heading-nine  aos" data-aos="fade-up">
-            <div class="row align-items-center">
-                <div class="col-md-3"></div>
-                <div class="col-md-6 aos aos-init aos-animate text-center" data-aos="fade-up">
-                    <h2>Recent Properties for Rent</h2>
-                    <p>Sense Solutions For All Aspects near your Location.</p>
-                </div>
-                <div class="col-md-3 text-md-end aos aos-init aos-animate" data-aos="fade-up">
-                    <a href="categories.html" class="btn  btn-view">View all Properties</a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="car-class-carousel">
-                    <div class="top-listings-rent-slider owl-carousel" data-aos="fade-right">
-                        <div class="top-rent-room">
-                            <div class="top-room-img">
-                                <a href="categories.html"><img src="~/assets/img/gallery/top-rent-room-img-1.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="top-listing-rounded-img">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-01.jpg" class="img-fluid" alt="">
-                                </div>
-                            </div>
-                            <div class="pent-house">
-                                <span>Pent house</span>
-                            </div>
-                            <div class="top-rent-room-info">
-                                <div class="top-rent-room-location">
-                                    <div class="room-address">
-                                        <span><i class="fa-solid fa-location-dot"></i>Mattapan, Boston</span>
-                                        <a href="categories.html"><h5>South King Royal Palace </h5></a>
-                                    </div>
-                                    <div class="star-rated">
-                                        <span>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                        </span>
-                                        <p><span>$600 </span>Per day</p>
-                                    </div>
-                                </div>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/floor-icon.svg" class="img-fluid" alt="">Floors:4</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/guest-icon.svg" class="img-fluid" alt="">Guest:4</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="top-rent-room">
-                            <div class="top-room-img">
-                                <a href="categories.html"><img src="~/assets/img/gallery/top-rent-room-img-2.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="top-listing-rounded-img">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-02.jpg" class="img-fluid" alt="">
-                                </div>
-                            </div>
-                            <div class="pent-house">
-                                <span>Pent house</span>
-                            </div>
-                            <div class="top-rent-room-info">
-                                <div class="top-rent-room-location">
-                                    <div class="room-address">
-                                        <span><i class="fa-solid fa-location-dot"></i>East Side, New York</span>
-                                        <a href="categories.html"><h5>Victorian Bed & Breakfast</h5></a>
-                                    </div>
-                                    <div class="star-rated">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <p><span>$600 </span>Per day</p>
-                                    </div>
-                                </div>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/floor-icon.svg" class="img-fluid" alt="">Floors:4</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/guest-icon.svg" class="img-fluid" alt="">Guest:4</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="top-rent-room">
-                            <div class="top-room-img">
-                                <a href="categories.html"><img src="~/assets/img/gallery/top-rent-room-img-1.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="top-listing-rounded-img">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-05.jpg" class="img-fluid" alt="">
-                                </div>
-                            </div>
-                            <div class="pent-house">
-                                <span>Pent house</span>
-                            </div>
-                            <div class="top-rent-room-info">
-                                <div class="top-rent-room-location">
-                                    <div class="room-address">
-                                        <span><i class="fa-solid fa-location-dot"></i>Mattapan, Boston</span>
-                                        <a href="categories.html"><h5>South King Royal Palace </h5></a>
-                                    </div>
-                                    <div class="star-rated">
-                                        <span>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                            <i class="fa-solid fa-star"></i>
-                                        </span>
-                                        <p><span>$600 </span>Per day</p>
-                                    </div>
-                                </div>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/floor-icon.svg" class="img-fluid" alt="">Floors:4</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/guest-icon.svg" class="img-fluid" alt="">Guest:4</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="top-rent-room">
-                            <div class="top-room-img">
-                                <a href="categories.html"><img src="~/assets/img/gallery/top-rent-room-img-2.jpg" class="img-fluid" alt=""></a>
-                            </div>
-                            <div class="top-listing-rounded-img">
-                                <div class="favourite-small-user">
-                                    <img src="~/assets/img/profiles/avatar-06.jpg" class="img-fluid" alt="">
-                                </div>
-                            </div>
-                            <div class="pent-house">
-                                <span>Pent house</span>
-                            </div>
-                            <div class="top-rent-room-info">
-                                <div class="top-rent-room-location">
-                                    <div class="room-address">
-                                        <span><i class="fa-solid fa-location-dot"></i>East Side, New York</span>
-                                        <a href="categories.html"><h5>Victorian Bed & Breakfast</h5></a>
-                                    </div>
-                                    <div class="star-rated">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <p><span>$600 </span>Per day</p>
-                                    </div>
-                                </div>
-                                <div class="top-room-details">
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/area-icon.svg" class="img-fluid" alt="">Area:56000/m2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bed-icon.svg" class="img-fluid" alt="">Beds:3</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/bath-icon.svg" class="img-fluid" alt="">Baths:2</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/floor-icon.svg" class="img-fluid" alt="">Floors:4</span>
-                                    </div>
-                                    <div class="area">
-                                        <span><img src="~/assets/img/icons/guest-icon.svg" class="img-fluid" alt="">Guest:4</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- /Recent Properties for Rent -->
 <!-- Premium and essential services -->
 <section class="premium-and-essential-services">
     <div class="preminum-float-bg">
@@ -857,74 +285,6 @@
     </div>
 </section>
 <!-- /Premium and essential services -->
-<!-- Location -->
-<section class="car-location common-padding">
-    <div class="container">
-        <div class="section-heading section-heading-nine  aos" data-aos="fade-up">
-            <div class="row align-items-center">
-                <div class="col-md-3"></div>
-                <div class="col-md-6 aos aos-init aos-animate text-center" data-aos="fade-up">
-                    <h2>Popular Location of Properties</h2>
-                    <p>Sense Solutions For All Aspects near your Location.</p>
-                </div>
-                <div class="col-md-3 text-md-end aos aos-init aos-animate" data-aos="fade-up">
-                    <a href="categories.html" class="btn  btn-view">View all Properties</a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3">
-                <a href="service-details.html">
-                    <div class="car-location-img aos" data-aos="fade-up" data-aos-delay="200">
-                        <img src="~/assets/img/city/car-location-1.png" class="img-fluid" alt="">
-                        <span>Las Vegas</span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-5">
-                <a href="service-details.html">
-                    <div class="car-location-img aos" data-aos="fade-up" data-aos-delay="400">
-                        <img src="~/assets/img/city/car-location-2.png" class="img-fluid" alt="">
-                        <span>Singapore</span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4">
-                <a href="service-details.html">
-                    <div class="car-location-img aos" data-aos="fade-up" data-aos-delay="600">
-                        <img src="~/assets/img/city/car-location-3.png" class="img-fluid" alt="">
-                        <span>Denmark</span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-4">
-                <a href="service-details.html">
-                    <div class="car-location-img aos" data-aos="fade-up" data-aos-delay="800">
-                        <img src="~/assets/img/city/car-location-4.png" class="img-fluid" alt="">
-                        <span>France</span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-5">
-                <a href="service-details.html">
-                    <div class="car-location-img aos" data-aos="fade-up" data-aos-delay="1000">
-                        <img src="~/assets/img/city/car-location-5.png" class="img-fluid" alt="">
-                        <span>Indonesia</span>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3">
-                <a href="service-details.html">
-                    <div class="car-location-img aos" data-aos="fade-up" data-aos-delay="1200">
-                        <img src="~/assets/img/city/car-location-6.png" class="img-fluid" alt="">
-                        <span>New York</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- /Location -->
 <!-- Our Testimonials -->
 <section class="property-testimonial ">
     <div class="testimonial-float-bg">
@@ -1145,7 +505,7 @@
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="join-as-dealer-btn">
-                    <a href="signup.html">View all Prroperties</a>
+                    <a asp-controller="Home" asp-action="SignUp">Go to</a>
                 </div>
             </div>
         </div>

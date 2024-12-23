@@ -34,6 +34,9 @@ namespace EprojectSem3.Controllers
             var count_listing = _context.Listings.Where(x => x.Status == 1).Where(x => x.UserId == id).Count();
             ViewBag.CountListing = count_listing;
 
+            var user_sub = _context.UserSubscriptions.Include(x => x.Subscription).Where(x =>x.UserId == id).FirstOrDefault();
+            ViewBag.UserSub = user_sub;
+
             var u = await _context.Users
                 .Include(u => u.Subscription)
                 .Include(u => u.Listings)

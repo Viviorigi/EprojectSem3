@@ -224,6 +224,7 @@ namespace EprojectSem3.Controllers
                     UserCount = 0
                 };
                 _context.Add(Statistical);
+                _context.SaveChanges();
             }
 
             // Xử lý file hình ảnh phụ

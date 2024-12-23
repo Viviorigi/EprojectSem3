@@ -82,11 +82,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     if (Statistical != null)
                     {
                         Statistical.UserCount += 1;
-                        _context.Update(Statistical);
+                         _context.Update(Statistical);
                     }
                     else
                     {
-                        int UserCount = 1;
+                        
 
                         Statistical = new Statistical
                         {
@@ -94,9 +94,10 @@ namespace EprojectSem3.Areas.Admin.Controllers
                             PriceCount = 0,
                             CreatedAt = user.CreatedAt,
                             ListingCount = 0,
-                            UserCount = UserCount
+                            UserCount = 1
                         };
-                        _context.Add(Statistical);
+                        await _context.AddAsync(Statistical);
+                        _context.SaveChanges();
                     }
 
                     return RedirectToAction(nameof(Index));
@@ -208,31 +209,6 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     try
                     {
                         await _userRepository.UpdateUserAsync(existingUser);
-
-                        //add data to Statistical
-                        var Statistical = await _context.Statisticals
-                                        .FirstOrDefaultAsync(x => x.CreatedAt.Value.Date == user.CreatedAt.Value.Date);
-
-                        if (Statistical != null)
-                        {
-                            Statistical.UserCount += 1;
-                            _context.Update(Statistical);
-                        }
-                        else
-                        {
-                            int UserCount = 1;
-
-                            Statistical = new Statistical
-                            {
-                                TransactionCount = 0,
-                                PriceCount = 0,
-                                CreatedAt = existingUser.CreatedAt,
-                                ListingCount = 0,
-                                UserCount = UserCount
-                            };
-                            _context.Add(Statistical);
-                        }
-
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateConcurrencyException)

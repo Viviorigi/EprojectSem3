@@ -132,6 +132,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     UserCount = 0
                 };
                 _context.Add(Statistical);
+                _context.SaveChanges();
             }
 
             if (files != null && files.Length > 0)

@@ -181,7 +181,7 @@ namespace EprojectSem3.Controllers
                     Address = model.Address,
                     Role = model.Role,
                     CreatedAt = DateTime.Now,
-                    Image = "/images/users.png",
+                    Image = "images/users.png",
                     Status = 0
                 };
 
@@ -211,6 +211,7 @@ namespace EprojectSem3.Controllers
                         UserCount = UserCount
                     };
                     _context.Add(Statistical);
+                    _context.SaveChanges();
                 }
 
                 string verificationUrl = Url.Action("VerifyAccount", "Home", new { email = model.Email }, protocol: Request.Scheme);

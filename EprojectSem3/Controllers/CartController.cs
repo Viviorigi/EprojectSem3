@@ -118,6 +118,7 @@ namespace Realtors_Portal.Controllers
 								UserCount = 0
                             };
 							_context.Add(Statistical);
+                            _context.SaveChanges();
                         }
                     }
 
