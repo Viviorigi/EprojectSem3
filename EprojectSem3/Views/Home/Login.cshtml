@@ -49,22 +49,13 @@
 							</div>
 							<span asp-validation-for="Password" class="text-danger"></span>
 						</div>
-						<div class="row">
-							<div class="col-md-6 col-sm-6">
-								<label class="custom_check">
-									<input type="checkbox" name="rememberme" class="rememberme">
-									<span class="checkmark"></span>Remember Me
-								</label>
-							</div>
-							<div class="col-md-6 col-sm-6">
-								<div class="text-md-end">
-									<a class="forgot-link" asp-action="ForgotPassword" asp-controller="Home" >Forgot password?</a>
-								</div>
-							</div>
-						</div>
+					
 						<button class="btn btn-primary w-100 login-btn" type="submit">Sign in</button>
 						<div class="register-link text-center">
 							<p>No account yet? <a class="forgot-link" asp-action="SignUp" asp-controller="Home" >Signup</a></p>
+							<div class="text-center">
+								<a class="forgot-link" asp-action="ForgotPassword" asp-controller="Home">Forgot password?</a>
+							</div>
 						</div>
 						<div class="login-or">
 							<span class="or-line"></span>

@@ -87,7 +87,7 @@ namespace BussinessLogicLayer_BLL.Services
 
         public async Task<IEnumerable<Blog>> SearchAdmin(string? keyword)
         {
-            var blogs = _context.Blogs.ToList();
+            var blogs = _context.Blogs.OrderByDescending(b => b.CreatedAt).ToList();
             return(blogs);
         }
     }

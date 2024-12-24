@@ -46,6 +46,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {               
                 await _regionRepository.AddRegionAsync(region);
+                TempData["msg"] = "Create successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             return View(region);
@@ -96,6 +98,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                         throw;
                     }
                 }
+                TempData["msg"] = "Update Region successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             return View(region);
@@ -112,6 +116,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 {
                     await _regionRepository.DeleteRegionAsync(id);
                     ViewBag.message = "Delete region successful";
+                    TempData["msg"] = "Delete region successful";
+                    TempData["AlertType"] = "success";
                     return RedirectToAction("Index");
                 }
             }

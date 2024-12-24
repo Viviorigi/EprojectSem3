@@ -39,7 +39,7 @@ namespace BussinessLogicLayer_BLL.Services
 		public async Task<IEnumerable<Listing>> GetAllListingAsync()
 		{
 			
-			return await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).ToListAsync(); 
+			return await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(c => c.CreatedAt).ToListAsync(); 
 		}
 
         public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, string? sort)

@@ -140,3 +140,16 @@
         userIdInput.value = userId;
     });
 </script>
+<script>
+    // Kiểm tra TempData để hiển thị thông báo
+    const message = '@TempData["msg"]';
+    const alertType = '@TempData["AlertType"]';
+
+    if (message) {
+        Swal.fire({
+            icon: alertType || 'info', // Loại alert: success, error, warning, info
+            title: 'Notification',
+            text: message,
+        });
+    }
+</script>

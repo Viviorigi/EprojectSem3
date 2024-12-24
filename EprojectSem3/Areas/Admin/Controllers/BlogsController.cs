@@ -95,6 +95,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             blog.CreatedAt = DateTime.Now;
             await _blogRepository.AddBlogAsync(blog);
             TempData["msg"] = "Create successful";
+            TempData["AlertType"] = "success";
             return RedirectToAction("Index");
         }
 
@@ -141,6 +142,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             blog.BlogId = id;
             await _blogRepository.UpdateBlogAsync(blog);
             TempData["msg"] = "Update blog successful";
+            TempData["AlertType"] = "success";
             return RedirectToAction("Index");
         }
 
@@ -157,6 +159,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
 
             await _blogRepository.DeleteBlogAsync(id);
             TempData["msg"] = "Delete blog successful";
+            TempData["AlertType"] = "success";
             return RedirectToAction("Index");
         }
         // GET: Admin/Blogs/Search

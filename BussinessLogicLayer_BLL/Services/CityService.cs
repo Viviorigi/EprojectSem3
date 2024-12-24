@@ -36,7 +36,7 @@ namespace BussinessLogicLayer_BLL.Services
 
         public async Task<IEnumerable<City>> GetAllCitysAsync()
         {
-            return await _context.Cities.Include(c => c.Region).ToListAsync();
+            return await _context.Cities.Include(c => c.Region).OrderByDescending(c => c.CityId).ToListAsync();
         }
 
         public async Task<City?> GetCityByIdAsync(int? cityId)

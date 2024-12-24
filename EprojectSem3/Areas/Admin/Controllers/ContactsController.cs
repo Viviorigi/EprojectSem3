@@ -33,7 +33,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             }
 
             ViewData["Keyword"] = keyword; 
-            return View(await contacts.ToListAsync());
+            return View(await contacts.OrderByDescending(c=>c.ContactId).ToListAsync());
         }
 
         // GET: Admin/Contacts/Details/5
@@ -71,6 +71,8 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             {
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
+                TempData["msg"] = "Create successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             return View(contact);
@@ -132,6 +134,8 @@ namespace Realtors_Portal.Areas.Admin.Controllers
                         throw;
                     }
                 }
+                TempData["msg"] = "Update Contacts successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             return View(contact);
@@ -155,6 +159,8 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             if (contact != null)
             {
                 _context.Contacts.Remove(contact);
+                TempData["msg"] = "Delete Contacts successful";
+                TempData["AlertType"] = "success";
             }
             await _context.SaveChangesAsync();
 

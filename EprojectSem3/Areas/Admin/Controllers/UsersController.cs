@@ -99,7 +99,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                         await _context.AddAsync(Statistical);
                         _context.SaveChanges();
                     }
-
+                    TempData["msg"] = "Create successful";
+                    TempData["AlertType"] = "success";
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -209,6 +210,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     try
                     {
                         await _userRepository.UpdateUserAsync(existingUser);
+                        TempData["msg"] = "Update User successful";
+
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateConcurrencyException)
@@ -287,12 +290,10 @@ namespace EprojectSem3.Areas.Admin.Controllers
             // Delete the user
             await _userRepository.DeleteUserAsync(id);
 				TempData["Message"] = "User deleted successfully.";
-				return RedirectToAction("Index");
-			
-		
+            TempData["msg"] = "Delete User successful";
+            TempData["AlertType"] = "success";
+            return RedirectToAction("Index");
 		}
-
-
 
 		private bool UserExists(int id)
         {

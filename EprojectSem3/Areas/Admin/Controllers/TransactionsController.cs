@@ -52,7 +52,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             ViewData["StartDate"] = startDate?.ToString("yyyy-MM-dd");
             ViewData["EndDate"] = endDate?.ToString("yyyy-MM-dd");
 
-            return View(await appDbContext.ToListAsync());
+            return View(await appDbContext.OrderByDescending(t=>t.PaymentDate).ToListAsync());
         }
 
         // GET: Admin/Transactions/Details/5

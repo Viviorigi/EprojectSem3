@@ -466,6 +466,7 @@ namespace EprojectSem3.Controllers
                     Password = BCrypt.Net.BCrypt.HashPassword("123456"),
                     PhoneNumber = "123456",
                     Address = "123456",
+                    Image = "images/admin.png",
                     Role = 0,
                     Status = 1
                 };

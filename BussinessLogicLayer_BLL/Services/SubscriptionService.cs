@@ -42,7 +42,7 @@ namespace BussinessLogicLayer_BLL.Services
             {
                 subscriptions = subscriptions.Where(c => c.Name.Contains(keyword));
             }
-            return await subscriptions.ToListAsync();
+            return await subscriptions.OrderByDescending(s=>s.SubscriptionId).ToListAsync();
         }
 
         public async Task<Subscription?> GetSubscriptionByIdAsync(int? id)
