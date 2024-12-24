@@ -35,7 +35,7 @@ namespace BussinessLogicLayer_BLL.Services
 
 		public async Task<IEnumerable<Category>> GetAllCategoryAsync()
 		{
-			return await _context.Categories.ToListAsync();
+			return await _context.Categories.OrderByDescending(c => c.CategoryId).ToListAsync();
 		}
 
 

@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<DataAccessLayer_DAL.Models.Blog>
-@* @await Html.PartialAsync("~/Views/Shared/_PaginationPartial.cshtml", ((int)ViewBag.CurrentPage, (int)ViewBag.TotalPages, "Index")) *@
 
 @{
     ViewData["Title"] = "Blog Admin";
@@ -20,24 +19,6 @@
                             <button class="btn btn-success">Sreach</button>
                         </form>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="filter-sorting">
-                    <ul>
-                        <li>
-                            <a href="javascript:void(0);" class="filter-sets"><img src="~/assets/admin/assets/img/icons/filter1.svg" class="me-2" alt="img">Filter</a>
-                        </li>
-                        <li>
-                            <span><img src="~/assets/admin/assets/img/icons/sort.svg" class="me-2" alt="img"></span>
-                            <div class="review-sort">
-                                <select class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                    <option>Sort by A - Z</option>
-                                    <option>Sort by A - Z</option>
-                                </select>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
             </li>
             <li>
@@ -90,38 +71,6 @@
             </table>
         </div>
     </div>
-@*     <!-- Pagination -->
-    <div class="blog-pagination">
-        <nav>
-            <ul class="pagination">
-                @if (ViewBag.CurrentPage > 1)
-                {
-                    <li class="page-item previtem">
-                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = ViewBag.CurrentPage - 1 })">Prev</a>
-                    </li>
-                }
-                <li class="justify-content-center pagination-center">
-                    <div class="pagelink">
-                        <ul>
-                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                            {
-                                <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
-                                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = i })">@i</a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </li>
-                @if (ViewBag.CurrentPage < ViewBag.TotalPages)
-                {
-                    <li class="page-item nextlink">
-                        <a class="page-link" href="@Url.Action("Index", new { pageNumber = ViewBag.CurrentPage + 1 })">Next</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    </div>
-</div> *@
 <!-- Delete -->
 <div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">
@@ -175,4 +124,3 @@
             });
         }
     </script>
-

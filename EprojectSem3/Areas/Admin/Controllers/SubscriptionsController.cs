@@ -53,8 +53,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _subscription.AddSubscriptionAsync(subscription);
-                TempData["msg"] = "Create Membership successful.";
-                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                TempData["msg"] = "Create successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.IsAgent = new SelectList(new[]
@@ -117,8 +117,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                TempData["msg"] = "Update Membership successful.";
-                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                TempData["msg"] = "Update Subscription successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.IsAgent = new SelectList(new[]
@@ -141,8 +141,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 if (subscriptions != null)
                 {
                     await _subscription.DeleteSubscriptionAsync(id);
+                    ViewBag.message = "Delete subscriptions successful";
                     TempData["msg"] = "Delete subscriptions successful";
-                    TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                    TempData["AlertType"] = "success";
                     return RedirectToAction("Index");
                 }
             }

@@ -47,8 +47,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _cityRepository.AddCityAsync(city);
-                TempData["msg"] = "Create City successful.";
-                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                TempData["msg"] = "Create successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "RegionId", city.RegionId);
@@ -101,8 +101,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                TempData["msg"] = "Update City successful.";
-                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                TempData["msg"] = "Update City successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "RegionId", city.RegionId);
@@ -119,9 +119,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 if (city != null)
                 {
                     await _cityRepository.DeleteCityAsync(id);
-                    
-                    TempData["msg"] = "Delete City successful.";
-                    TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                    TempData["msg"] = "Delete City successful";
+                    TempData["AlertType"] = "success";
                     return RedirectToAction("Index");
                 }
             }

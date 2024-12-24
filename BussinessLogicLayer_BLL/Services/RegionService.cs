@@ -31,7 +31,7 @@ namespace BussinessLogicLayer_BLL.Services
 
         public async Task<IEnumerable<Region>> GetAllRegionsAsync()
         {
-            return await _context.Regions.ToListAsync();
+            return await _context.Regions.OrderByDescending(r=> r.RegionId).ToListAsync();
         }
 
         public async Task<Region?> GetRegionByIdAsync(int? regionId)

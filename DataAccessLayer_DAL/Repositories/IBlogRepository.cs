@@ -14,6 +14,7 @@ namespace DataAccessLayer_DAL.Repositories
         Task AddBlogAsync(Blog Blog);
         Task UpdateBlogAsync(Blog Blog);
         Task DeleteBlogAsync(int BlogId);
+        Task<IEnumerable<Blog>> SearchAdmin(string? keyword);
         Task<(IEnumerable<Blog> Blogs, int TotalCount)> Search(string? keyword, int pageNumber, int pageSize);
     }
 }

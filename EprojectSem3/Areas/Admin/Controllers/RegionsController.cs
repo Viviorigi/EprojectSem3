@@ -46,8 +46,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {               
                 await _regionRepository.AddRegionAsync(region);
-                TempData["msg"] = "Create Regions successful.";
-                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                TempData["msg"] = "Create successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
            
@@ -99,8 +99,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                TempData["msg"] = "Update Regions successful.";
-                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                TempData["msg"] = "Update Region successful";
+                TempData["AlertType"] = "success";
                 return RedirectToAction(nameof(Index));
             }
             return View(region);
@@ -112,23 +112,18 @@ namespace EprojectSem3.Areas.Admin.Controllers
             var cities = _context.Cities.FirstOrDefault(x => x.RegionId == id);
             if (cities != null)
             {
-                TempData["msg"] = "Existing posts cannot be deleted.";
-                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
-
-                return RedirectToAction("index");
+                var regions = _context.Regions.FirstOrDefault(x => x.RegionId == id);
+                if (regions != null)
+                {
+                    await _regionRepository.DeleteRegionAsync(id);
+                    ViewBag.message = "Delete region successful";
+                    TempData["msg"] = "Delete region successful";
+                    TempData["AlertType"] = "success";
+                    return RedirectToAction("Index");
+                }
             }
-            
-            var regions = _context.Regions.FirstOrDefault(x => x.RegionId == id);
-            if (regions == null)
-            {
-                TempData["msg"] = "regions not found.";
-                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
-                return RedirectToAction("Index");
-            }
-            await _regionRepository.DeleteRegionAsync(id);
-            TempData["msg"] = "Delete region successful.";
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
-            return RedirectToAction("Index");
+            ViewBag.message = "Existing posts cannot be deleted.";
+            return View("index");
         }
 
         private bool RegionExists(int id)

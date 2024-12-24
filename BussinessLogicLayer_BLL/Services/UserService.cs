@@ -37,7 +37,7 @@ namespace BussinessLogicLayer_BLL.Services
                     u.PhoneNumber.ToLower().Contains(keyword));
             }
 
-            return await query.ToListAsync();
+            return await query.OrderByDescending(u=>u.CreatedAt).ToListAsync();
         }
 
         public async Task AddUserAsync(User user)

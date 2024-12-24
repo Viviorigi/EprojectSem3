@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using EprojectSem3.Models;
 using EprojectSem3.Areas.Admin.Controllers;
 using System.Reflection;
+using System.Reflection.Metadata;
 
 namespace Realtors_Portal.Areas.Admin.Controllers
 {
@@ -28,12 +29,9 @@ namespace Realtors_Portal.Areas.Admin.Controllers
         }
 
         // GET: Admin/Blogs
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 9)
+        public async Task<IActionResult> Index()
         {
-            var (blogs, totalCount) = await _blogRepository.GetBlogsPaginatedAsync(pageNumber, pageSize);
-
-            ViewBag.CurrentPage = pageNumber;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var blogs=_context.Blogs.ToList();
 
             return View(blogs);
         }
@@ -97,9 +95,8 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             }
             blog.CreatedAt = DateTime.Now;
             await _blogRepository.AddBlogAsync(blog);
-            
-            TempData["msg"] = "Create Blog successful.";
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            TempData["msg"] = "Create successful";
+            TempData["AlertType"] = "success";
             return RedirectToAction("Index");
         }
 
@@ -149,7 +146,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             await _blogRepository.UpdateBlogAsync(blog);
             
             TempData["msg"] = "Update blog successful";
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "success";
             return RedirectToAction("Index");
         }
 
@@ -170,26 +167,19 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             
             TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
             TempData["msg"] = "Delete blog successful";
+            TempData["AlertType"] = "success";
             return RedirectToAction("Index");
         }
         // GET: Admin/Blogs/Search
-        public async Task<IActionResult> Search(string? keyword, int pageNumber = 1, int pageSize = 9)
+        public async Task<IActionResult> SearchAdmin(string? keyword)
         {
             // Call the Search method in the repository with pagination parameters
-            var (blogs, totalCount) = await _blogRepository.Search(keyword, pageNumber, pageSize);
-
-            if (blogs == null || !blogs.Any())
+            var blogs = _blogRepository.SearchAdmin(keyword);
+            if (blogs == null)
             {
-                TempData["msg"] = "Search results do not exist";
-                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
-                
+                TempData["err"] = "Coudn't find blog";
                 return RedirectToAction("Index");
             }
-
-            // Set pagination information for the view
-            ViewBag.CurrentPage = pageNumber;
-            ViewBag.TotalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-
             return View(blogs);
         }
 
