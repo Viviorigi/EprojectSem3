@@ -1,4 +1,5 @@
-﻿using DataAccessLayer_DAL.Models;
+﻿using BussinessLogicLayer_BLL.Services;
+using DataAccessLayer_DAL.Models;
 using DataAccessLayer_DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,5 +29,15 @@ namespace Realtors_Portal.Controllers
             return View(blog);
         }
 
+        public async Task<IActionResult> Search(string? keyword, int pageNumber = 1, int pageSize = 10)
+        {
+            var result = await _blogRepository.Search(keyword, pageNumber, pageSize);
+
+            ViewBag.CurrentPage = pageNumber;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)result.TotalCount / pageSize);
+            ViewBag.Keyword = keyword;
+
+            return View("Index", result.Blogs); 
+        }
     }
 }

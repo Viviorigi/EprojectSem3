@@ -85,5 +85,10 @@ namespace BussinessLogicLayer_BLL.Services
             return (blogs, totalCount);
         }
 
+        public async Task<IEnumerable<Blog>> SearchAdmin(string? keyword)
+        {
+            var blogs = _context.Blogs.ToList();
+            return(blogs);
+        }
     }
 }
