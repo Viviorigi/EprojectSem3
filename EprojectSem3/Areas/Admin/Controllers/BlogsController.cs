@@ -82,6 +82,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             else
             {
                 TempData["err"] = "Image is not required";
+
                 return View(blog);
             }
             if (!ModelState.IsValid)
@@ -96,7 +97,9 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             }
             blog.CreatedAt = DateTime.Now;
             await _blogRepository.AddBlogAsync(blog);
-            TempData["msg"] = "Create successful";
+            
+            TempData["msg"] = "Create Blog successful.";
+            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
             return RedirectToAction("Index");
         }
 
@@ -106,7 +109,9 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             var blog = await _blogRepository.GetBlogByIdAsync(id);
             if (blog == null)
             {
-                TempData["err"] = "Blog does not exist";
+                
+                TempData["msg"] = "Blog does not exist";
+                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
                 return RedirectToAction("Index");
             }
             return View(blog);
@@ -117,7 +122,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,  Blog blog, IFormFile file, IFormFile[] files)
+        public async Task<IActionResult> Edit(int id,  Blog blog, IFormFile? file, IFormFile[] files)
         {
             if (file != null && file.Length > 0)
             {
@@ -142,7 +147,9 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             }
             blog.BlogId = id;
             await _blogRepository.UpdateBlogAsync(blog);
+            
             TempData["msg"] = "Update blog successful";
+            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
             return RedirectToAction("Index");
         }
 
@@ -153,11 +160,15 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             var blog = await _blogRepository.GetBlogByIdAsync(id);
             if (blog == null)
             {
-                TempData["err"] = "Blog does not exist";
+                
+                TempData["msg"] = "Blog does not exist";
+                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
                 return RedirectToAction("Index");
             }
 
             await _blogRepository.DeleteBlogAsync(id);
+            
+            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
             TempData["msg"] = "Delete blog successful";
             return RedirectToAction("Index");
         }
@@ -169,7 +180,9 @@ namespace Realtors_Portal.Areas.Admin.Controllers
 
             if (blogs == null || !blogs.Any())
             {
-                TempData["err"] = "Search results do not exist";
+                TempData["msg"] = "Search results do not exist";
+                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+                
                 return RedirectToAction("Index");
             }
 

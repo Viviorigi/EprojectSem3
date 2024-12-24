@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace BussinessLogicLayer_BLL.Services
 {
@@ -90,6 +91,20 @@ namespace BussinessLogicLayer_BLL.Services
 		public async Task<IEnumerable<Listing>> GetListingTop5ByPriorityAsync()
 		{
 			return await _context.Listings.Include(x => x.Category).Where(x => x.Status == 1 && x.Priority == 1 && x.Category.Status == 1).Take(5).ToListAsync();
+		}
+
+		public async Task<IEnumerable<Listing>> GetMyListingAsync(int userId, int? page, string? search)
+		{
+			int pageSize = 5;
+			int pageNumber = page ?? 1; // Nếu không có trang, mặc định là trang 1
+			var listings = _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.CreatedAt).Where(x => x.UserId == userId).Where(x => x.Category.Status == 1).AsQueryable();
+			if (!string.IsNullOrEmpty(search))
+			{
+				listings = listings.Where(x => EF.Functions.Like(x.Title, $"%{search}%"));
+			}
+			
+			return await listings.ToPagedListAsync(pageNumber, pageSize);
+
 		}
 
 		public async Task<IEnumerable<Listing>> Search(string? keyword)

@@ -166,19 +166,17 @@ namespace EprojectSem3.Controllers
             return View(user);
         }
 
-        public IActionResult Listing()
+        public async Task<IActionResult> Listing(int? page , string? search)
         {
 			var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 			if (id == null)
 			{
 				return NotFound();
 			}
-            var userListings = _context.Listings.Include(l => l.Category)
-	       .Where(l => l.UserId == id) // Lọc theo UserId
-	       .ToList();
+            var userListings = await _listingRepository.GetMyListingAsync(id , page , search);
 
-            ViewBag.Listings = userListings;
-			return View();
+             
+			return View(userListings);
         }
 
         public IActionResult ChangePassword()

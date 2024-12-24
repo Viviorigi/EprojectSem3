@@ -38,6 +38,7 @@ namespace BussinessLogicLayer_BLL.Services
 			return await _context.Categories.ToListAsync();
 		}
 
+
         public async Task<IEnumerable<Category>> GetCategoryAsync()
         {
             return await _context.Categories.Where(x => x.Status == 1).ToListAsync();

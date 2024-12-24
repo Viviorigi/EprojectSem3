@@ -47,6 +47,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 await _cityRepository.AddCityAsync(city);
+                TempData["msg"] = "Create City successful.";
+                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "RegionId", city.RegionId);
@@ -99,6 +101,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
                         throw;
                     }
                 }
+                TempData["msg"] = "Update City successful.";
+                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "RegionId", city.RegionId);
@@ -115,12 +119,16 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 if (city != null)
                 {
                     await _cityRepository.DeleteCityAsync(id);
-                    ViewBag.message = "Delete region successful";
+                    
+                    TempData["msg"] = "Delete City successful.";
+                    TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
                     return RedirectToAction("Index");
                 }
             }
-            ViewBag.message = "Existing posts cannot be deleted.";
-            return View("index");
+            TempData["msg"] = "Existing posts cannot be deleted.";
+            TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+           
+            return RedirectToAction("index");
         }
 
         private bool CityExists(int id)

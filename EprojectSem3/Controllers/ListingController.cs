@@ -325,6 +325,7 @@ namespace EprojectSem3.Controllers
             ViewBag.RemainingAds = subscription.MaxAds - activeListingsCount;
             ViewBag.RemainingDays = remainingDays; // Thêm số ngày còn lại
             ViewBag.User = user;
+            
 
             // Load danh mục và thành phố cho form
             ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
@@ -334,10 +335,146 @@ namespace EprojectSem3.Controllers
             new { Value = 0, Text = "Hide" },
             new { Value = 1, Text = "Show" },
         }, "Value", "Text");
+            var listing = await _listingRepository.GetListingByIdAsync(id);
 
             // Trả về form tạo bài viết
-            return View();
+            return View(listing);
 
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(Listing listing , IFormFile? file , IFormFile[] files)
+        {
+            // Lấy thông tin người dùng
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var user = await _context.Users
+                .Include(u => u.UserSubscriptions)
+                .ThenInclude(us => us.Subscription)
+                .SingleOrDefaultAsync(u => u.UserId == userId);
+
+            // Lấy danh sách gói subscription hết hạn
+            var expiredSubscriptions = user.UserSubscriptions
+                .Where(us => us.EndDate <= DateTime.Now)
+                .OrderByDescending(us => us.EndDate)
+                .ToList();
+
+            // Kiểm tra subscription còn hiệu lực
+            var activeSubscription = user.UserSubscriptions
+                .Where(us => us.EndDate > DateTime.Now) // Chỉ lấy gói còn hiệu lực
+                .OrderByDescending(us => us.Subscription.MaxAds) // Ưu tiên gói MaxAds cao nhất
+                .ThenByDescending(us => us.EndDate)
+                .FirstOrDefault();
+
+            // Nếu không có gói còn hiệu lực
+            if (activeSubscription == null)
+            {
+                // Nếu có gói hết hạn, đề xuất gia hạn
+                if (expiredSubscriptions.Any())
+                {
+                    TempData["err"] = "Your subscription has expired. Please renew your subscription.";
+                    return RedirectToAction("RenewSubscription"); // Điều hướng đến trang gia hạn
+                }
+
+                // Nếu không có gói nào (chưa đăng ký)
+                TempData["err"] = "You don't have an active subscription. Please purchase a subscription.";
+                return RedirectToAction("PurchaseSubscription"); // Điều hướng đến trang mua gói
+            }
+
+            // Kiểm tra số lượng bài viết active
+            var activeListingsCount = await _context.Listings
+                .Where(l => l.UserId == userId && l.Status == 1) // Chỉ tính bài active
+                .CountAsync();
+
+            if (activeListingsCount >= activeSubscription.Subscription.MaxAds)
+            {
+                TempData["err"] = $"You have reached the maximum number of ads ({activeSubscription.Subscription.MaxAds}) allowed by your subscription.";
+                return RedirectToAction("Create");
+            }
+
+            // Xử lý file hình ảnh chính
+            if (file != null && file.Length > 0)
+            {
+                var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
+                listing.Image = "images/" + uniqueFileName;
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            else
+            {
+                listing.Image = listing.Image;
+            }
+
+            // Kiểm tra ModelState
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("ModelState is invalid. Errors:");
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+
+                // Load danh mục và thành phố cho form
+                ViewBag.User = user;
+                ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
+                ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+                return View(listing);
+            }
+
+            // Gán thêm thông tin cho bài viết
+            listing.UserId = userId;
+            listing.CreatedAt = listing.CreatedAt;
+            listing.UpdatedAt = DateTime.Now;
+            // Thêm bài viết
+            await _listingRepository.UpdateListingAsync(listing);
+
+            // Xử lý file hình ảnh phụ
+            if (files != null && files.Length > 0)
+            {
+                foreach (var i in files)
+                {
+                    if (i != null && i.Length > 0)
+                    {
+                        var uniqueFileName = $"{Guid.NewGuid()}_{i.FileName}";
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", uniqueFileName);
+                        var image = new Image
+                        {
+                            ImagePath = "images/" + uniqueFileName,
+                            ListingId = listing.ListingId
+                        };
+
+                        await _imageRepository.AddImageAsync(image);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await i.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            }
+
+            TempData["msg"] = "Update listing successful.";
+            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            return RedirectToAction("Listing", "User");
+
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            var listing = await _listingRepository.GetListingByIdAsync(id);
+            if (listing != null)
+            {
+                await _listingRepository.DeleteListingAsync(id);
+
+                TempData["msg"] = "Delete Listing successful";
+                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                return RedirectToAction("Listing", "User");
+
+            }
+            TempData["msg"] = "Existing posts cannot be deleted.";
+            TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+            return View("Listing", "User");
         }
 
 
