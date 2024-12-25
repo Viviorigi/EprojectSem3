@@ -34,7 +34,7 @@ namespace EprojectSem3.Controllers
             var count_listing = _context.Listings.Where(x => x.Status == 1).Where(x => x.UserId == id).Count();
             ViewBag.CountListing = count_listing;
 
-            var user_sub = _context.UserSubscriptions.Include(x => x.Subscription).Where(x =>x.UserId == id).FirstOrDefault();
+            var user_sub = _context.UserSubscriptions.Where(x =>x.UserId == id).Count();
             ViewBag.UserSub = user_sub;
 
             var u = await _context.Users
@@ -162,6 +162,19 @@ namespace EprojectSem3.Controllers
 			return View(userListings);
         }
 
+        public async Task<IActionResult> Subscription()
+        {
+            var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var subscription = await _context.UserSubscriptions.Include(u=>u.User).Include(u => u.Subscription).Where(u=> u.UserId == id).OrderByDescending(u=>u.Subscription.Price).ToListAsync();
+
+
+            return View(subscription);
+        }
+
         public IActionResult ChangePassword()
         {
             return View();
@@ -219,6 +232,49 @@ namespace EprojectSem3.Controllers
 			TempData["err"] = "Existing posts cannot be deleted.";
 			return View("Listing");
 		}
-	}
+
+        [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+        public async Task<IActionResult> BookMark()
+        {
+            var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var bookMarks = await _context.BookMarks.Include(u => u.User).Include(u => u.Listing).Where(u => u.UserId == id).ToListAsync();
+
+
+            return View(bookMarks);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+        public async Task<IActionResult> DeleteToBookmark(int listingId)
+        {
+
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            // Look for an existing bookmark
+            var existingBookmark = await _context.BookMarks
+                .FirstOrDefaultAsync(b => b.UserId == userId && b.ListingId == listingId);
+
+            if (existingBookmark != null)
+            {
+                // If the bookmark exists, remove it (delete it)
+                _context.BookMarks.Remove(existingBookmark);
+                await _context.SaveChangesAsync();
+                TempData["Message"] = "Listing removed from bookmarks.";
+            }
+            else
+            {
+                // If the bookmark does not exist, show a message
+                TempData["Message"] = "Listing not found in bookmarks.";
+            }
+
+            // Redirect to the details page of the listing
+            return RedirectToAction("BookMark");
+        }
+
+    }
 	
 }

@@ -21,5 +21,7 @@ namespace  DataAccessLayer_DAL.Models
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Statistical> Statisticals { get; set; }
 
+        public DbSet<BookMark> BookMarks { get; set; }
+
     }
 }

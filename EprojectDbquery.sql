@@ -127,3 +127,11 @@ CREATE TABLE Statisticals (
 	PriceCount DECIMAL(18,2),
 	CreatedAt DATETIME
 );
+CREATE TABLE BookMarks (
+	BookMarkId INT IDENTITY(1,1) PRIMARY KEY,
+	UserId INT NOT NULL,
+	ListingId INT NOT NULL,
+	CreatedAt DATETIME
+	FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    FOREIGN KEY (ListingId) REFERENCES Listings(ListingId)
+);

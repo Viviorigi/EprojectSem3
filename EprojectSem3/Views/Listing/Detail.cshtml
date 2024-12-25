@@ -32,8 +32,19 @@
 		</div>
 		<div class="descriptionlinks">
 			<div class="row">
-				
-				<div class="col-lg-12">
+				<div class="col-lg-7">
+					<ul>
+					@if (ViewBag.IsBookmarked) // This property will be passed from your controller
+					{
+							<li><a asp-action="DeleteToBookmark" asp-controller="Listing" asp-route-listingId="@Model.ListingId" style="color: red;"><i class="feather-bookmark"></i> Remove from bookmark</a></li>
+					}
+					else
+					{
+						<li><a asp-action="SaveToBookmark" asp-controller="Listing" asp-route-listingId="@Model.ListingId"><i class="feather-bookmark"></i> Save to bookmark</a></li>
+					}
+					</ul>
+				</div>
+				<div class="col-lg-5">
 					<div class="callnow">
 						<a href="contact.html"> <i class="feather-phone-call"></i>  Call Now</a>
 					</div>

@@ -22,7 +22,7 @@
             <ul class="dashborad-menus">
                 <li>
                     <a asp-controller="User" asp-action="Index">
-                        <i class="fa-solid fa-user"></i> <span>Dashboard</span>
+                        <i class=" feather-grid"></i> <span>Dashboard</span>
                     </a>
                 </li>
                 <li>
@@ -32,12 +32,22 @@
                 </li>
                 <li>
                     <a asp-controller="User" asp-action="ChangePassword">
-                        <i class="fa-solid fa-user"></i> <span>Change Password</span>
+                        <i class="feather-lock"></i> <span>Change Password</span>
                     </a>
                 </li>
                 <li>
                     <a asp-controller="User" asp-action="Listing">
                         <i class="feather-list"></i> <span>My Listing</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="BookMark">
+                        <i class="feather-bookmark"></i> <span>BookMark</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="Subscription">
+                        <i class="feather-list"></i> <span>My Subscription</span>
                     </a>
                 </li>
                 <li>
@@ -49,7 +59,7 @@
         </div>
         <div class="dashboard-details">
             <div class="row">
-                <div class="col-lg-3 col-md-3">
+                <div class="col-lg-4 col-md-4">
                     <div class="card dash-cards">
                         <div class="card-body">
                             <div class="dash-top-content">
@@ -64,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3">
+                <div class="col-lg-4 col-md-4">
                     <div class="card dash-cards">
                         <div class="card-body">
                             <div class="dash-top-content">
@@ -73,28 +83,13 @@
                                 </div>
                             </div>
                             <div class="dash-widget-info">
-                                <h6>@ViewBag.UserSub</h6>
+                                <h6>Subscription </h6>
                                 <h3>@ViewBag.UserSub</h3>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="card dash-cards">
-                        <div class="card-body">
-                            <div class="dash-top-content">
-                                <div class="dashcard-img">
-                                    <img src="~/assets/img/icons/chat.svg" class="img-fluid" alt="">
-                                </div>
-                            </div>
-                            <div class="dash-widget-info">
-                                <h6>Messages</h6>
-                                <h3>No Data</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3">
+                <div class="col-lg-4 col-md-4">
                     <div class="card dash-cards">
                         <div class="card-body">
                             <div class="dash-top-content">

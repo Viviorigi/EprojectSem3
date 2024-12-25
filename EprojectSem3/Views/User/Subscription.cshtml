@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewData["Title"] = "Subscription";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    @model IEnumerable<DataAccessLayer_DAL.Models.UserSubscription>;
+    
+    // Determine the best active subscription
+    var bestActiveSubscription = Model
+        .Where(item => item.StartDate <= DateTime.Now && item.EndDate >= DateTime.Now)
+        .OrderByDescending(item => item.Subscription.Price)
+        .FirstOrDefault();
+
+}
+
+<div class="breadcrumb-bar">
+    <div class="container">
+        <div class="row align-items-center text-center">
+            <div class="col-md-12 col-12">
+                <h2 class="breadcrumb-title">My Listing</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadscrumb Section -->
+<!-- Dashboard Content -->
+<div class="dashboard-content listing-section ">
+    <div class="container">
+        <div class="">
+            <ul class="dashborad-menus">
+                <li>
+                    <a asp-controller="User" asp-action="Index">
+                        <i class=" feather-grid"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="Detail">
+                        <i class="fa-solid fa-user"></i> <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="ChangePassword">
+                        <i class="feather-lock"></i> <span>Change Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="Listing">
+                        <i class="feather-list"></i> <span>My Listing</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="BookMark">
+                        <i class="feather-bookmark"></i> <span>BookMark</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="Subscription">
+                        <i class="feather-list"></i> <span>My Subscription</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Home" asp-action="Logout">
+                        <i class="fas fa-light fa-circle-arrow-left"></i> <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="dash-listingcontent dashboard-info">
+            <div class="dash-cards card">
+                <div class="card-header">
+                    <h4>My Subscription</h4>                   
+                </div>
+                <div class="card-body">                  
+                    <div class="table-responsive">
+                        <table class="listing-table datatable" id="listdata-table">
+                            <thead>
+                                <tr>
+                                    <th >User Name</th>
+                                    <th >Subscription</th>
+                                    <th>Amount</th>
+                                    <th>StartDate</th>
+                                    <th >EndDate</th>
+                                    <th >Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                       
+                                        <td>
+                                            <a asp-action="Detail" asp-controller="User">@item.User.FullName</a>
+                                        </td>
+                                        <td>
+                                            <a asp-action="Detail" asp-controller="User">@item.Subscription.Name</a>
+                                        </td>
+                                        <td>
+                                            <a >@item.Subscription.Price</a>
+                                        </td>
+                                        @* <td><span class="status-text">@(item.Status == 1 ? "Published" : "UnPublished")</span></td> *@
+                                        <td><span class="views-count"> @(item.StartDate.ToString("dd-MM-yyyy") )</span></td>
+                                        <td><span class="views-count"> @(item.EndDate.ToString("dd-MM-yyyy")) </span></td>
+                                        <td class="text-center">
+                                            <span class="status-text">
+                                                @if (item == bestActiveSubscription)
+                                                {
+                                                    <span class="text-success">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">Inactive</span>
+                                                }
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>      
+                </div>
+            </div>
+        </div>
+    </div>

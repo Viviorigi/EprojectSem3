@@ -491,13 +491,74 @@ namespace EprojectSem3.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var listing = await _listingRepository.GetListingByIdAsync(id);
             var image = await _imageRepository.GetImageByListingIdAsync(id);
             ViewBag.image = image;
+            var isBookmarked = await _context.BookMarks
+            .AnyAsync(b => b.UserId == userId && b.ListingId == id);
+            ViewBag.isBookmarked = isBookmarked;
 
-			Console.WriteLine(ViewBag.image);
+            Console.WriteLine(ViewBag.image);
 
             return View(listing);
         }
-	}
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+        public async Task<IActionResult> SaveToBookmark(int listingId)
+        {
+
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            var existingBookmark = await _context.BookMarks
+           .FirstOrDefaultAsync(b => b.UserId == userId && b.ListingId == listingId);
+
+            if (existingBookmark != null) {
+                TempData["Message"] = "Listing aready in Bookmarks";
+                return RedirectToAction("Detail", "Listings", new { id = listingId });
+            }
+
+            var bookmark = new BookMark
+            {
+                UserId = userId,
+                ListingId = listingId,
+                CreatedAt = DateTime.Now
+            };
+
+            _context.BookMarks.Add(bookmark);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Detail", new { id = listingId });
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+        public async Task<IActionResult> DeleteToBookmark(int listingId)
+        {
+
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            // Look for an existing bookmark
+            var existingBookmark = await _context.BookMarks
+                .FirstOrDefaultAsync(b => b.UserId == userId && b.ListingId == listingId);
+
+            if (existingBookmark != null)
+            {
+                // If the bookmark exists, remove it (delete it)
+                _context.BookMarks.Remove(existingBookmark);
+                await _context.SaveChangesAsync();
+                TempData["Message"] = "Listing removed from bookmarks.";
+            }
+            else
+            {
+                // If the bookmark does not exist, show a message
+                TempData["Message"] = "Listing not found in bookmarks.";
+            }
+
+            // Redirect to the details page of the listing
+            return RedirectToAction("Detail", new { id = listingId });
+        }
+
+    }
 }
