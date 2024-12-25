@@ -36,7 +36,7 @@ namespace Realtors_Portal.Services
                 var expiringSubscriptions = await _context.UserSubscriptions
                     .Include(us => us.User)
                     .Include(us => us.Subscription)
-                    .Where(us => us.EndDate.Date <= DateTime.Now.AddDays(5))
+                    .Where(us => us.EndDate.Date <= DateTime.Now.AddDays(5))  // change DateTime.now.addday(5) => simulatedNow
                     .ToListAsync();
 
                 foreach (var subscription in expiringSubscriptions)
@@ -54,7 +54,26 @@ namespace Realtors_Portal.Services
                         Thank you!";
 
                     await _emailService.SendEmailAsync(user.Email, subject, body);
+
                 }
+
+                // find listing expired
+                //DateTime simulatedNow = new DateTime(2025, 2, 17); 
+                var expiredListings = await _context.Listings
+               .Where(listing => _context.UserSubscriptions
+                   .Any(subscription => subscription.UserId == listing.UserId
+                                        && subscription.EndDate.Date < DateTime.Now.Date)
+                   && listing.Status == 1)
+               .ToListAsync();
+
+                // Update listing expired
+                foreach (var listing in expiredListings)
+                {
+                    listing.Status = 0;
+                }
+
+                // Save change
+                await _context.SaveChangesAsync();
             }
         }
 

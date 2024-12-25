@@ -76,6 +76,8 @@ CREATE TABLE Listings (
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (CityId) REFERENCES Cities(CityId)
 );
+ALTER TABLE Listings
+ADD ContactViaForm TINYINT DEFAULT 0;
 
 -- Bảng Images (Phụ thuộc Listings)
 CREATE TABLE Images (
@@ -133,6 +135,4 @@ CREATE TABLE Statisticals (
 	PriceCount DECIMAL(18,2),
 	CreatedAt DATETIME
 );
-ALTER TABLE Listings
-ADD ContactViaForm TINYINT DEFAULT 0;
 
