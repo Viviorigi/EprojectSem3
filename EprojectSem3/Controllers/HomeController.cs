@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Realtors_Portal.Models;
 using Realtors_Portal.Services;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.Security.Claims;
 
 namespace EprojectSem3.Controllers
@@ -37,15 +38,14 @@ namespace EprojectSem3.Controllers
         public async Task<IActionResult> Index()
         {
             var listingTop = await _listingRepository.GetListingTop5ByPriorityAsync();
+
+            var blogs = await _context.Blogs.Where(b => b.Status == 1).OrderByDescending(b => b.CreatedAt).Take(5).ToListAsync();
+            ViewBag.Blogs = blogs;
+
             return View(listingTop);
         }
 
         public IActionResult AboutUs()
-        {
-            return View();
-        }
-
-        public IActionResult Blog()
         {
             return View();
         }

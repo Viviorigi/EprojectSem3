@@ -4,14 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-	.blogbanner{
-		background: url("~/@Model.Image");
-	}
-</style>
 <!--Blog Banner-->
-<div class="blogbanner">
-
+<div class="blogbanner" style="background: url('https://localhost:44369/@Model.Image');">
 	<div class="blogbanner-content">
 		<h1>@Model.Title</h1>
 		<ul class="entry-meta meta-item">
@@ -31,61 +25,6 @@
 						<a href="javasvript:void();" class="share-img"><i class="fas fa-light fa-share-nodes"></i></a>
 						<a href="javasvript:void();" class="share-text">Share</a>
 					</div>
-				</div>
-			</div>
-		</div>
-		<div class="card review-sec  mb-0">
-			<div class="card-header  align-items-center">
-				<h4>14 Reviews</h4>
-			</div>
-			<div class="card-body">
-				<div class="review-list">
-					<ul class="">
-						<li class="review-box feedbackbox mb-0">
-							<div class="review-details">
-								<h6>Leave Feedback About This</h6>
-							</div>
-							<div class="card-body">
-								<form class="">
-									<div class="row">
-										<div class="col-lg-12 col-12">
-											<div class="form-set">
-												<input type="text" class="form-control" placeholder="Title">
-											</div>
-										</div>
-										<div class="col-lg-6 col-12">
-											<div class="form-set">
-												<input type="text" class="form-control" placeholder="Name*" required>
-											</div>
-										</div>
-										<div class="col-lg-6 col-12">
-											<div class="form-set me-0">
-												<input type="email" class="form-control" placeholder="Email*" required>
-											</div>
-										</div>
-										<div class="col-lg-12 col-12">
-											<div class="form-set">
-												<textarea rows="4" class="form-control" placeholder="Write a Review*" required></textarea>
-											</div>
-										</div>
-									</div>
-									<div class="reviewbox-rating">
-										<p>
-											<span> Rating</span>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-											<i class="fas fa-star filled"></i>
-										</p>
-									</div>
-									<div class="submit-section">
-										<button class="btn btn-primary submit-btn" type="submit"> Submit Review</button>
-									</div>
-								</form>
-							</div>
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>

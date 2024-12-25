@@ -1,39 +1,45 @@
 ﻿@{
-	ViewData["Title"] = "Blog";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Blog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model IEnumerable<DataAccessLayer_DAL.Models.Blog>
 @await Html.PartialAsync("~/Views/Shared/_PaginationPartial.cshtml", ((int)ViewBag.CurrentPage, (int)ViewBag.TotalPages, "Index"))
 
 <!-- Breadscrumb Section -->
 <div class="breadcrumb-bar">
-	<div class="container">
-		<div class="row align-items-center text-center">
-			<div class="col-md-12 col-12">
-				<h2 class="breadcrumb-title">Listings-Blog</h2>
-				<nav aria-label="breadcrumb" class="page-breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Blog</li>
-					</ol>
-				</nav>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row align-items-center text-center">
+            <div class="col-md-12 col-12">
+                <h2 class="breadcrumb-title">Listings-Blog</h2>
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /Breadscrumb Section -->
 <!-- /Search-->
-			<div class="page-headers mt-4">
-				<div class="search-bar container">
-					<span><i class="fe fe-search"></i></span>
-					<form class="d-flex justify-content-end w-100" id="myForm" asp-controller="Blog" asp-action="Search" method="get">
-						<input type="text" name="keyword" placeholder="Search" class="form-control w-50">
-						<button class="btn btn-success">Sreach</button>
-					</form>
-				</div>
-			</div>
+<div class="page-headers mt-4">
+    <div class="search-bar container">
+        <span><i class="fe fe-search"></i></span>
+        <form asp-controller="Blog" asp-action="Search" method="get">
+            @* <input type="text" name="keyword" placeholder="Search" class="form-control w-50"> *@
+            @* <button class="btn btn-success">Sreach</button> *@
+            <div class="filter-content form-set">
+                <div class="group-img">
+                    <input type="text" name="keyword" class="form-control" placeholder="Search...">
+                    <i class="feather-search"></i>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <!-- /End Search-->
-
+<!-- /Blog List -->
 <div class="bloglist-section blog-gridpage listing-section ">
     <div class="container">
         <div class="row align-items-center justify-content-center all-blog-height">
@@ -43,7 +49,7 @@
                     <div class="blog grid-blog">
                         <div class="blog-image">
                             <a asp-action="Details" asp-controller="Blog" asp-route-id="@blog.BlogId">
-                                <img  class="img-fluid" src="~/@blog.Image" alt="@blog.Title">
+                                <img class="img-fluid" src="~/@blog.Image" alt="@blog.Title">
                             </a>
                         </div>
                         <div class="blog-content">
@@ -109,8 +115,4 @@
         </div>
     </div>
 </div>
-
-
-	</div>
-</div>
-<!-- /Blog List -->
+<!-- /End Blog List -->

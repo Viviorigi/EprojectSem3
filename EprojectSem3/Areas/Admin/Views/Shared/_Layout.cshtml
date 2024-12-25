@@ -177,7 +177,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a asp-controller="Blogs"><i class="fe fe-file-text"></i> <span>Blog</span></a>
+                            <a asp-controller="Blogs" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Blogs" ? "active" : "")"><i class="fe fe-file-text"></i> <span>Blog</span></a>
                         </li>
                         <li>
                             <a asp-controller="Subscriptions" asp-action="Index"
@@ -202,9 +202,6 @@
                                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Transactions" ? "active" : "")">
                                 <i class="fe fe-file-text"></i> <span>Transactions History</span>
                             </a>
-                        </li>
-                        <li>
-                            <a href="faq.html"><i class="fe fe-help-circle"></i> <span>FAQ</span></a>
                         </li>
                         <li>
                             <a asp-controller="LoginAdmin" asp-action="Logout" asp-area="Admin" ><i class="fe fe-log-out"></i> <span>Logout</span></a>

@@ -410,11 +410,10 @@
         <div class="section-heading section-heading-nine  aos" data-aos="fade-up">
             <div class="row align-items-center">
                 <div class="col-md-9 aos aos-init aos-animate" data-aos="fade-up">
-                    <h2>Recent Articles</h2>
-                    <p>The most trendy accommodations available</p>
+                    <h2>Blogs</h2>
                 </div>
                 <div class="col-md-3 text-md-end aos aos-init aos-animate" data-aos="fade-up">
-                    <a href="categories.html" class="btn  btn-view">View all Properties</a>
+                    <a href="categories.html" class="btn  btn-view">View all Blog</a>
                 </div>
             </div>
         </div>
@@ -422,66 +421,38 @@
             <div class="col-lg-12 aos" data-aos="fade-up">
                 <div class="car-class-carousel">
                     <div class="owl-carousel blog-slider">
-                        <div class="blog grid-blog blog-two aos" data-aos="fade-up">
-                            <div class="blog-image">
-                                <a href="blog-details.html"><img class="img-fluid" src="~/assets/img/blog/property-blog-1.jpg" alt="Post Image"></a>
-                            </div>
-                            <div class="blog-content">
-                                <h3 class="blog-title"><a href="blog-details.html">Skills That You Can Learn In The Real Estate Market</a></h3>
-                                <ul class="entry-meta meta-item">
-                                    <li class="date-icon"><i class="feather-calendar"></i> 7 Jan 2023</li>
-                                </ul>
-                                <p class="blog-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
-                                <div class="viewlink">
-                                    <a href="blog-details.html">Read More</a>
+                        @{var blogs = ViewBag.Blogs as IEnumerable<DataAccessLayer_DAL.Models.Blog>;}
+                        @if (blogs != null && blogs.Any())
+                        {
+                            foreach (var blog in blogs)
+                            {
+                                <div class="blog grid-blog blog-two aos" data-aos="fade-up">
+                                    <div class="blog-image">
+                                        <a asp-action="Details" asp-controller="Blog" asp-route-id="@blog.BlogId">
+                                            <img class="img-fluid" src="@blog.Image" alt="Post Image">
+                                        </a>
+                                    </div>
+                                    <div class="blog-content">
+                                        <h3 class="blog-title">
+                                            <a asp-action="Details" asp-controller="Blog" asp-route-id="@blog.BlogId">@blog.Title</a>
+                                        </h3>
+                                        <ul class="entry-meta meta-item">
+                                            <li class="date-icon">
+                                                <i class="feather-calendar"></i> @blog.CreatedAt?.ToString("MMMM d, yyyy")
+                                            </li>
+                                        </ul>
+                                        @* <p class="blog-description">@blog.Content</p> *@
+                                        <div class="viewlink">
+                                            <a asp-action="Details" asp-controller="Blog" asp-route-id="@blog.BlogId">Read More</a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="blog grid-blog blog-two aos" data-aos="fade-up">
-                            <div class="blog-image">
-                                <a href="blog-details.html"><img class="img-fluid" src="~/assets/img/blog/property-blog-2.jpg" alt="Post Image"></a>
-                            </div>
-                            <div class="blog-content">
-                                <h3 class="blog-title"><a href="blog-details.html">5 Essential Steps for Buying an Investment</a></h3>
-                                <ul class="entry-meta meta-item">
-                                    <li class="date-icon"><i class="feather-calendar"></i> 15 Jan 2023</li>
-                                </ul>
-                                <p class="blog-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
-                                <div class="viewlink">
-                                    <a href="blog-details.html">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="blog grid-blog blog-two aos" data-aos="fade-up">
-                            <div class="blog-image">
-                                <a href="blog-details.html"><img class="img-fluid" src="~/assets/img/blog/property-blog-3.jpg" alt="Post Image"></a>
-                            </div>
-                            <div class="blog-content">
-                                <h3 class="blog-title"><a href="blog-details.html">Bedroom Colors You’ll Never Regret</a></h3>
-                                <ul class="entry-meta meta-item">
-                                    <li class="date-icon"><i class="feather-calendar"></i> 27 Feb 2023</li>
-                                </ul>
-                                <p class="blog-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
-                                <div class="viewlink">
-                                    <a href="blog-details.html">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="blog grid-blog blog-two aos" data-aos="fade-up">
-                            <div class="blog-image">
-                                <a href="blog-details.html"><img class="img-fluid" src="~/assets/img/blog/property-blog-1.jpg" alt="Post Image"></a>
-                            </div>
-                            <div class="blog-content">
-                                <h3 class="blog-title"><a href="blog-details.html">Skills That You Can Learn In The Real Estate Market</a></h3>
-                                <ul class="entry-meta meta-item">
-                                    <li class="date-icon"><i class="feather-calendar"></i> 28 Mar 2023</li>
-                                </ul>
-                                <p class="blog-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text.</p>
-                                <div class="viewlink">
-                                    <a href="blog-details.html">Read More</a>
-                                </div>
-                            </div>
-                        </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>No blogs available.</p>
+                        }
                     </div>
                 </div>
 
