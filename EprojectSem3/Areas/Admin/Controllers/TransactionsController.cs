@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer_DAL.Models;
+using EprojectSem3.Areas.Admin.Controllers;
 
 namespace Realtors_Portal.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class TransactionsController : Controller
+    public class TransactionsController : BaseController
     {
         private readonly AppDbContext _context;
 

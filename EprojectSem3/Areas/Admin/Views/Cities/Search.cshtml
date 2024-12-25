@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DataAccessLayer_DAL.Models.Region>
+﻿@model IEnumerable<DataAccessLayer_DAL.Models.City>
 
 @{
     ViewData["bonus"] = "page-settings";
@@ -8,21 +8,19 @@
 }
 
 <div class="content-page-header content-page-headersplit">
-    <h5>Regions</h5>
+    <h5>City</h5>
     <div class="list-btn">
         <ul>
+            <form id="sortForm" class="d-flex" asp-controller="Cities" asp-action="Search" method="get">
+                <input type="text" name="name" placeholder="Search" class="form-control me-2" value="@ViewBag.name">
+                <select id="sortSelect" onchange="submitSortForm()" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true" name="id" asp-items="@ViewBag.region">
+                    <option value="">Select region</option>
+                </select>
+                <button type="submit" class="btn btn-danger">Filter</button>
+                <a asp-action="Index" asp-controller="Cities" class="btn btn-secondary">Clear</a>
+            </form>
             <li>
-                <div class="page-headers">
-                    <div class="search-bar">
-                        <span><i class="fe fe-search"></i></span>
-                        <form id="myForm" asp-controller="Regions" asp-action="Search" method="get">
-                            <input type="text" name="name" placeholder="Search" class="form-control">
-                        </form>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Regions</a>
+                <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add City</a>
             </li>
         </ul>
     </div>
@@ -33,23 +31,25 @@
             <table class="table datatable">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>ID</th>
+                        <th>City Name</th>
                         <th>Region Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var r in Model)
+                    @foreach (var c in Model)
                     {
                         <tr>
                             <td>@index</td>
-                            <td>@r.Name</td>
+                            <td>@c.Name</td>
+                            <td>@c.Region.Name</td>
                             <td>
                                 <div class="table-actions d-flex">
-                                    <a class="delete-table me-2" asp-action="Edit" asp-route-id="@r.RegionId">
+                                    <a class="delete-table me-2" asp-action="Edit" asp-route-id="@c.CityId">
                                         <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
                                     </a>
-                                    <a class="delete-table" data-id="@r.RegionId" data-bs-toggle="modal" data-bs-target="#delete-item">
+                                    <a class="delete-table" data-id="@c.CityId" data-bs-toggle="modal" data-bs-target="#delete-item">
                                         <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
                                     </a>
                                 </div>
@@ -67,17 +67,17 @@
     <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Categories</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete Cities</h5>
                 <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fe fe-x"></i>
                 </button>
             </div>
-            <form asp-action="Delete" asp-controller="Regions" method="post">
+            <form asp-action="Delete" asp-controller="Cities" method="post">
                 <div class="modal-body py-0">
                     <div class="del-modal">
                         <p>Are you sure want to Delete?</p>
                         <!-- ID được chèn động thông qua JavaScript -->
-                        <input type="hidden" name="id" id="regions-id" />
+                        <input type="hidden" name="id" id="cities-id" />
                     </div>
                 </div>
                 <div class="modal-footer pt-0">
@@ -96,26 +96,19 @@
         // Lấy phần tử nút bấm đã kích hoạt Modal
         const button = event.relatedTarget;
         // Lấy giá trị ID từ data-id
-        const regionsId = button.getAttribute('data-id');
-
+        const citiesId = button.getAttribute('data-id');
         // Cập nhật giá trị ID vào input hidden trong Modal
-        const regionsIdInput = deleteModal.querySelector('#regions-id');
-        regionsIdInput.value = regionsId;
+        const citiesIdInput = deleteModal.querySelector('#cities-id');
+        citiesIdInput.value = citiesId;
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("myForm");
 
-        // Lắng nghe sự kiện keydown trên toàn bộ form
-        form.addEventListener("keydown", function (event) {
-            // Kiểm tra nếu phím được nhấn là Enter
-            if (event.key === "Enter") {
-                event.preventDefault(); // Ngăn trình duyệt thực hiện hành động mặc định (nếu cần)
-                form.submit(); // Submit form
-            }
-        });
-    });
+    function submitSortForm(){
+
+        document.getElementById('sortForm').submit();
+    }
+
 </script>
 <script>
     // Kiểm tra TempData để hiển thị thông báo

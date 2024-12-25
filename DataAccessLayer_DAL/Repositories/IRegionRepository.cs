@@ -15,5 +15,6 @@ namespace DataAccessLayer_DAL.Repositories
         Task AddRegionAsync(Region region);
         Task UpdateRegionAsync(Region region);
         Task DeleteRegionAsync(int regionId);
+        Task<IEnumerable<Region>> Search(string? keyword);
     }
 }

@@ -14,5 +14,6 @@ namespace DataAccessLayer_DAL.Repositories
         Task AddCityAsync(City city);
         Task UpdateCityAsync(City city);
         Task DeleteCityAsync(int cityId);
+        Task<IEnumerable<City>> Search(string? keyword, int? regionId);
     }
 }

@@ -15,8 +15,6 @@ namespace DataAccessLayer_DAL.Repositories
 		Task UpdateCategoryAsync(Category category);
 		Task DeleteCategoryAsync(int cateId);
         Task<IEnumerable<Category>> GetCategoryAsync();
-		
-
 		Task<IEnumerable<Category>> Search(string? keyword);
     }
 }

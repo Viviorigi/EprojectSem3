@@ -2,7 +2,7 @@
     var adminName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
     var adminEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
     var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-    var isAdmin = User.Identity?.AuthenticationType == "MyAppAuthenticationAdmin";
+    var isAdmin = User.Identity.AuthenticationType == "MyAppAuthenticationAdmin";
     var image = User.FindFirst("ProfileImage")?.Value;
 }
 <!DOCTYPE html>

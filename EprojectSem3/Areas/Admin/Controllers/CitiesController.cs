@@ -26,6 +26,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         // GET: Admin/Cities
         public async Task<IActionResult> Index()
         {
+            ViewBag.region = new SelectList(await _context.Regions.ToListAsync(), "RegionId", "Name");
             var city = await _cityRepository.GetAllCitysAsync();
             return View(city);
         }
@@ -107,6 +108,21 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }
             ViewData["RegionId"] = new SelectList(_context.Regions, "RegionId", "RegionId", city.RegionId);
             return View(city);
+        }
+
+        public async Task<IActionResult> Search(string? name, int? id)
+        {
+            ViewBag.region = new SelectList(await _context.Regions.ToListAsync(), "RegionId", "Name");
+            ViewBag.name = name;
+            ViewBag.id = id;
+            var x = await _cityRepository.Search(name, id);
+            if (x == null)
+            {
+                TempData["msg"] = "Search results do not exist";
+                TempData["AlertType"] = "error";
+                return RedirectToAction("Index");
+            }
+            return View(x);
         }
 
         [HttpPost]

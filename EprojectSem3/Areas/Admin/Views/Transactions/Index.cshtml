@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<DataAccessLayer_DAL.Models.Transaction>
 
 @{
+    ViewData["bonus"] = "page-settings";
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     var index = 1;
@@ -16,7 +17,7 @@
                                 <input type="date" name="startDate" value="@ViewData["StartDate"]" class="form-control me-2">
                                 <input type="date" name="endDate" value="@ViewData["EndDate"]" class="form-control me-2">
                                 <button type="submit" class="btn btn-danger">Filter</button>
-                    <a asp-action="Index" asp-controller="Transaction" class="btn btn-secondary">Clear</a>
+                                <a asp-action="Index" asp-controller="Transaction" class="btn btn-secondary">Clear</a>
                      </form>
                 
                 </li>
@@ -51,7 +52,7 @@
                             <td>@Html.DisplayFor(modelt => t.Subscription.Name)</td>
                             <td>@Html.DisplayFor(modelt => t.Amount)</td>
                             <td>@Html.DisplayFor(modelt => t.TransactionDate)</td>
-                            <td>@Html.DisplayFor(modelt => t.PaymentDate)</td>
+                            <td>@(t.PaymentDate == null || t.PaymentDate == DateTime.MinValue ? "N/A" : t.PaymentDate.Value.ToString("dd/MM/yyyy"))</td>
                             <td>
                                 <h6 class="@(t.IsPaid ? "badge-active" : "badge-inactive")">
                                     @(t.IsPaid ? "Paid" : "Unpaid")
@@ -115,4 +116,17 @@
         const transactionIdInput = deleteModal.querySelector('#transaction-id');
         transactionIdInput.value = transactionId;
     });
+</script>
+<script>
+    // Kiểm tra TempData để hiển thị thông báo
+    const message = '@TempData["msg"]';
+    const alertType = '@TempData["AlertType"]';
+
+    if (message) {
+        Swal.fire({
+            icon: alertType || 'info', // Loại alert: success, error, warning, info
+            title: 'Notification',
+            text: message,
+        });
+    }
 </script>

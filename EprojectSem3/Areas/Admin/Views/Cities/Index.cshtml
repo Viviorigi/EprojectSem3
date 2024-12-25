@@ -11,30 +11,14 @@
     <h5>City</h5>
     <div class="list-btn">
         <ul>
-            <li>
-                <a class="btn-filters active" href="cities.html"><i class="fe fe-list"></i> </a>
-            </li>
-            <li>
-                <a class="btn-filters" href="localization.html"><i class="fe fe-settings"></i> </a>
-            </li>
-            <li>
-                <div class="filter-sorting">
-                    <ul>
-                        <li>
-                            <a href="javascript:void(0);" class="filter-sets"><img src="~/assets/admin/assets/img/icons/filter1.svg" class="me-2" alt="img">Filter</a>
-                        </li>
-                        <li>
-                            <span><img src="~/assets/admin/assets/img/icons/sort.svg" class="me-2" alt="img"></span>
-                            <div class="review-sort">
-                                <select class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                    <option>Sort by A - Z</option>
-                                    <option>Sort by A - Z</option>
-                                </select>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+            <form id="sortForm" class="d-flex" asp-controller="Cities" asp-action="Search" method="get">
+                <input type="text" name="name" placeholder="Search" class="form-control me-2">
+                <select id="sortSelect" onchange="submitSortForm()" class="select select2-hidden-accessible" tabindex="-1" aria-hidden="true" name="id" asp-items="@ViewBag.region">
+                    <option value="">Select region</option>
+                </select>
+                <button type="submit" class="btn btn-danger">Filter</button>
+                <a asp-action="Index" asp-controller="Cities" class="btn btn-secondary">Clear</a>
+            </form>
             <li>
                 <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2"></i>Add City</a>
             </li>
@@ -48,8 +32,8 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Region Name</th>
                         <th>City Name</th>
+                        <th>Region Of City</th>                       
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -58,8 +42,8 @@
                     {
                         <tr>
                             <td>@index</td>
-                            <td>@c.Region.Name</td>
                             <td>@c.Name</td>
+                            <td>@c.Region.Name</td>
                             <td>
                                 <div class="table-actions d-flex">
                                     <a class="delete-table me-2" asp-action="Edit" asp-route-id="@c.CityId">
@@ -117,6 +101,14 @@
         const citiesIdInput = deleteModal.querySelector('#cities-id');
         citiesIdInput.value = citiesId;
     });
+</script>
+<script>
+    
+       function submitSortForm(){
+
+           document.getElementById('sortForm').submit();
+       }
+
 </script>
 <script>
     // Kiểm tra TempData để hiển thị thông báo

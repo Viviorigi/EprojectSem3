@@ -49,5 +49,20 @@ namespace BussinessLogicLayer_BLL.Services
             _context.Cities.Update(city);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<City>> Search(string? keyword, int? regionId)
+        {
+            var Cities = _context.Cities.Include(x => x.Region).AsQueryable();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                Cities = Cities.Where(x => EF.Functions.Like(x.Name, $"%{keyword}%"));
+            }
+            if (regionId.HasValue)
+            {
+                Cities = Cities.Where(x => x.RegionId == regionId);
+            }
+
+            return Cities;
+        }
     }
 }

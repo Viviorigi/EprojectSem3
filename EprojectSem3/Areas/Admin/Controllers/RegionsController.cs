@@ -106,6 +106,18 @@ namespace EprojectSem3.Areas.Admin.Controllers
             return View(region);
         }
 
+        public async Task<IActionResult> Search(string? name)
+        {
+            var x = await _regionRepository.Search(name);
+            if (x == null)
+            {
+                TempData["msg"] = "Search results do not exist";
+                TempData["AlertType"] = "error";
+                return RedirectToAction("Index");
+            }
+            return View(x);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

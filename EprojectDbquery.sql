@@ -7,13 +7,11 @@ go
 use EprojectSem3
 go
 
--- Bảng Regions (Không phụ thuộc bảng khác)
 CREATE TABLE Regions (
     RegionId INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(255) NOT NULL
 );
 
--- Bảng Cities (Phụ thuộc Regions)
 CREATE TABLE Cities (
     CityId INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(255) NOT NULL,
@@ -21,7 +19,6 @@ CREATE TABLE Cities (
     FOREIGN KEY (RegionId) REFERENCES Regions(RegionId)
 );
 
--- Bảng Subscriptions (Không phụ thuộc bảng khác)
 CREATE TABLE Subscriptions (
     SubscriptionId INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(255) NOT NULL,
@@ -31,7 +28,6 @@ CREATE TABLE Subscriptions (
     IsAgent BIT NOT NULL
 );
 
--- Bảng Users (Phụ thuộc Subscriptions)
 CREATE TABLE Users (
     UserId INT PRIMARY KEY IDENTITY(1,1),
     FullName NVARCHAR(255) NOT NULL,
@@ -50,7 +46,6 @@ CREATE TABLE Users (
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
 );
 
--- Bảng Categories (Không phụ thuộc bảng khác)
 CREATE TABLE Categories (
     CategoryId INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(255) NOT NULL,
@@ -58,7 +53,6 @@ CREATE TABLE Categories (
     Description TEXT
 );
 
--- Bảng Listings (Phụ thuộc Users, Categories, Cities)
 CREATE TABLE Listings (
     ListingId INT PRIMARY KEY IDENTITY(1,1),
     Title NVARCHAR(255) NOT NULL,
@@ -79,7 +73,6 @@ CREATE TABLE Listings (
 ALTER TABLE Listings
 ADD ContactViaForm TINYINT DEFAULT 0;
 
--- Bảng Images (Phụ thuộc Listings)
 CREATE TABLE Images (
     ImageId INT PRIMARY KEY IDENTITY(1,1),
     ListingId INT NOT NULL,
@@ -87,7 +80,6 @@ CREATE TABLE Images (
     FOREIGN KEY (ListingId) REFERENCES Listings(ListingId)
 );
 
--- Bảng UserSubscriptions (Phụ thuộc Users, Subscriptions)
 CREATE TABLE UserSubscriptions (
     UserSubscriptionId INT PRIMARY KEY IDENTITY(1,1),
     UserId INT NOT NULL,
@@ -110,7 +102,7 @@ CREATE TABLE Transactions
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (SubscriptionId) REFERENCES Subscriptions(SubscriptionId)
 );
--- Bảng Blogs
+
 CREATE TABLE Blogs (
     BlogId INT PRIMARY KEY IDENTITY(1,1),
     Title NVARCHAR(255) NOT NULL,
@@ -135,4 +127,3 @@ CREATE TABLE Statisticals (
 	PriceCount DECIMAL(18,2),
 	CreatedAt DATETIME
 );
-

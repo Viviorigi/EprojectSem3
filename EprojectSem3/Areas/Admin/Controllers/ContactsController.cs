@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer_DAL.Models;
 using BussinessLogicLayer_BLL.Services;
+using EprojectSem3.Areas.Admin.Controllers;
 
 namespace Realtors_Portal.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ContactsController : Controller
+    public class ContactsController : BaseController
     {
         private readonly AppDbContext _context;
         private readonly EmailService _emailService;

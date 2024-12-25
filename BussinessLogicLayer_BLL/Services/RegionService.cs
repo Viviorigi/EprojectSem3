@@ -44,5 +44,14 @@ namespace BussinessLogicLayer_BLL.Services
             _context.Regions.Update(region);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Region>> Search(string? keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+                return Enumerable.Empty<Region>();
+            keyword = keyword.ToLower();
+            var result = _context.Regions.Where(x => x.Name.ToLower().Contains(keyword)).ToList();
+            return result;
+        }
     }
 }
