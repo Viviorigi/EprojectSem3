@@ -108,7 +108,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             {
                 
                 TempData["msg"] = "Blog does not exist";
-                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+                TempData["AlertType"] = "error"; // Types: success, error, warning, info
                 return RedirectToAction("Index");
             }
             return View(blog);
@@ -159,13 +159,13 @@ namespace Realtors_Portal.Areas.Admin.Controllers
             {
                 
                 TempData["msg"] = "Blog does not exist";
-                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+                TempData["AlertType"] = "error"; // Types: success, error, warning, info
                 return RedirectToAction("Index");
             }
 
             await _blogRepository.DeleteBlogAsync(id);
             
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "success"; // Types: success, error, warning, info
             TempData["msg"] = "Delete blog successful";
             TempData["AlertType"] = "success";
             return RedirectToAction("Index");

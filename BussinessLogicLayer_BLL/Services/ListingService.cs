@@ -43,11 +43,11 @@ namespace BussinessLogicLayer_BLL.Services
 			return await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(c => c.CreatedAt).ToListAsync(); 
 		}
 
-        public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, string? sort)
+        public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, string? sort ,string? role)
         {
 
             int pageSize = 8;
-            int pageNumber = page ?? 1; // Nếu không có trang, mặc định là trang 1
+            int pageNumber = page ?? 1; // If there is no page, default is page 1
             var listings =  _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.Priority).Where(x => x.Status == 1).Where(x => x.Category.Status == 1).AsQueryable();
 			if (!string.IsNullOrEmpty(keyword))
 			{
@@ -69,6 +69,13 @@ namespace BussinessLogicLayer_BLL.Services
 			{
 				listings = listings.Where(x => x.Price <= maxPrice);
 			}
+			listings = role switch
+			{
+				"private-seller" => listings.Where(x => x.User.Role == 0),
+				"agent" => listings.Where(x => x.User.Role == 1),
+				_ => listings
+
+			};
 			listings = sort switch
 			{
 				"Price_des" => listings.OrderBy(x => x.Price),
@@ -96,8 +103,8 @@ namespace BussinessLogicLayer_BLL.Services
 		public async Task<IEnumerable<Listing>> GetMyListingAsync(int userId, int? page, string? search)
 		{
 			int pageSize = 5;
-			int pageNumber = page ?? 1; // Nếu không có trang, mặc định là trang 1
-			var listings = _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.CreatedAt).Where(x => x.UserId == userId).Where(x => x.Category.Status == 1).AsQueryable();
+			int pageNumber = page ?? 1; // If there is no page, default is page 1
+            var listings = _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.CreatedAt).Where(x => x.UserId == userId).Where(x => x.Category.Status == 1).AsQueryable();
 			if (!string.IsNullOrEmpty(search))
 			{
 				listings = listings.Where(x => EF.Functions.Like(x.Title, $"%{search}%"));
@@ -107,7 +114,13 @@ namespace BussinessLogicLayer_BLL.Services
 
 		}
 
-		public async Task<IEnumerable<Listing>> Search(string? keyword)
+        public async Task<bool> IsTitleDuplicateAsync(string title, int? listingId = null)
+        {
+            return await _context.Listings
+            .AnyAsync(l => l.Title == title && l.ListingId != listingId);
+        }
+
+        public async Task<IEnumerable<Listing>> Search(string? keyword)
         {
             if (string.IsNullOrWhiteSpace(keyword))
                 return Enumerable.Empty<Listing>();

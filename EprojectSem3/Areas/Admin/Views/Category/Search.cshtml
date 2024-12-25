@@ -15,7 +15,7 @@
                     <div class="search-bar">
                         <span><i class="fe fe-search"></i></span>
                         <form id="myForm" asp-controller="Category" asp-action="Search" method="get">
-                            <input type="text" name="name" placeholder="Search" class="form-control">
+                            <input type="text" value="@ViewBag.Name" name="name" placeholder="Search" class="form-control">
                         </form>
                     </div>
                 </div>

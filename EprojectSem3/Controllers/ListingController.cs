@@ -25,13 +25,13 @@ namespace EprojectSem3.Controllers
             _listingRepository = listingRepository;
             _context = context;
         }
-        public async Task<IActionResult> Index(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, string? sort)
+        public async Task<IActionResult> Index(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, string? sort, string? role)
         {
             ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name", cateId);
             ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name" , cityId);
             ViewBag.sort = sort;
             
-            var listings = await _listingRepository.GetAllListingAsync(page , keyword , cateId ,cityId ,minPrice, maxPrice ,sort);
+            var listings = await _listingRepository.GetAllListingAsync(page , keyword , cateId ,cityId ,minPrice, maxPrice ,sort , role);
 
             return View(listings);
         }
@@ -39,42 +39,42 @@ namespace EprojectSem3.Controllers
 		[Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
 		public async Task<ActionResult> Create()
 		{
-			// Lấy UserId từ Claim
+			// Get UserId from Claim
 			var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-			// Lấy thông tin User và Subscription
+			// Get User and Subscription information
 			var user = await _context.Users
 				.Include(u => u.UserSubscriptions)
 				.ThenInclude(us => us.Subscription)
 				.SingleOrDefaultAsync(u => u.UserId == userId);
 
-			// Kiểm tra danh sách các subscription
+			// Check the list of subscriptions
 			var expiredSubscriptions = user.UserSubscriptions
-				.Where(us => us.EndDate <= DateTime.Now) // Gói đã hết hạn
+				.Where(us => us.EndDate <= DateTime.Now) // Package has expired
 				.OrderByDescending(us => us.EndDate)
 				.ToList();
 
 			var activeSubscriptions = user.UserSubscriptions
-				.Where(us => us.EndDate > DateTime.Now) // Gói còn hiệu lực
-				.OrderByDescending(us => us.Subscription.MaxAds) // Ưu tiên MaxAds cao nhất
-				.ThenByDescending(us => us.EndDate) // Nếu MaxAds bằng nhau, ưu tiên EndDate
+				.Where(us => us.EndDate > DateTime.Now) // Package is still valid
+				.OrderByDescending(us => us.Subscription.MaxAds) // MaxAds highest priority
+				.ThenByDescending(us => us.EndDate) // If MaxAds are equal, EndDate takes precedence
 				.ToList();
 
-			// Nếu không có gói còn hiệu lực và có gói hết hạn
+			// If there is no Package is still valid and there is an expired package
 			if (!activeSubscriptions.Any())
 			{
 				if (expiredSubscriptions.Any())
 				{
 					TempData["err"] = "Your subscription has expired. Please renew your subscription to create a listing.";
-					return RedirectToAction("RenewSubscription", "Home"); // Điều hướng đến trang gia hạn
+					return RedirectToAction("RenewSubscription", "Home"); // Navigate to the renewal page
 				}
 
-				// Nếu không có gói nào
+				// If there is no package
 				TempData["err"] = "You need a valid subscription to create a listing.";
-				return RedirectToAction("Pricing", "Home"); // Điều hướng đến trang mua gói
+				return RedirectToAction("Pricing", "Home"); // Navigate to the package purchase page
 			}
 
-			// Lấy subscription còn hiệu lực có MaxAds cao nhất
+			// Get the active subscription with the highest MaxAds
 			var activeSubscription = activeSubscriptions.FirstOrDefault();
 			var subscription = activeSubscription?.Subscription;
 
@@ -84,27 +84,27 @@ namespace EprojectSem3.Controllers
 				return RedirectToAction("Pricing", "Home");
 			}
 
-			// Tính số lượng ngày còn lại
+			// Calculate the number of days remaining
 			var remainingDays = (activeSubscription.EndDate - DateTime.Now).Days;
 
-			// Kiểm tra số lượng bài viết active hiện tại
+			// Check current active post count
 			var activeListingsCount = await _context.Listings
-				.Where(l => l.UserId == userId && l.Status == 1) // Chỉ tính bài viết đang active
+				.Where(l => l.UserId == userId && l.Status == 1) // Only active posts are counted.
 				.CountAsync();
 
-			// Nếu đạt giới hạn số lượng bài viết cho gói hiện tại
+			// If the article limit for the current package is reached
 			if (activeListingsCount >= subscription.MaxAds)
 			{
 				TempData["err"] = $"You have reached the maximum number of ads ({subscription.MaxAds}) allowed by your subscription.";
 				return RedirectToAction("Pricing", "Home");
 			}
 
-			// Hiển thị số lượng bài viết còn lại và ngày còn lại
+			// Show number of remaining posts and days remaining
 			ViewBag.RemainingAds = subscription.MaxAds - activeListingsCount;
-			ViewBag.RemainingDays = remainingDays; // Thêm số ngày còn lại
+			ViewBag.RemainingDays = remainingDays; // Add remaining days
 			ViewBag.User = user;
 
-			// Load danh mục và thành phố cho form
+			// Load category and city for form
 			ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
 			ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
 			ViewBag.showContact = new SelectList(new[]
@@ -113,7 +113,7 @@ namespace EprojectSem3.Controllers
 		    new { Value = 1, Text = "Show" },
 	    }, "Value", "Text");
 
-			// Trả về form tạo bài viết
+			// Returns the post creation form
 			return View();
 		}
 
@@ -123,44 +123,44 @@ namespace EprojectSem3.Controllers
 		[ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Listing listing, IFormFile file, IFormFile[] files)
         {
-            // Lấy thông tin người dùng
+            // Get user information
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var user = await _context.Users
                 .Include(u => u.UserSubscriptions)
                 .ThenInclude(us => us.Subscription)
                 .SingleOrDefaultAsync(u => u.UserId == userId);
 
-            // Lấy danh sách gói subscription hết hạn
+            // Get a list of expired subscription packages
             var expiredSubscriptions = user.UserSubscriptions
                 .Where(us => us.EndDate <= DateTime.Now)
                 .OrderByDescending(us => us.EndDate)
                 .ToList();
 
-            // Kiểm tra subscription còn hiệu lực
+            // Check if subscription is valid
             var activeSubscription = user.UserSubscriptions
-                .Where(us => us.EndDate > DateTime.Now) // Chỉ lấy gói còn hiệu lực
-                .OrderByDescending(us => us.Subscription.MaxAds) // Ưu tiên gói MaxAds cao nhất
+                .Where(us => us.EndDate > DateTime.Now) // Only get Package is still valid
+                .OrderByDescending(us => us.Subscription.MaxAds) // Prioritize the highest MaxAds package
                 .ThenByDescending(us => us.EndDate)
                 .FirstOrDefault();
 
-            // Nếu không có gói còn hiệu lực
+            // If no Package is still valid
             if (activeSubscription == null)
             {
-                // Nếu có gói hết hạn, đề xuất gia hạn
+                // If any package expires, renewal is recommended.
                 if (expiredSubscriptions.Any())
                 {
                     TempData["err"] = "Your subscription has expired. Please renew your subscription.";
-                    return RedirectToAction("RenewSubscription"); // Điều hướng đến trang gia hạn
+                    return RedirectToAction("RenewSubscription"); // Navigate to the renewal page
                 }
 
-                // Nếu không có gói nào (chưa đăng ký)
+                // If there is no package (not registered)
                 TempData["err"] = "You don't have an active subscription. Please purchase a subscription.";
-                return RedirectToAction("PurchaseSubscription"); // Điều hướng đến trang mua gói
+                return RedirectToAction("PurchaseSubscription"); // Navigate to the package purchase page
             }
 
-            // Kiểm tra số lượng bài viết active
+            // Check the number of active posts
             var activeListingsCount = await _context.Listings
-                .Where(l => l.UserId == userId && l.Status == 1) // Chỉ tính bài active
+                .Where(l => l.UserId == userId && l.Status == 1) // Only active posts count
                 .CountAsync();
 
             if (activeListingsCount >= activeSubscription.Subscription.MaxAds)
@@ -169,7 +169,7 @@ namespace EprojectSem3.Controllers
                 return RedirectToAction("Create");
             }
 
-            // Xử lý file hình ảnh chính
+            // Processing the main image file
             if (file != null && file.Length > 0)
             {
                 var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
@@ -181,7 +181,7 @@ namespace EprojectSem3.Controllers
                 }
             }
 
-            // Kiểm tra ModelState
+            // Check ModelState
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("ModelState is invalid. Errors:");
@@ -190,16 +190,16 @@ namespace EprojectSem3.Controllers
                     Console.WriteLine(error.ErrorMessage);
                 }
 
-                // Load danh mục và thành phố cho form
+                // Load category and city for form
                 ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
                 ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
                 return View(listing);
             }
 
-            // Gán thêm thông tin cho bài viết
+            // Add more information to the article
             listing.UserId = userId;
             listing.CreatedAt = DateTime.Now;
-			// Thêm bài viết
+			// Add article
 			await _listingRepository.AddListingAsync(listing);
 
             //add data to Statistical
@@ -227,7 +227,7 @@ namespace EprojectSem3.Controllers
                 _context.SaveChanges();
             }
 
-            // Xử lý file hình ảnh phụ
+            // Processing of secondary image files
             if (files != null && files.Length > 0)
             {
                 foreach (var i in files)
@@ -253,7 +253,7 @@ namespace EprojectSem3.Controllers
             }
 
             TempData["msg"] = "Create listing successful.";
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "success"; // Types: success, error, warning, info
             return RedirectToAction("Listing","User");
         }
 
@@ -261,42 +261,42 @@ namespace EprojectSem3.Controllers
 
         public async Task<ActionResult> Edit(int id) 
         {
-            // Lấy UserId từ Claim
+            // Get UserId from Claim
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            // Lấy thông tin User và Subscription
+            // Get User and Subscription information
             var user = await _context.Users
                 .Include(u => u.UserSubscriptions)
                 .ThenInclude(us => us.Subscription)
                 .SingleOrDefaultAsync(u => u.UserId == userId);
 
-            // Kiểm tra danh sách các subscription
+            // Check the list of subscriptions
             var expiredSubscriptions = user.UserSubscriptions
-                .Where(us => us.EndDate <= DateTime.Now) // Gói đã hết hạn
+                .Where(us => us.EndDate <= DateTime.Now) // Package has expired
                 .OrderByDescending(us => us.EndDate)
                 .ToList();
 
             var activeSubscriptions = user.UserSubscriptions
-                .Where(us => us.EndDate > DateTime.Now) // Gói còn hiệu lực
-                .OrderByDescending(us => us.Subscription.MaxAds) // Ưu tiên MaxAds cao nhất
-                .ThenByDescending(us => us.EndDate) // Nếu MaxAds bằng nhau, ưu tiên EndDate
+                .Where(us => us.EndDate > DateTime.Now) // Package is still valid
+                .OrderByDescending(us => us.Subscription.MaxAds) // MaxAds highest priority
+                .ThenByDescending(us => us.EndDate) // If MaxAds are equal, EndDate takes precedence
                 .ToList();
 
-            // Nếu không có gói còn hiệu lực và có gói hết hạn
+            // If there is no Package is still valid and there is an expired package
             if (!activeSubscriptions.Any())
             {
                 if (expiredSubscriptions.Any())
                 {
                     TempData["err"] = "Your subscription has expired. Please renew your subscription to create a listing.";
-                    return RedirectToAction("RenewSubscription", "Home"); // Điều hướng đến trang gia hạn
+                    return RedirectToAction("RenewSubscription", "Home"); // Navigate to the renewal page
                 }
 
-                // Nếu không có gói nào
+                // If there is no package
                 TempData["err"] = "You need a valid subscription to create a listing.";
-                return RedirectToAction("Pricing", "Home"); // Điều hướng đến trang mua gói
+                return RedirectToAction("Pricing", "Home"); // Navigate to the package purchase page
             }
 
-            // Lấy subscription còn hiệu lực có MaxAds cao nhất
+            // Get the active subscription with the highest MaxAds
             var activeSubscription = activeSubscriptions.FirstOrDefault();
             var subscription = activeSubscription?.Subscription;
 
@@ -306,28 +306,28 @@ namespace EprojectSem3.Controllers
                 return RedirectToAction("Pricing", "Home");
             }
 
-            // Tính số lượng ngày còn lại
+            // Calculate the number of days remaining
             var remainingDays = (activeSubscription.EndDate - DateTime.Now).Days;
 
-            // Kiểm tra số lượng bài viết active hiện tại
+            // Check current active post count
             var activeListingsCount = await _context.Listings
-                .Where(l => l.UserId == userId && l.Status == 1) // Chỉ tính bài viết đang active
+                .Where(l => l.UserId == userId && l.Status == 1) // Only active posts are counted.
                 .CountAsync();
 
-            // Nếu đạt giới hạn số lượng bài viết cho gói hiện tại
+            // If the article limit for the current package is reached
             if (activeListingsCount >= subscription.MaxAds)
             {
                 TempData["err"] = $"You have reached the maximum number of ads ({subscription.MaxAds}) allowed by your subscription.";
                 return RedirectToAction("Pricing", "Home");
             }
 
-            // Hiển thị số lượng bài viết còn lại và ngày còn lại
+            // Show number of remaining posts and days remaining
             ViewBag.RemainingAds = subscription.MaxAds - activeListingsCount;
-            ViewBag.RemainingDays = remainingDays; // Thêm số ngày còn lại
+            ViewBag.RemainingDays = remainingDays; // Add remaining days
             ViewBag.User = user;
             
 
-            // Load danh mục và thành phố cho form
+            // Load category and city for form
             ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
             ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
             ViewBag.showContact = new SelectList(new[]
@@ -337,7 +337,7 @@ namespace EprojectSem3.Controllers
         }, "Value", "Text");
             var listing = await _listingRepository.GetListingByIdAsync(id);
 
-            // Trả về form tạo bài viết
+            // Returns the post creation form
             return View(listing);
 
         }
@@ -345,44 +345,44 @@ namespace EprojectSem3.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(Listing listing , IFormFile? file , IFormFile[] files)
         {
-            // Lấy thông tin người dùng
+            // Get user information
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var user = await _context.Users
                 .Include(u => u.UserSubscriptions)
                 .ThenInclude(us => us.Subscription)
                 .SingleOrDefaultAsync(u => u.UserId == userId);
 
-            // Lấy danh sách gói subscription hết hạn
+            // Get a list of expired subscription packages
             var expiredSubscriptions = user.UserSubscriptions
                 .Where(us => us.EndDate <= DateTime.Now)
                 .OrderByDescending(us => us.EndDate)
                 .ToList();
 
-            // Kiểm tra subscription còn hiệu lực
+            // Check if subscription is valid
             var activeSubscription = user.UserSubscriptions
-                .Where(us => us.EndDate > DateTime.Now) // Chỉ lấy gói còn hiệu lực
-                .OrderByDescending(us => us.Subscription.MaxAds) // Ưu tiên gói MaxAds cao nhất
+                .Where(us => us.EndDate > DateTime.Now) // Only get Package is still valid
+                .OrderByDescending(us => us.Subscription.MaxAds) // Prioritize the highest MaxAds package
                 .ThenByDescending(us => us.EndDate)
                 .FirstOrDefault();
 
-            // Nếu không có gói còn hiệu lực
+            // If no Package is still valid
             if (activeSubscription == null)
             {
-                // Nếu có gói hết hạn, đề xuất gia hạn
+                // If any package expires, renewal is recommended.
                 if (expiredSubscriptions.Any())
                 {
                     TempData["err"] = "Your subscription has expired. Please renew your subscription.";
-                    return RedirectToAction("RenewSubscription"); // Điều hướng đến trang gia hạn
+                    return RedirectToAction("RenewSubscription"); // Navigate to the renewal page
                 }
 
-                // Nếu không có gói nào (chưa đăng ký)
+                // If there is no package (not registered)
                 TempData["err"] = "You don't have an active subscription. Please purchase a subscription.";
-                return RedirectToAction("PurchaseSubscription"); // Điều hướng đến trang mua gói
+                return RedirectToAction("PurchaseSubscription"); // Navigate to the package purchase page
             }
 
-            // Kiểm tra số lượng bài viết active
+            // Check the number of active posts
             var activeListingsCount = await _context.Listings
-                .Where(l => l.UserId == userId && l.Status == 1) // Chỉ tính bài active
+                .Where(l => l.UserId == userId && l.Status == 1) // Only active posts count
                 .CountAsync();
 
             if (activeListingsCount >= activeSubscription.Subscription.MaxAds)
@@ -391,7 +391,7 @@ namespace EprojectSem3.Controllers
                 return RedirectToAction("Create");
             }
 
-            // Xử lý file hình ảnh chính
+            // Processing the main image file
             if (file != null && file.Length > 0)
             {
                 var uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
@@ -407,7 +407,7 @@ namespace EprojectSem3.Controllers
                 listing.Image = listing.Image;
             }
 
-            // Kiểm tra ModelState
+            // Check ModelState
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("ModelState is invalid. Errors:");
@@ -416,23 +416,34 @@ namespace EprojectSem3.Controllers
                     Console.WriteLine(error.ErrorMessage);
                 }
 
-                // Load danh mục và thành phố cho form
+                // Load category and city for form
                 ViewBag.User = user;
                 ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
                 ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
                 return View(listing);
             }
+            var isDuplicateTitle = await _listingRepository.IsTitleDuplicateAsync(listing.Title , listing.ListingId);
+            if (isDuplicateTitle)
+            {
+                TempData["msg"] = "title already exists";
+                TempData["AlertType"] = "error"; // Types: success, error, warning, info
+            }
 
-            // Gán thêm thông tin cho bài viết
+            // Add more information to the article
             listing.UserId = userId;
             listing.CreatedAt = listing.CreatedAt;
             listing.UpdatedAt = DateTime.Now;
-            // Thêm bài viết
+            // Add article
             await _listingRepository.UpdateListingAsync(listing);
 
-            // Xử lý file hình ảnh phụ
+            // Processing of secondary image files
             if (files != null && files.Length > 0)
             {
+                var imageOld = await _context.Images.Where(x => x.ListingId == listing.ListingId).ToListAsync();
+                foreach (var i in imageOld)
+                {
+                    await _imageRepository.DeleteImageAsync(i.ImageId);
+                }
                 foreach (var i in files)
                 {
                     if (i != null && i.Length > 0)
@@ -456,7 +467,7 @@ namespace EprojectSem3.Controllers
             }
 
             TempData["msg"] = "Update listing successful.";
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "success"; // Types: success, error, warning, info
             return RedirectToAction("Listing", "User");
 
         }
@@ -468,12 +479,12 @@ namespace EprojectSem3.Controllers
                 await _listingRepository.DeleteListingAsync(id);
 
                 TempData["msg"] = "Delete Listing successful";
-                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                TempData["AlertType"] = "success"; // Types: success, error, warning, info
                 return RedirectToAction("Listing", "User");
 
             }
             TempData["msg"] = "Existing posts cannot be deleted.";
-            TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "error"; // Types: success, error, warning, info
             return View("Listing", "User");
         }
 

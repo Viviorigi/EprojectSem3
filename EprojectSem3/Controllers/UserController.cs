@@ -69,24 +69,7 @@ namespace EprojectSem3.Controllers
             return Json(data);
         }
 
-        //[HttpPost]
-        //[Route("GetChartDataBySelect3")]
-        //public IActionResult GetChartDataBySelect3(DateTime startDate, DateTime endDate)
-        //{
-        //    var id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-        //    var data = _context.Listings
-        //    .Where(x => x.Status == 1)
-        //    .Where(x => x.UserId == id)
-        //    .Select(x => new
-        //    {
-        //        date = x.CreatedAt.Value.ToString("yyyy-MM-dd"),
-        //        listing = _context.Listings.Where(x => x.Status == 1).Where(x => x.UserId == id).Count()
-        //    })
-        //    .ToList();
-
-        //    return Json(data);
-        //}
+        
 
         public async Task<IActionResult> Detail()
         {

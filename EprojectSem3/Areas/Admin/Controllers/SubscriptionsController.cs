@@ -149,7 +149,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }
             
             TempData["msg"] = "Existing posts cannot be deleted.";
-            TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "error"; // Types: success, error, warning, info
             return View("index");
         }
 

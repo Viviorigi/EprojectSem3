@@ -31,7 +31,7 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                             <div class="search-tab-col">
-                                <form>
+                                <form asp-controller="Listing" asp-action="Index" method="get">
                                     <div class="row align-items-center search-form">
                                         <div class="col-12 col-lg-10 datepicker-col search-group">
                                             <div class="row">
@@ -43,7 +43,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1 estate-input">
-                                                            <input type="text" name="name" class="border-0 text-truncate px-0 form-control" placeholder="Search location of Property">
+                                                            <input type="text" name="keyword" class="border-0 text-truncate px-0 form-control" placeholder="Search location of Property">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -55,12 +55,11 @@
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1 estate-input">
-                                                            <select class="form-control select category-select">
-                                                                <option>Guest</option>
-                                                                <option>User</option>
-                                                                <option>Admin</option>
-                                                                <option>Seller</option>
-                                                                <option>Buyer</option>
+                                                            <select name="role" class="form-control select category-select">
+                                                                <option value="">Select Role</option>
+                                                                <option value="private-seller">Private Seller</option>
+                                                                <option value="agent">Agent</option>
+                                                                
                                                             </select>
                                                         </div>
                                                     </div>

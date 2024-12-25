@@ -77,7 +77,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             else
             {
                 TempData["msg"] = "Image is not required";
-                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+                TempData["AlertType"] = "error"; // Types: success, error, warning, info
                 ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
                 ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
                 ViewBag.showContact = new SelectList(new[]
@@ -93,7 +93,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                                    .Select(e => e.ErrorMessage);
                 foreach (var error in errors)
                 {
-                    Console.WriteLine(error); // Hoặc log lỗi
+                    Console.WriteLine(error); //  error log
                 }
 
                 ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
@@ -153,7 +153,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }
 
             TempData["msg"] = "Create listing succsessful";
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "success"; // Types: success, error, warning, info
 
             return RedirectToAction("Index");
         }
@@ -165,7 +165,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             if (listing == null)
             {
                 TempData["msg"] = "Listing does not exist";
-                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+                TempData["AlertType"] = "error"; // Types: success, error, warning, info
                 return RedirectToAction("Index");
             }
             ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
@@ -184,8 +184,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Listing listing, IFormFile? file, IFormFile[] files)
         {
-            //var data = await _listingRepository.GetListingByIdAsync(listing.ListingId);
-            //Console.WriteLine(data.Image);
+            
             if (file != null && file.Length > 0)
             {
 
@@ -197,14 +196,14 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     await file.CopyToAsync(fileStream);
                 }
             }
-            //listing.Image = data.Image;
+            
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors)
                                    .Select(e => e.ErrorMessage);
                 foreach (var error in errors)
                 {
-                    Console.WriteLine(error); // Hoặc log lỗi
+                    Console.WriteLine(error); // error log
                 }
 
                 ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
@@ -216,26 +215,24 @@ namespace EprojectSem3.Areas.Admin.Controllers
             }, "Value", "Text");
                 return View(listing);
             }
-            //var data = _context.Listings.Where(x => x.ListingId != listing.ListingId && x.Title == listing.Title);
-            //if (data != null)
-            //{
-            //    ViewBag.message = "Title has existed";
-            //    return View(listing);
-            //}
+            var isDuplicateTitle = await _listingRepository.IsTitleDuplicateAsync(listing.Title, listing.ListingId);
+            if (isDuplicateTitle)
+            {
+                TempData["msg"] = "title already exists";
+                TempData["AlertType"] = "error"; // Types: success, error, warning, info
+            }
 
             listing.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            //var listingOld = _context.Listings.FirstOrDefault(x=> x.ListingId == listing.ListingId);
-            //listing.CreatedAt = listingOld.CreatedAt;
             listing.UpdatedAt = DateTime.Now;
             await _listingRepository.UpdateListingAsync(listing);
 
             if (files != null && files.Length > 0)
             {
-                var imageOld = _context.Images.Where(x => x.ListingId == listing.ListingId).ToList();
+                var imageOld = await _context.Images.Where(x => x.ListingId == listing.ListingId).ToListAsync();
                 foreach (var i in imageOld)
                 {
-                    await _imageRepository.AddImageAsync(i);
+                    await _imageRepository.DeleteImageAsync(i.ImageId);
                 }
                 foreach (IFormFile i in files)
                 {
@@ -252,7 +249,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 }
             }
             TempData["msg"] = "Create listing succsessful";
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "success"; // Types: success, error, warning, info
 
             return RedirectToAction("Index");
         }
@@ -266,12 +263,12 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 await _listingRepository.DeleteListingAsync(id);
 
                 TempData["msg"] = "Delete Listing successful";
-                TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+                TempData["AlertType"] = "success"; // Types: success, error, warning, info
                 return RedirectToAction("Index");
 
             }
             TempData["msg"] = "Existing posts cannot be deleted.";
-            TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "error"; // Types: success, error, warning, info
             return View("index");
         }
 
@@ -281,7 +278,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
             if (listing == null)
             {
                 TempData["msg"] = "Search results do not exist";
-                TempData["AlertType"] = "error"; // Các loại: success, error, warning, info
+                TempData["AlertType"] = "error"; // Types: success, error, warning, info
                 return RedirectToAction("Index");
             }
             return View(listing);

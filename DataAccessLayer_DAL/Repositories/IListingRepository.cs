@@ -18,10 +18,11 @@ namespace DataAccessLayer_DAL.Repositories
 		Task<IEnumerable<Listing>> Search(string? keyword);
 		Task<IEnumerable<Listing>> GetListingTop5ByPriorityAsync();
 
-        Task<IEnumerable<Listing>> GetAllListingAsync(int? page , string? keyword , int? cateId , int? cityId , double? minPrice , double? maxPrice , string? sort);
+        Task<IEnumerable<Listing>> GetAllListingAsync(int? page , string? keyword , int? cateId , int? cityId , double? minPrice , double? maxPrice , string? sort , string? role);
 		Task<IEnumerable<Listing>> GetMyListingAsync(int userId,int? page , string? search);
+        Task<bool> IsTitleDuplicateAsync(string title, int? listingId = null);
 
 
 
-	}
+    }
 }

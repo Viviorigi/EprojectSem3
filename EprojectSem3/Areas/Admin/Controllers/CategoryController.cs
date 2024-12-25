@@ -39,13 +39,13 @@ namespace EprojectSem3.Areas.Admin.Controllers
                                    .Select(e => e.ErrorMessage);
                 foreach (var error in errors)
                 {
-                    Console.WriteLine(error); // Hoặc log lỗi
+                    Console.WriteLine(error); //  error log
                 }
                 return View(category);
             }
             await _service.AddCategoryAsync(category);
             TempData["msg"] = "Create successful";
-            TempData["AlertType"] = "success"; // Các loại: success, error, warning, info
+            TempData["AlertType"] = "success"; // Types: success, error, warning, info
             return  RedirectToAction("Index");
 
 
@@ -72,8 +72,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
 								   .Select(e => e.ErrorMessage);
 				foreach (var error in errors)
 				{
-					Console.WriteLine(error); // Hoặc log lỗi
-				}
+					Console.WriteLine(error); // error log
+                }
 				return View(category);
 			}
              await _service.UpdateCategoryAsync(category);
@@ -93,6 +93,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 TempData["AlertType"] = "error";
                 return RedirectToAction("Index");
 			}
+            ViewBag.Name = name;
 			return View(category);
 		}
 

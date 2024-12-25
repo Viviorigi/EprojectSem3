@@ -24,10 +24,12 @@ namespace EprojectSem3.Controllers
         private readonly EmailService _emailService;
         private readonly IListingRepository _listingRepository;
         private readonly PaypalClient _paypalClient;
+        
 
         public HomeController(ILogger<HomeController> logger, AppDbContext context, EmailService emailService, IListingRepository listingRepository,
-            PaypalClient paypalClient )
+            PaypalClient paypalClient , IUserRepository userRepository )
         {
+            
             _logger = logger;
             _context = context;
             _emailService = emailService;
@@ -98,18 +100,18 @@ namespace EprojectSem3.Controllers
         [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
         public IActionResult RenewSubscription()
         {
-            // Lấy UserId từ Claims
+            // Get UserId from Claims
             var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
 
-            // Lấy danh sách các Subscription mà người dùng đã mua
+            // Get a list of Subscriptions that a user has purchased
             var purchasedSubscriptions = _context.UserSubscriptions
                 .Where(us => us.UserId == userId)
                 .Select(us => us.SubscriptionId)
                 .ToList();
 
-            // Lấy danh sách các Subscription dựa trên Role và lọc các gói chưa mua
+            //Get a list of Subscriptions based on Role and filter for unpurchased packages
             var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
-            if (userRole == "0") // User thông thường
+            if (userRole == "0") // if role to private seller
             {
                 ViewBag.Memberships = _context.Subscriptions
                     .Where(s => s.IsAgent == false)
@@ -121,12 +123,12 @@ namespace EprojectSem3.Controllers
                     .Where(s => s.IsAgent == true )
                     .ToList();
             }
-            else // Admin hoặc không có Role cụ thể
+            else // Admin or no specific Role
             {
                 ViewBag.Memberships = _context.Subscriptions.ToList();
             }
 
-            // Gửi danh sách các gói đã mua (để hiển thị hoặc xử lý nếu cần)
+            // Send list of purchased packages (for display or processing if needed)
             ViewBag.PurchasedMemberships = _context.Subscriptions
                 .Where(s => purchasedSubscriptions.Contains(s.SubscriptionId))
                 .ToList();
