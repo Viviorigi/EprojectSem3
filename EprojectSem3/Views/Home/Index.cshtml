@@ -55,7 +55,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1 estate-input">
-                                                            <select name="role" class="form-control select category-select">
+                                                            <select name="role" class="form-control select">
                                                                 <option value="">Select Role</option>
                                                                 <option value="private-seller">Private Seller</option>
                                                                 <option value="agent">Agent</option>
@@ -187,10 +187,6 @@
                 <a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId"><img src="@l.Image" class="img-fluid" alt=""></a>
                 <div class="container">
                     <div class="holiday-cabin-info" data-aos="fade-up">
-                        <div class="rate-per-day">
-                            <span>$ @string.Format("{0:N2}", @l.Price) /</span>
-                            <h6>Per night</h6>
-                        </div>
                         <div class="section-heading">
                             <h2><a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId">@l.Title</a></h2>
                             <p>@l.Category.Description</p>

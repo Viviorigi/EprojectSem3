@@ -107,7 +107,7 @@ CREATE TABLE Blogs (
     Title NVARCHAR(255) NOT NULL,
     Content TEXT NOT NULL,
 	Image varchar(255) not null,
-    Status TINYINT NOT NULL, -- 0: Draft, 1: Published, 2: Archived
+    Status TINYINT NOT NULL,
     CreatedAt DATETIME,
 );
 CREATE TABLE Contacts (

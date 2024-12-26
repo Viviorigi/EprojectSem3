@@ -253,3 +253,10 @@ INSERT INTO Images (ListingId, ImagePath) VALUES
 (25, 'images/image25v3.jpeg'),
 (25, 'images/image25v4.jpeg');
 
+INSERT INTO Blogs (Title, Content, Image, Status, CreatedAt)
+VALUES 
+('First-time Home Buying Tips', 'Buying a home for the first time can be a huge challenge. In this article, we share important tips and advice when choosing and purchasing a property. You will need to consider factors such as location, property value, and legal procedures.', 'images/blogs/blog1.jpeg', 1, '2024-12-25 10:00:00'),
+('Top 5 Best Real Estate Investment Areas in 2024', 'In 2024, the real estate market is experiencing many fluctuations. Here are the top 5 areas predicted to offer high returns for investors. Read this article to learn more about these areas.', 'images/blogs/blog2.jpeg', 1, '2024-12-20 08:30:00'),
+('Luxury Condo Projects in Ho Chi Minh City', 'Ho Chi Minh City is home to many luxury condo projects. This article introduces the most noteworthy projects this year, helping you find the perfect option for modern living.', 'images/blogs/blog3.jpeg', 1, '2024-12-18 14:45:00'),
+('Common Mistakes to Avoid When Renting a House', 'Renting a house is a big decision, and it’s easy to make some common mistakes. Let’s explore the most frequent mistakes renters make and how to avoid them.', 'images/blogs/blog4.jpeg', 1, '2024-12-15 16:00:00'),
+('Vacation Real Estate: Investment Opportunities in the Near Future', 'Vacation real estate is becoming an increasingly attractive investment trend. Explore the potential of this type of property and discover the best locations for investment in Vietnam.', 'images/blogs/blog5.jpeg', 1, '2024-12-10 09:30:00');
