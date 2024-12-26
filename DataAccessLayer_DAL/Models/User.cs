@@ -51,6 +51,7 @@ namespace DataAccessLayer_DAL.Models
         public ICollection<Listing>? Listings { get; set; }
         public ICollection<UserSubscription>? UserSubscriptions { get; set; }
         public ICollection<Transaction>? Transactions { get; set; }
-         public ICollection<BookMark>? BookMarks { get; set; }
+        public ICollection<BookMark>? BookMarks { get; set; }
+        public ICollection<Rating>? Ratings { get; set; }
     }
 }

@@ -87,7 +87,7 @@ namespace BussinessLogicLayer_BLL.Services
 
         public async Task<Listing?> GetListingByIdAsync(int listingId)
 		{
-			var listing = await _context.Listings.Include(x => x.City).Include(x => x.User).Include(x => x.Category).FirstOrDefaultAsync(x => x.ListingId ==listingId);
+			var listing = await _context.Listings.Include(x => x.City).Include(x => x.User).Include(x => x.Category).Include(x => x.Ratings).ThenInclude(r => r.User).FirstOrDefaultAsync(x => x.ListingId ==listingId);
 			if (listing != null)
 			{
 				return listing;

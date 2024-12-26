@@ -1,5 +1,6 @@
 ﻿@model DataAccessLayer_DAL.Models.Listing
 @{
+
 	ViewData["Title"] = "Detail";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -27,21 +28,21 @@
 			</div>
 			<div class="rate-details">
 				<h2>$ @string.Format("{0:N2}", @Model.Price) </h2>
-				
+
 			</div>
 		</div>
 		<div class="descriptionlinks">
 			<div class="row">
 				<div class="col-lg-7">
 					<ul>
-					@if (ViewBag.IsBookmarked) // This property will be passed from your controller
-					{
+						@if (ViewBag.IsBookmarked) // This property will be passed from your controller
+						{
 							<li><a asp-action="DeleteToBookmark" asp-controller="Listing" asp-route-listingId="@Model.ListingId" style="color: red;"><i class="feather-bookmark"></i> Remove from bookmark</a></li>
-					}
-					else
-					{
-						<li><a asp-action="SaveToBookmark" asp-controller="Listing" asp-route-listingId="@Model.ListingId"><i class="feather-bookmark"></i> Save to bookmark</a></li>
-					}
+						}
+						else
+						{
+							<li><a asp-action="SaveToBookmark" asp-controller="Listing" asp-route-listingId="@Model.ListingId"><i class="feather-bookmark"></i> Save to bookmark</a></li>
+						}
 					</ul>
 				</div>
 				<div class="col-lg-5">
@@ -68,7 +69,7 @@
 					<div class="card-body">
 						<div class="gallery-content">
 							<div class="row">
-								@foreach(var img in (IEnumerable<DataAccessLayer_DAL.Models.Image>)ViewBag.image)
+								@foreach (var img in (IEnumerable<DataAccessLayer_DAL.Models.Image>)ViewBag.image)
 								{
 									<div class="col-lg-3 col-md-3 col-sm-3">
 										<div class="gallery-widget">
@@ -78,8 +79,8 @@
 										</div>
 									</div>
 								}
-								
-								
+
+
 							</div>
 						</div>
 					</div>
@@ -99,6 +100,177 @@
 						@Html.Raw(Model.Description)
 					</div>
 				</div>
+
+				<div class="card ">
+					<div class="card-header  align-items-center">
+						<i class="feather-star"></i>
+						<h4>Ratings</h4>
+					</div>
+					@{
+						// Assuming Model.Ratings is a list of rating objects with RatingValue
+						var ratingCounts = new int[5];  // Array to store counts for 1, 2, 3, 4, 5 star ratings
+
+						// Calculate the number of ratings for each star value
+						foreach (var rating in Model.Ratings)
+						{
+							if ((int)rating.RatingValue >= 1 && (int)rating.RatingValue <= 5)
+							{
+								ratingCounts[(int)rating.RatingValue - 1]++;
+							}
+						}
+					}
+
+					<div class="card-body">
+						<div class="ratings-content">
+							<div class="row">
+								<div class="col-lg-3">
+									<div class="ratings-info">
+										<p class="ratings-score"><span>@Math.Round(ViewBag.AverageRating, 2)</span>/5</p>
+										<p>OVERALL</p>
+										<p>
+											@for (int i = 1; i <= 5; i++)
+											{
+												if (i <= Math.Floor((decimal)ViewBag.AverageRating)) // Ensure proper rounding
+												{
+													<i class="fas fa-star filled"></i>
+												}
+												else
+												{
+													<i class="fa-regular fa-star"></i>
+												}
+											}
+										</p>
+										<p>Based on Listing</p>
+									</div>
+								</div>
+								<div class="col-lg-9">
+									<div class="ratings-table table-responsive">
+										<table>
+											<tbody>
+												@for (int i = 4; i >= 0; i--)
+												{
+													<tr>
+														<td class="star-ratings">
+															@for (int j = 0; j < 5; j++)
+															{
+																@if (j <= i)
+																{
+																	<i class="fas fa-star filled"></i>
+																}
+																else
+																{
+																	<i class="fa-regular fa-star rating-color"></i>
+																}
+															}
+														</td>
+														<td class="scrore-width"><span> </span></td>
+														<td>@ratingCounts[i]</td>
+													</tr>
+												}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="card review-sec  mb-0">
+					<div class="card-header  align-items-center">
+						<i class="fa-regular fa-comment-dots"></i>
+						<h4>Write a Review</h4>
+					</div>
+					<div class="card-body">
+						<div class="review-list">
+							<ul class="">
+								@foreach (var rating in Model.Ratings)
+								{
+									<li class="review-box">
+										<div class="review-profile">
+											<div class="review-img">
+												<!-- Display the user's avatar -->
+												@if (rating.User != null && !string.IsNullOrEmpty(rating.User.Image))
+												{
+													<img src="/@rating.User.Image" class="img-fluid" alt="User Avatar">
+												}
+												else
+												{
+													<!-- Placeholder image if the User is null or does not have an image -->
+													<img src="/images/users.png" class="img-fluid" alt="Default Avatar">
+												}
+											</div>
+										</div>
+										<div class="review-details">
+											@if (rating.User != null)
+											{
+												<h6>@rating.User.FullName</h6>
+											}
+											<div class="rating">
+												<div class="rating-star">
+													<!-- Display the rating stars -->
+													@for (int i = 1; i <= 5; i++)
+													{
+														if (i <= rating.RatingValue)
+														{
+															<i class="fas fa-star filled"></i>
+														}
+														else
+														{
+															<i class="fa-regular fa-star"></i>
+														}
+													}
+												</div>
+												<div><i class="fa-sharp fa-solid fa-calendar-days"></i> @rating.CreatedAt.ToString("dd/MM/yyyy")</div>
+												@* <div>by: @rating.User.FullName</div> *@
+											</div>
+											<p>@rating.Comment</p>
+								
+										</div>
+									</li>
+								}
+								@if (ViewBag.userId !=null){
+									<li class="review-box feedbackbox mb-0">
+										<div class="review-details">
+											<h6>Leave Feedback About This</h6>
+										</div>
+										<div class="card-body">
+											<form asp-action="AddRating" method="post" >
+												<input type="hidden" name="listingId" value="@Model.ListingId" />
+												<div class="row">																	
+													<div class="col-lg-12 col-md-12">
+														<div class="form-set">
+															<textarea rows="4" name="comment" class="form-control" placeholder="Write a Review*" required></textarea>
+														</div>
+													</div>
+												</div>
+												<div class="form-set">
+													<label>Rating</label>
+													<div class="rateyo"
+														 data-rateyo-rating="3"
+														 data-rateyo-num-stars="5"
+														 data-rateyo-score="4"></div>
+													<input type="hidden" id="ratingValue" name="ratingValue">
+												</div>
+												<div class="submit-section">
+													<button class="btn btn-primary submit-btn" type="submit">Submit Review</button>
+												</div>
+											</form>
+										</div>
+									</li>
+								}
+								else
+								{
+									
+									<p>Please <a href="@Url.Action("Login", "Home")">log in</a> to submit a review.</p>
+								}
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+
 			</div>
 			<div class="col-lg-3">
 				<div class="rightsidebar">
@@ -107,17 +279,17 @@
 						<ul>
 							<li>Contract <span>@Model.Category.Name</span></li>
 							<li>Location <span>@Model.City.Name</span></li>
-							@if(Model.ContactViaForm == 1)
+							@if (Model.ContactViaForm == 1)
 							{
 								<li>Email <span>@Model.User.Email</span></li>
 								<li>Phone <span>@Model.User.PhoneNumber</span></li>
 							}
-							
-							
+
+
 						</ul>
 					</div>
-					
-					
+
+
 					<div class="card">
 						<h4> <i class="feather-user"></i> Author</h4>
 						<div class="sidebarauthor-details align-items-center">
@@ -130,11 +302,24 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- /Details Main Section -->
 
+@section Scripts{
+	<script>
+		$(function () {
+			$("#rateYo").rateYo({
+				starWidth: "30px",
+				onSet: function (rating) {
+					$("#ratingValue").val(rating);
+				},
+			});
+		});
+
+
+	</script>
+}

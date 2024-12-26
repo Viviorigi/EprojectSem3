@@ -491,15 +491,32 @@ namespace EprojectSem3.Controllers
 
         public async Task<IActionResult> Detail(int id)
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            int? userId = null;
+            bool isBookmarked = false;
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (claim != null && !string.IsNullOrEmpty(claim.Value))
+            {
+                userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                isBookmarked = await _context.BookMarks
+               .AnyAsync(b => b.UserId == userId && b.ListingId == id);
+               
+            }
+            ViewBag.isBookmarked = isBookmarked;
+            ViewBag.userId = userId;
+
             var listing = await _listingRepository.GetListingByIdAsync(id);
+            if (listing != null && listing.Ratings.Any())
+            {
+                var averageRating = listing.Ratings.Average(r => r.RatingValue);
+                ViewBag.AverageRating = averageRating;
+            }
+            else
+            {
+                ViewBag.AverageRating = 0;  // Default to 0 if no ratings exist
+            }
             var image = await _imageRepository.GetImageByListingIdAsync(id);
             ViewBag.image = image;
-            var isBookmarked = await _context.BookMarks
-            .AnyAsync(b => b.UserId == userId && b.ListingId == id);
-            ViewBag.isBookmarked = isBookmarked;
-
-            Console.WriteLine(ViewBag.image);
+            
 
             return View(listing);
         }
@@ -557,6 +574,41 @@ namespace EprojectSem3.Controllers
             }
 
             // Redirect to the details page of the listing
+            return RedirectToAction("Detail", new { id = listingId });
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
+        public async Task<IActionResult> AddRating(int listingId, double ratingValue, string comment)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            var existingRating = _context.Ratings.FirstOrDefault(r => r.UserId == userId && r.ListingId == listingId);
+
+            if (existingRating != null)
+            {
+                existingRating.RatingValue = ratingValue;
+                existingRating.Comment = comment;
+                existingRating.CreatedAt = DateTime.Now;
+
+                _context.Ratings.Update(existingRating);
+            }
+            else
+            {
+                var newRating = new Rating
+                {
+                    UserId = userId,
+                    ListingId = listingId,
+                    RatingValue = ratingValue,
+                    Comment = comment,
+                    CreatedAt = DateTime.Now
+                };
+
+                _context.Ratings.Add(newRating);
+            }
+
+            await _context.SaveChangesAsync();
+            TempData["Message"] = "Ratings Successful";
             return RedirectToAction("Detail", new { id = listingId });
         }
 

@@ -216,6 +216,37 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script src="~/assets/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="fc1053c9e199526e937fbf6a-|49" defer></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css" rel="stylesheet" />
+    <script>
+              $(function () {
+
+            $(".rateyo").each(function () {
+                var rating = $(this).data("rateyo-rating");
+                $(this).rateYo({
+                    rating: rating
+                });
+
+                $('#ratingStar').val(rating);
+
+                $(this).parent().find('.result').text('rating : ' + rating);
+            });
+
+            // Update the rating value on change
+            $(".rateyo").on("rateyo.change", function (e, data) {
+                var rating = data.rating;
+
+                $(this).parent().find('.result').text('rating : ' + rating);
+
+                // Set the rating value to the hidden input
+                $('#ratingValue').val(rating);
+            });
+        });
+
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

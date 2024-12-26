@@ -28,6 +28,7 @@ namespace DataAccessLayer_DAL.Models
 
         public ICollection<Image>? Images { get; set; } //  Images
         public ICollection<BookMark>? BookMarks { get; set; } //  Bookmarks
+        public ICollection<Rating>? Ratings { get; set; } //  Ratings
     }
 
 }

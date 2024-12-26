@@ -135,3 +135,14 @@ CREATE TABLE BookMarks (
 	FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (ListingId) REFERENCES Listings(ListingId)
 );
+CREATE TABLE Ratings (
+    RatingId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    ListingId INT NOT NULL,
+    RatingValue FLOAT NOT NULL,
+    Comment NVARCHAR(MAX),
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+    FOREIGN KEY (ListingId) REFERENCES Listings(ListingId)
+);
+
