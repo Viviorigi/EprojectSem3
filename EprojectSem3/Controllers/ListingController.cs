@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using System.Security.Claims;
 
 namespace EprojectSem3.Controllers
@@ -33,7 +34,8 @@ namespace EprojectSem3.Controllers
             
             var listings = await _listingRepository.GetAllListingAsync(page , keyword , cateId ,cityId ,minPrice, maxPrice ,sort , role);
 
-            return View(listings);
+		
+			return View(listings);
         }
 
 		[Authorize(AuthenticationSchemes = "MyAuthenticationSchema")]
@@ -545,6 +547,8 @@ namespace EprojectSem3.Controllers
 
             _context.BookMarks.Add(bookmark);
             await _context.SaveChangesAsync();
+            TempData["msg"] = "Save listing to bookmark successful.";
+            TempData["AlertType"] = "success";
 
             return RedirectToAction("Detail", new { id = listingId });
         }
@@ -565,7 +569,8 @@ namespace EprojectSem3.Controllers
                 // If the bookmark exists, remove it (delete it)
                 _context.BookMarks.Remove(existingBookmark);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Listing removed from bookmarks.";
+                TempData["msg"] = "Listing removed from bookmarks.";
+                TempData["AlertType"] = "success";
             }
             else
             {
@@ -592,6 +597,8 @@ namespace EprojectSem3.Controllers
                 existingRating.CreatedAt = DateTime.Now;
 
                 _context.Ratings.Update(existingRating);
+                TempData["msg"] = "Update Rating successful.";
+                TempData["AlertType"] = "success";
             }
             else
             {
@@ -603,12 +610,13 @@ namespace EprojectSem3.Controllers
                     Comment = comment,
                     CreatedAt = DateTime.Now
                 };
-
+                TempData["msg"] = "Create Rating successful.";
+                TempData["AlertType"] = "success";
                 _context.Ratings.Add(newRating);
             }
 
             await _context.SaveChangesAsync();
-            TempData["Message"] = "Ratings Successful";
+            
             return RedirectToAction("Detail", new { id = listingId });
         }
 

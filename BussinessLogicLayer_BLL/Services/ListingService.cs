@@ -40,7 +40,7 @@ namespace BussinessLogicLayer_BLL.Services
 		public async Task<IEnumerable<Listing>> GetAllListingAsync()
 		{
 			
-			return await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(c => c.CreatedAt).ToListAsync(); 
+			return await _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).Include(x=>x.Ratings).OrderByDescending(c => c.CreatedAt).ToListAsync(); 
 		}
 
         public async Task<IEnumerable<Listing>> GetAllListingAsync(int? page, string? keyword, int? cateId, int? cityId, double? minPrice, double? maxPrice, string? sort ,string? role)
@@ -48,7 +48,7 @@ namespace BussinessLogicLayer_BLL.Services
 
             int pageSize = 8;
             int pageNumber = page ?? 1; // If there is no page, default is page 1
-            var listings =  _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.City).OrderByDescending(p => p.Priority).Where(x => x.Status == 1).Where(x => x.Category.Status == 1).AsQueryable();
+            var listings =  _context.Listings.Include(x => x.Category).Include(x => x.User).Include(x => x.Ratings).Include(x => x.City).OrderByDescending(p => p.Priority).Where(x => x.Status == 1).Where(x => x.Category.Status == 1).AsQueryable();
 			if (!string.IsNullOrEmpty(keyword))
 			{
 				listings = listings.Where(x => EF.Functions.Like(x.Title, $"%{keyword}%"));

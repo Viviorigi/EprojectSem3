@@ -18,9 +18,11 @@ namespace EprojectSem3.Areas.Admin.Controllers
 			}
 			else
 			{
+				TempData["msg"] = "You dont have permission! Please log out account user";
+				TempData["AlertType"] = "error";
 				context.Result = new RedirectToRouteResult(new RouteValueDictionary {
 					{ "controller", "LoginAdmin" },
-					{ "action", "AccessDenied" } });
+					{ "action", "Index" } });
 			}
 		}
 	}

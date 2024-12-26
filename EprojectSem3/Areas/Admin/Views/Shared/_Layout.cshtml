@@ -180,9 +180,15 @@
                             <a asp-controller="Blogs" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Blogs" ? "active" : "")"><i class="fe fe-file-text"></i> <span>Blog</span></a>
                         </li>
                         <li>
+                            <a asp-controller="Ratings" asp-action="Index"
+                               class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Ratings" ? "active" : "")">
+                                <i class="fe fe-star"></i> <span>Ratings</span>
+                            </a>
+                        </li>
+                        <li>
                             <a asp-controller="Subscriptions" asp-action="Index"
                                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Subscriptions" ? "active" : "")">
-                                <i class="fe fe-user"></i> <span>Membership</span>
+                                <i class="fe fe-briefcase"></i> <span>Membership</span>
                             </a>
                         </li>
                         <li>
@@ -194,7 +200,7 @@
                         <li>
                             <a asp-controller="Contacts" asp-action="Index"
                                class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Contacts" ? "active" : "")">
-                                <i class="fe fe-file-text"></i> <span>Contacts</span>
+                                <i class="fe fe-message-square"></i> <span>Contacts</span>
                             </a>
                         </li>
                         <li>

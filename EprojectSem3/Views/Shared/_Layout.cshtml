@@ -246,6 +246,19 @@
         });
 
     </script>
+    <script>
+        // Kiểm tra TempData để hiển thị thông báo
+        const message = '@TempData["msg"]';
+        const alertType = '@TempData["AlertType"]';
+
+        if (message) {
+            Swal.fire({
+                icon: alertType || 'info',
+                title: 'Notification',
+                text: message,
+            });
+        }
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

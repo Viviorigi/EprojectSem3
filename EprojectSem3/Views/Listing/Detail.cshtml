@@ -3,6 +3,21 @@
 
 	ViewData["Title"] = "Detail";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+
+	// Check if Model.Ratings is null or empty
+	var ratingCounts = new int[5]; // Array to store counts for 1, 2, 3, 4, 5 star ratings
+
+	if (Model.Ratings != null && Model.Ratings.Any())
+	{
+		// Calculate the number of ratings for each star value
+		foreach (var rating in Model.Ratings)
+		{
+			if (rating?.RatingValue != null && (int)rating.RatingValue >= 1 && (int)rating.RatingValue <= 5)
+			{
+				ratingCounts[(int)rating.RatingValue - 1]++;
+			}
+		}
+	}
 }
 
 <!--Details Description  Section-->
@@ -17,12 +32,22 @@
 					<h5>@Model.Title</h5>
 					@* <p>Luxury hotel in the heart of Blommsbury</p> *@
 					<div class="rating">
-						<i class="fas fa-star filled"></i>
-						<i class="fas fa-star filled"></i>
-						<i class="fas fa-star filled"></i>
-						<i class="fas fa-star filled"></i>
-						<i class="fa-regular fa-star rating-color"></i>
-						<span class="d-inline-block average-rating"> 4.5 </span>
+						@for (int i = 1; i <= 5; i++)
+						{
+							if (ViewBag.AverageRating != null && i <= Math.Floor((decimal)ViewBag.AverageRating)) // Ensure proper rounding
+							{
+								<i class="fas fa-star filled"></i>
+							}
+							else
+							{
+								<i class="fa-regular fa-star"></i>
+							}
+						}
+							@if (ViewBag.AverageRating != null)
+							{
+								@Math.Round((decimal)ViewBag.AverageRating, 2)
+							}
+						</span>
 					</div>
 				</div>
 			</div>
@@ -101,36 +126,32 @@
 					</div>
 				</div>
 
-				<div class="card ">
-					<div class="card-header  align-items-center">
+				<div class="card">
+					<div class="card-header align-items-center">
 						<i class="feather-star"></i>
 						<h4>Ratings</h4>
 					</div>
-					@{
-						// Assuming Model.Ratings is a list of rating objects with RatingValue
-						var ratingCounts = new int[5];  // Array to store counts for 1, 2, 3, 4, 5 star ratings
-
-						// Calculate the number of ratings for each star value
-						foreach (var rating in Model.Ratings)
-						{
-							if ((int)rating.RatingValue >= 1 && (int)rating.RatingValue <= 5)
-							{
-								ratingCounts[(int)rating.RatingValue - 1]++;
-							}
-						}
-					}
+					
 
 					<div class="card-body">
 						<div class="ratings-content">
 							<div class="row">
 								<div class="col-lg-3">
 									<div class="ratings-info">
-										<p class="ratings-score"><span>@Math.Round(ViewBag.AverageRating, 2)</span>/5</p>
+										<p class="ratings-score">
+											<span>
+												@if (ViewBag.AverageRating != null)
+												{
+													@Math.Round((decimal)ViewBag.AverageRating, 2)
+												}
+												
+											</span>/5
+										</p>
 										<p>OVERALL</p>
 										<p>
 											@for (int i = 1; i <= 5; i++)
 											{
-												if (i <= Math.Floor((decimal)ViewBag.AverageRating)) // Ensure proper rounding
+												if (ViewBag.AverageRating != null && i <= Math.Floor((decimal)ViewBag.AverageRating)) // Ensure proper rounding
 												{
 													<i class="fas fa-star filled"></i>
 												}
@@ -153,7 +174,7 @@
 														<td class="star-ratings">
 															@for (int j = 0; j < 5; j++)
 															{
-																@if (j <= i)
+																if (j <= i)
 																{
 																	<i class="fas fa-star filled"></i>
 																}
@@ -174,7 +195,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 
 				<div class="card review-sec  mb-0">

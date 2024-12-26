@@ -128,7 +128,9 @@
 														
 													</div>
 													<div class="ratings">
-														<span>4.7</span> (50)
+														<span>
+															@(l.Ratings.Any() ? l.Ratings.Average(r => r.RatingValue).ToString("0.00") : "0.00")
+														</span> (@(l.Ratings.Any() ? l.Ratings.Count() : "0"))
 													</div>
 												</div>
 											</div>

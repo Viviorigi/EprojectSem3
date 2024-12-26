@@ -37,7 +37,10 @@ namespace EprojectSem3.Controllers
             var user_sub = _context.UserSubscriptions.Where(x =>x.UserId == id).Count();
             ViewBag.UserSub = user_sub;
 
-            var u = await _context.Users
+            var bookmark= _context.BookMarks.Where(x => x.UserId == id).Count();
+			ViewBag.countBookMark = bookmark;
+
+			var u = await _context.Users
                 .Include(u => u.Subscription)
                 .Include(u => u.Listings)
                 .FirstOrDefaultAsync(m => m.UserId == id);
@@ -263,7 +266,8 @@ namespace EprojectSem3.Controllers
                 // If the bookmark exists, remove it (delete it)
                 _context.BookMarks.Remove(existingBookmark);
                 await _context.SaveChangesAsync();
-                TempData["Message"] = "Listing removed from bookmarks.";
+                TempData["msg"] = "Listing removed from bookmarks successful.";
+                TempData["AlertType"] = "success";
             }
             else
             {
