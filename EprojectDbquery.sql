@@ -64,14 +64,13 @@ CREATE TABLE Listings (
     Status TINYINT NOT NULL,
 	image varchar(255) NOT NULL,
     Priority TINYINT NOT NULL,
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    UpdatedAt DATETIME DEFAULT GETDATE(),
+	ContactViaForm TINYINT DEFAULT 0,
+    CreatedAt DATETIME,
+    UpdatedAt DATETIME,
     FOREIGN KEY (CategoryId) REFERENCES Categories(CategoryId),
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (CityId) REFERENCES Cities(CityId)
 );
-ALTER TABLE Listings
-ADD ContactViaForm TINYINT DEFAULT 0;
 
 CREATE TABLE Images (
     ImageId INT PRIMARY KEY IDENTITY(1,1),
@@ -109,7 +108,7 @@ CREATE TABLE Blogs (
     Content TEXT NOT NULL,
 	Image varchar(255) not null,
     Status TINYINT NOT NULL, -- 0: Draft, 1: Published, 2: Archived
-    CreatedAt DATETIME DEFAULT GETDATE(),
+    CreatedAt DATETIME,
 );
 CREATE TABLE Contacts (
 	ContactId INT PRIMARY KEY IDENTITY(1,1),
@@ -145,4 +144,3 @@ CREATE TABLE Ratings (
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (ListingId) REFERENCES Listings(ListingId)
 );
-

@@ -7,92 +7,93 @@
 }
 
 <div class="content-page-header content-page-headersplit">
-                    <h5>All Listings</h5>
-                    <div class="list-btn">
-                        <ul>
-                            <li>
-                                <div class="page-headers">
-                                    <div class="search-bar">
-                                        <span><i class="fe fe-search"></i></span>
-                                        <form id="myForm" asp-controller="Listing" asp-action="Search" method="get">
-                                            <input type="text" name="keyword" placeholder="Search" class="form-control">
-                                         </form>
-                                    </div>
-                                </div>
-                            </li>
-                           
-                            <li>
-                                <a class="btn btn-primary" asp-controller="Listing" asp-action="Create" ><i class="fa fa-plus me-2"></i>Add Listing </a>
-                            </li>
-                        </ul>
+    <h5>All Listings</h5>
+    <div class="list-btn">
+        <ul>
+            <li>
+                <div class="page-headers">
+                    <div class="search-bar">
+                        <span><i class="fe fe-search"></i></span>
+                        <form id="myForm" asp-controller="Listing" asp-action="Search" method="get">
+                            <input type="text" name="keyword" placeholder="Search" class="form-control">
+                        </form>
                     </div>
                 </div>
+            </li>
 
-                <div class="row">
-                    <div class="col-12 ">
-                        <a class="table-resposnive table-div">
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Title</th>
-                                        <th>Category</th>
-                                        <th>Amount</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Priority</th>
-                                        <th>ShowContact</th>
-                                        <th>Created By</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                
-                
-                    <tbody>
-                        @foreach (var l in Model)
-                        {
-                            <tr>
-                                <td>@index</td>
-                                <td>
-                                    <a href="view-listing.html" class="table-imgname">
-                                        @* <img src="~/assets/admin/assets/img/services/service-12.jpg" class="me-2" alt="img"> *@
-                                        <span>@l.Title</span>
-                                    </a>
-                                </td>
-                                <td>@l.Category.Name</td>
-                                <td>@l.Price</td>
-                                <td>@l.CreatedAt</td>
-                                 <td>
-                                     <h6 class="@(l.Status == 1 ? "badge-active" : "badge-inactive") ">@(l.Status == 1 ? "Active" : "Inactive")</h6>
-                                 </td>
-                                <td>
-                                    <h6 class="@(l.Priority == 1 ? "badge-active" : "badge-inactive") ">@(l.Priority == 1 ? "Active" : "Inactive")</h6>
-                                </td>
-                                <td>
+            <li>
+                <a class="btn btn-primary" asp-controller="Listing" asp-action="Create" ><i class="fa fa-plus me-2"></i>Add Listing </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 ">
+        <a class="table-resposnive table-div">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>ShowContact</th>
+                        <th>Created By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @foreach (var l in Model)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>
+                                <a href="view-listing.html" class="table-imgname">
+                                    @* <img src="~/assets/admin/assets/img/services/service-12.jpg" class="me-2" alt="img"> *@
+                                    <span>@l.Title</span>
+                                </a>
+                            </td>
+                            <td>@l.Category.Name</td>
+                            <td>@l.Price</td>
+                            <td>@l.CreatedAt</td>
+                            <td>
+                                <h6 class="@(l.Status == 1 ? "badge-active" : "badge-inactive") ">@(l.Status == 1 ? "Active" : "Inactive")</h6>
+                            </td>
+                            <td>
+                                <h6 class="@(l.Priority == 1 ? "badge-active" : "badge-inactive") ">@(l.Priority == 1 ? "Active" : "Inactive")</h6>
+                            </td>
+                            <td>
                                 <h6 class="@(l.ContactViaForm == 1 ? "badge-active" : "badge-inactive") ">@(l.ContactViaForm == 1 ? "Show" : "Hide")</h6>
-                                </td>
+                            </td>
 
-                                <td>
-                                    <a href="javascript:void(0);" class="table-profileimage">
-                                        @*  <img src="~/assets/admin/assets/img/customer/user-02.jpg" class="me-2" alt="img"> *@
-                                        <span>@l.User.FullName</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <div class="table-actions d-flex">
+                            <td>
+                                <a href="javascript:void(0);" class="table-profileimage">
+                                    @*  <img src="~/assets/admin/assets/img/customer/user-02.jpg" class="me-2" alt="img"> *@
+                                    <span>@l.User.FullName</span>
+                                </a>
+                            </td>
+                            <td>
+                                <div class="table-actions d-flex">
                                     <a class="delete-table me-2" asp-controller="Listing" asp-action="Details" asp-route-id="@l.ListingId">
-                                            <img src="~/assets/admin/assets/img/icons/eye.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table me-2" asp-controller="Listing" asp-action="Edit" asp-route-id="@l.ListingId">
-                                            <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
-                                        </a>
-                                        <a class="delete-table" data-id="@l.ListingId" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
-                                            <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
+                                        <img src="~/assets/admin/assets/img/icons/eye.svg" alt="svg">
+                                    </a>
+                                    <a class="delete-table me-2" asp-controller="Listing" asp-action="Edit" asp-route-id="@l.ListingId">
+                                        <img src="~/assets/admin/assets/img/icons/edit.svg" alt="svg">
+                                    </a>
+                                    <a class="delete-table" data-id="@l.ListingId" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete-item">
+                                        <img src="~/assets/admin/assets/img/icons/delete.svg" alt="svg">
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        index++;
+                    }
 
                     </tbody>
             </table>
