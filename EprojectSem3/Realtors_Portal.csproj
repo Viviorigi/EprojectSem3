@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Data\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BussinessLogicLayer_BLL\BussinessLogicLayer_BLL.csproj" />
     <ProjectReference Include="..\DataAccessLayer_DAL\DataAccessLayer_DAL.csproj" />
   </ItemGroup>
