@@ -609,5 +609,3 @@ VALUES
     (13, 13, 4.1, N'Comfortable and great service.', '2025-03-17 09:10:00'),
     (14, 14, 3.5, N'Decent stay, but parking is an issue.', '2025-03-18 10:30:00'),
     (15, 15, 4.9, N'Perfect for a family trip!', '2025-03-19 12:00:00');
-
-	
