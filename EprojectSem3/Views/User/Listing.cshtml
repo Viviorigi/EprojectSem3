@@ -97,12 +97,11 @@
                                 {
                                     <tr>
                                         <td>
-                                            <div class="listingtable-img"> <a asp-action="Detail" asp-controller="Listing" asp-route-id="@item.ListingId"><img class="img-fluid avatar-img" src="/@item.Image" alt=""></a></div>
+                                            <div class=""> <a asp-action="Detail" asp-controller="Listing" asp-route-id="@item.ListingId"><img class="img-fluid avatar-img" src="/@item.Image" alt="" width="200px" height="150px"></a></div>
                                         </td>
                                         <td>
                                             <h6><a asp-action="Detail" asp-controller="Listing" asp-route-id="@item.ListingId">@item.Title</a></h6>
                                             <div class="listingtable-rate"><a href="javascript:void(0)" class="cat-icon"><i class="fa-regular fa-circle-stop"></i> @item.Category.Name</a> <span class="discount-amt">$ @item.Price</span></div>
-                                            @*   <p>Mauris vestibulum lorem a condimentum vulputate.</p> *@
                                         </td>
                                         <td><span class="status-text">@(item.Status == 1 ? "Published" : "UnPublished")</span></td>
                                         <td><span class="views-count"> @(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("dd-MM-yyyy") : "N/A")</span></td>

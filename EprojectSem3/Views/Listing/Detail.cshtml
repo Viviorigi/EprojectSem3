@@ -26,7 +26,7 @@
 		<div class="about-details">
 			<div class="about-headings">
 				<div class="author-img">
-					<img src="/@Model.User.Image">
+					<img src="~/@Model.Image">
 				</div>
 				<div class="authordetails">
 					<h5>@Model.Title</h5>
@@ -52,8 +52,7 @@
 				</div>
 			</div>
 			<div class="rate-details">
-				<h2>$ @string.Format("{0:N2}", @Model.Price) </h2>
-
+				<h2>$@string.Format("{0:N2}", @Model.Price) </h2>
 			</div>
 		</div>
 		<div class="descriptionlinks">

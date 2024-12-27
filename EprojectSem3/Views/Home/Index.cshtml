@@ -117,12 +117,7 @@
                                 </div>
                                 <div class="home-img-text">
                                     <div class="star-rated">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <span>2.8</span>
+                                        <span>@(l.Ratings.Any() ? l.Ratings.Average(r => r.RatingValue).ToString("0.0") : "0.0")  <i class="fa-solid fa-star"></i></span>
                                     </div>
                                     <h3><a asp-controller="Listing" asp-action="Detail" asp-route-id ="@l.ListingId" >@l.Title</a></h3>
                                     <div class="top-room-details">
@@ -241,11 +236,7 @@
                                         </div>
                                         <div class="star-rated">
                                             <span>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
-                                                <i class="fa-solid fa-star"></i>
+                                                @(l.Ratings.Any() ? l.Ratings.Average(r => r.RatingValue).ToString("0.0") : "0.0")  <i class="fa-solid fa-star"></i>
                                             </span>
                                             <p><span>$ @string.Format("{0:N2}", @l.Price)</span></p>
                                         </div>
@@ -279,7 +270,7 @@
                     </div>
                     <div class="listee-premium-content">
                         <h6>Add your listing</h6>
-                        <p>Lorem Ipsum is simply dummy text printing and type setting industry</p>
+                        <p>Easily create and share your property, product, or service listings to reach more customers.</p>
                     </div>
                 </div>
             </div>
@@ -290,7 +281,7 @@
                     </div>
                     <div class="listee-premium-content">
                         <h6>Easy Finance</h6>
-                        <p>Lorem Ipsum is simply dummy text printing and type setting industry</p>
+                        <p>Simplify financial tasks with tools for payments, invoicing, and secure transactions.</p>
                     </div>
                 </div>
             </div>
@@ -301,7 +292,7 @@
                     </div>
                     <div class="listee-premium-content">
                         <h6>Publish your listing</h6>
-                        <p>Lorem Ipsum is simply dummy text printing and type setting industry</p>
+                        <p>Make your listing live and visible to attract the right audience quickly.</p>
                     </div>
                 </div>
             </div>
@@ -312,7 +303,7 @@
                     </div>
                     <div class="listee-premium-content">
                         <h6>Register for free</h6>
-                        <p>Lorem Ipsum is simply dummy text printing and type setting industry</p>
+                        <p>Sign up at no cost and unlock powerful tools to grow your online presence.</p>
                     </div>
                 </div>
             </div>
@@ -323,7 +314,7 @@
                     </div>
                     <div class="listee-premium-content">
                         <h6>Get reservations</h6>
-                        <p>Lorem Ipsum is simply dummy text printing and type setting industry</p>
+                        <p>Receive bookings and inquiries effortlessly through our streamlined system.</p>
                     </div>
                 </div>
             </div>
@@ -334,7 +325,7 @@
                     </div>
                     <div class="listee-premium-content">
                         <h6>Upload beautiful images</h6>
-                        <p>Lorem Ipsum is simply dummy text printing and type setting industry</p>
+                        <p>Add stunning images to highlight your offerings and draw more attention.</p>
                     </div>
                 </div>
             </div>
@@ -342,121 +333,13 @@
     </div>
 </section>
 <!-- /Premium and essential services -->
-<!-- Our Testimonials -->
-<section class="property-testimonial ">
-    <div class="testimonial-float-bg">
-        <img src="assets/img/bg/testimonal-bg.png" alt="">
-    </div>
-    <div class="container">
-        <div class="section-heading section-heading-nine  aos" data-aos="fade-up">
-            <div class="row align-items-center">
-                <div class="col-md-3"></div>
-                <div class="col-md-6 aos aos-init aos-animate text-center" data-aos="fade-up">
-                    <h2>Our Testimonials</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-                </div>
-                <div class="col-md-3 text-md-end aos aos-init aos-animate" data-aos="fade-up">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 aos" data-aos="fade-up" data-aos-delay="200">
-                <div class="car-class-carousel">
-                    <div class="verified-owner-slider owl-carousel" data-aos="fade-up">
-                        <div class="property-testimonial-item">
-                            <h5 class="mb-0">Really Awesome</h5>
-                            <div class="car-client-rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has </p>
-                            <div class="property-profile-block">
-                                <div class="property-profile">
-                                    <a href="profile.html"><img src="assets/img/profiles/avatar-01.jpg" class="img-fluid" alt=""></a>
-                                </div>
-                                <div class="property-client-details">
-                                    <a href="profile.html">Thompson Greig</a>
-                                    <span>Agent</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="property-testimonial-item">
-                            <h5 class="mb-0">Really Awesome</h5>
-                            <div class="car-client-rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has </p>
-                            <div class="property-profile-block">
-                                <div class="property-profile">
-                                    <a href="profile.html"><img src="assets/img/profiles/avatar-02.jpg" class="img-fluid" alt=""></a>
-                                </div>
-                                <div class="property-client-details">
-                                    <a href="profile.html">Lori triump</a>
-                                    <span>Agent</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="property-testimonial-item">
-                            <h5 class="mb-0">Really Awesome</h5>
-                            <div class="car-client-rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has </p>
-                            <div class="property-profile-block">
-                                <div class="property-profile">
-                                    <a href="profile.html"><img src="assets/img/profiles/avatar-03.jpg" class="img-fluid" alt=""></a>
-                                </div>
-                                <div class="property-client-details">
-                                    <a href="profile.html">Angela Mathew</a>
-                                    <span>Agent</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="property-testimonial-item">
-                            <h5 class="mb-0">Really Awesome</h5>
-                            <div class="car-client-rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                            </div>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has </p>
-                            <div class="property-profile-block">
-                                <div class="property-profile">
-                                    <a href="profile.html"><img src="assets/img/profiles/avatar-03.jpg" class="img-fluid" alt=""></a>
-                                </div>
-                                <div class="property-client-details">
-                                    <a href="profile.html">Angela Mathew</a>
-                                    <span>Agent</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- /Our Testimonials -->
 <!-- Join Us -->
 <section class="buy-property aos" data-aos="fade-up">
     <div class="container">
         <div class="buy-property-content">
             <h2 class="aos" data-aos="fade-up" data-aos-delay="200">Join the millions getting more from their home.</h2>
             <p class="aos" data-aos="fade-up" data-aos-delay="400">With Listee, you can track properties you’re interested in and use our price estimates to help you decide when to move. And get expert tips on making the most of your space.</p>
-            <a href="my-listing.html">List Your Space</a>
+            <a asp-controller="listing" asp-action="index" >List Your Space</a>
         </div>
     </div>
 </section>

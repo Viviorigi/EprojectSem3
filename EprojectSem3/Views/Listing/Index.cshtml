@@ -1,204 +1,209 @@
 ﻿@using X.PagedList.Mvc.Core;
 @{
-	ViewData["Title"] = "Listings";
-	Layout = "~/Views/Shared/_Layout.cshtml";
-	var keyword = Context.Request.Query["keyword"];
-	var cateId = Context.Request.Query["cateId"];
-	var cityId = Context.Request.Query["cityId"];
-	var minPrice = Context.Request.Query["minPrice"];
-	var maxPrice = Context.Request.Query["maxPrice"];
+    ViewData["Title"] = "Listings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var keyword = Context.Request.Query["keyword"];
+    var cateId = Context.Request.Query["cateId"];
+    var cityId = Context.Request.Query["cityId"];
+    var minPrice = Context.Request.Query["minPrice"];
+    var maxPrice = Context.Request.Query["maxPrice"];
 }
 @model X.PagedList.IPagedList<DataAccessLayer_DAL.Models.Listing>
 <!-- Breadscrumb Section -->
 <div class="breadcrumb-bar">
-	<div class="container">
-		<div class="row align-items-center text-center">
-			<div class="col-md-12 col-12">
-				<h2 class="breadcrumb-title">Listings-Grid</h2>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row align-items-center text-center">
+            <div class="col-md-12 col-12">
+                <h2 class="breadcrumb-title">Listings-Grid</h2>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /Breadscrumb Section -->
 <!-- Main Content Section -->
 <div class="list-content">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-4 theiaStickySidebar">
-				<div class="listings-sidebar">
-					<div class="card">
-						<h4><img src="~/assets/img/details-icon.svg" alt="details-icon"> Filter</h4>
-						<form id="sortForm" asp-controller="Listing" asp-action="Index" method="get">
-							<div class="filter-content looking-input form-set">
-								<input type="text" value="@keyword" name="keyword" class="form-control" placeholder="What are you looking for?">
-							</div>
-							<div class="filter-content form-set">
-								<select name="cateId" asp-items="@ViewBag.categories" class="form-control select category-select">
-									<option>Select Category</option>
-								</select>
-							</div>
-							<div class="filter-content form-set region">
-								<select name="cityId" asp-items="@ViewBag.city" class="form-control select region-select">
-									<option>Select City</option>
-								</select>
-							</div>
-							<div class="filter-content amenities mb-0">
-								<h4> Price Range</h4>
-								<div class="form-set mb-0">
-									<input type="text" value="@minPrice" name="minPrice" class="form-control" placeholder="Min">
-									<input type="text" value="@maxPrice" name="maxPrice" class="form-control me-0" placeholder="Max">
-								</div>
-								<div class="search-btn">
-									<button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
-									<button class="btn btn-reset mb-0" type="submit"> <i class="fas fa-light fa-arrow-rotate-right"></i>Reset Filters</button>
-								</div>
-							</div>
-							<input id="sort" type="hidden" name="sort" />
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-8">
-				<div class="row sorting-div">
-					<div class="col-lg-4 col-md-4 col-sm-5 col-12 align-items-center d-flex">
-						<div class="count-search">
-							<p>Showing <span>1-8</span> of 10 Results</p>
-						</div>
-					</div>
-					<div class="col-lg-8 col-md-8 col-sm-7 col-12 align-items-center">
-						<div class="sortbyset">
-							<span class="sortbytitle">Sort by</span>
-							<div class="sorting-select">
-								<select name="sort" id="sortSelect" onchange="submitSortForm()" class="form-control select sorting-select">
-									<!option @(ViewBag.sort == "0" ? "selected" : "") value="0">Default</!option>
-									<!option @(ViewBag.sort == "Price_des" ? "selected" : "") value="Price_des">Price Low to High</!option>
-									<!option @(ViewBag.sort == "Price_asc" ? "selected" : "") value="Price_asc">Price High to Low</!option>
-								</select>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="grid-view listgrid-sidebar">
-					<div class="row">
-						@foreach(var l in Model)
-						{
-							<div class="col-lg-6 col-md-6">
-								<div class="card">
-									<div class="blog-widget">
-										<div class="blog-img">
-											<a asp-controller="Listing" asp-action="Detail" asp-route-id ="@l.ListingId">
-												<img src="@l.Image" class="img-fluid" alt="blog-img">
-											</a>
-											@if (l.Priority == 1)
-											{
-												<div class="fav-item">
-													<span class="featured-text">Featured</span>
-													<a href="javascript:void(0)" class="fav-icon">
-														<i class="feather-heart"></i>
-													</a>
-												</div>
-											}
-											
-										</div>
-										<div class="bloglist-content">
-											<div class="card-body">
-												<div class="blogfeaturelink">
-													<div class="grid-author">
-														<img src="~/assets/img/profiles/avatar-02.jpg" alt="author">
-													</div>
-													<div class="blog-features">
-														<a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Vehicle</span></a>
-													</div>
-													<div class="blog-author text-end">
-														<span>  <i class="feather-eye"></i>4000  </span>
-													</div>
-												</div>
-												<h6><a asp-controller="Listing" asp-action="Detail" asp-route-id ="@l.ListingId">@l.Title</a></h6>
-												<div class="blog-location-details">
-													<div class="location-info">
-														<i class="feather-map-pin"></i> @l.City.Name
-													</div>
-													<div class="location-info">
-														<i class="fa-solid fa-calendar-days"></i> @string.Format("{0:dd/MM/yyyy}", @l.CreatedAt)
-													</div>
-												</div>
-												<div class="amount-details">
-													<div class="amount">
-														<span class="validrate">$ @string.Format("{0:N2}", @l.Price)</span>
-														
-													</div>
-													<div class="ratings">
-														<span>
-															@(l.Ratings.Any() ? l.Ratings.Average(r => r.RatingValue).ToString("0.00") : "0.00")
-														</span> (@(l.Ratings.Any() ? l.Ratings.Count() : "0"))
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						}
-						
-					</div>
-				</div>
-				<!-- Render Pagination Links -->
-				<!-- Shop Breadcrumb Area Start -->
-				<div class="shop-breadcrumb-area border-default mt-40">
-					<div class="row">
-						<div class="col-lg-4 col-md-6 col-sm-5 col-12">
-							Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
-						</div>
-						<div class="col-lg-8 col-md-6 col-sm-7 col-12">
-							<ul class="pagination justify-content-center">
-								<!-- Previous button -->
-								<li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-									<a class="page-link" href="?cateId=@cateId&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@ViewBag.keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@(Model.PageNumber - 1)" aria-label="Previous">
-										&lt;
-									</a>
-								</li>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 theiaStickySidebar">
+                <div class="listings-sidebar">
+                    <div class="card">
+                        <h4><img src="~/assets/img/details-icon.svg" alt="details-icon"> Filter</h4>
+                        <form id="sortForm" asp-controller="Listing" asp-action="Index" method="get">
+                            <div class="filter-content looking-input form-set">
+                                <input type="text" value="@keyword" name="keyword" class="form-control" placeholder="What are you looking for?">
+                            </div>
+                            <div class="filter-content form-set">
+                                <select name="cateId" asp-items="@ViewBag.categories" class="form-control select category-select">
+                                    <option>Select Category</option>
+                                </select>
+                            </div>
+                            <div class="filter-content form-set region">
+                                <select name="cityId" asp-items="@ViewBag.city" class="form-control select region-select">
+                                    <option>Select City</option>
+                                </select>
+                            </div>
+                            <div class="filter-content amenities mb-0">
+                                <h4> Price Range</h4>
+                                <div class="form-set mb-0">
+                                    <input type="text" value="@minPrice" name="minPrice" class="form-control" placeholder="Min">
+                                    <input type="text" value="@maxPrice" name="maxPrice" class="form-control me-0" placeholder="Max">
+                                </div>
+                                <div class="search-btn">
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                                    <a class="btn btn-reset mb-0" asp-controller="listing" asp-action="index"> <i class="fas fa-light fa-arrow-rotate-right"></i>Reset Filters</a>
+                                </div>
+                            </div>
+                            <input id="sort" type="hidden" name="sort" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="row sorting-div">
+                    <div class="col-lg-4 col-md-4 col-sm-5 col-12 align-items-center d-flex">
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-7 col-12 align-items-center">
+                        <div class="sortbyset">
+                            <span class="sortbytitle">Sort by</span>
+                            <div class="sorting-select">
+                                <select name="sort" id="sortSelect" onchange="submitSortForm()" class="form-control select sorting-select">
+                                    <!option @(ViewBag.sort == "0" ? "selected" : "") value="0">Default</!option>
+                                    <!option @(ViewBag.sort == "Price_des" ? "selected" : "") value="Price_des">Price Low to High</!option>
+                                    <!option @(ViewBag.sort == "Price_asc" ? "selected" : "") value="Price_asc">Price High to Low</!option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid-view listgrid-sidebar">
+                    <div class="row">
+                        @if (Model.Any())
+                        {
+                            @foreach (var l in Model)
+                            {
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="card">
+                                        <div class="blog-widget">
+                                            <div class="blog-img">
+                                                <a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId">
+                                                    <img src="@l.Image" class="img-fluid" alt="blog-img">
+                                                </a>
+                                                @if (l.Priority == 1)
+                                                {
+                                                    <div class="fav-item">
+                                                        <span class="featured-text">Featured</span>
+                                                        <a href="javascript:void(0)" class="fav-icon">
+                                                            <i class="feather-heart"></i>
+                                                        </a>
+                                                    </div>
+                                                }
 
-								<!-- Page numbers -->
-								@for (int i = 1; i <= Model.PageCount; i++)
-								{
-									<li class="page-item @(Model.PageNumber == i ? "active" : "")">
-										<a class="page-link" href="?cateId=@cateId&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@i">@i</a>
-									</li>
-								}
+                                            </div>
+                                            <div class="bloglist-content">
+                                                <div class="card-body">
+                                                    <div class="blogfeaturelink">
+                                                        <div class="grid-author">
+                                                            <img src="~/assets/img/profiles/avatar-02.jpg" alt="author">
+                                                        </div>
+                                                        <div class="blog-features">
+                                                            <a href="javascript:void(0)"><span> <i class="fa-regular fa-circle-stop"></i> Vehicle</span></a>
+                                                        </div>
+                                                        <div class="blog-author text-end">
+                                                            <span>  <i class="feather-eye"></i>4000  </span>
+                                                        </div>
+                                                    </div>
+                                                    <h6><a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId">@l.Title</a></h6>
+                                                    <div class="blog-location-details">
+                                                        <div class="location-info">
+                                                            <i class="feather-map-pin"></i> @l.City.Name
+                                                        </div>
+                                                        <div class="location-info">
+                                                            <i class="fa-solid fa-calendar-days"></i> @string.Format("{0:dd/MM/yyyy}", @l.CreatedAt)
+                                                        </div>
+                                                    </div>
+                                                    <div class="amount-details">
+                                                        <div class="amount">
+                                                            <span class="validrate">$ @string.Format("{0:N2}", @l.Price)</span>
 
-								<!-- Ellipsis for skipped pages -->
-								@if (Model.PageCount > 5 && Model.PageNumber > 3)
-								{
-									<li class="page-item disabled">
-										<a class="page-link">…</a>
-									</li>
-								}
+                                                        </div>
+                                                        <div class="ratings">
+                                                            <span>
+                                                                @(l.Ratings.Any() ? l.Ratings.Average(r => r.RatingValue).ToString("0.0") : "0.0")
+                                                            </span> (@(l.Ratings.Any() ? l.Ratings.Count() : "0"))
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }	
+                        }
+                        else
+                        {
+                            <h3 class="text-center">No matching results found</h3>
+                        }
 
-								<!-- Next button -->
-								<li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-									<a class="page-link" href="?cateId=@cateId;&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@(Model.PageNumber + 1)" aria-label="Next">
-										&gt;
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				 
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+                <!-- Render Pagination Links -->
+                @if (Model.Any()){
+                <!-- Shop Breadcrumb Area Start -->
+                <div class="shop-breadcrumb-area border-default mt-40">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-5 col-12">
+                            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+                        </div>
+                        <div class="col-lg-8 col-md-6 col-sm-7 col-12">
+                            <ul class="pagination justify-content-center">
+                                <!-- Previous button -->
+                                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                                    <a class="page-link" href="?cateId=@cateId&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@ViewBag.keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@(Model.PageNumber - 1)" aria-label="Previous">
+                                        &lt;
+                                    </a>
+                                </li>
+
+                                <!-- Page numbers -->
+                                @for (int i = 1; i <= Model.PageCount; i++)
+                                {
+                                    <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+                                        <a class="page-link" href="?cateId=@cateId&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@i">@i</a>
+                                    </li>
+                                }
+
+                                <!-- Ellipsis for skipped pages -->
+                                @if (Model.PageCount > 5 && Model.PageNumber > 3)
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link">…</a>
+                                    </li>
+                                }
+
+                                <!-- Next button -->
+                                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                                    <a class="page-link" href="?cateId=@cateId;&cityId=@cityId&sort=@ViewContext.HttpContext.Request.Query["sort"]&keyword=@keyword&minPrice=@minPrice&maxPrice=@maxPrice&page=@(Model.PageNumber + 1)" aria-label="Next">
+                                        &gt;
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Shop Breadcrumb Area Start -->
+                }
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /Main Content Section -->
+@section Scripts {
+    <script>
+        function submitSortForm(){
+             var sort = document.getElementById('sortSelect').value;
 
-@section Scripts{
-	 <script>
-       function submitSortForm(){
-			var sort = document.getElementById('sortSelect').value;
-		   
-			document.getElementById('sort').value = sort;
-		   document.getElementById('sortForm').submit();
-	   }
+             document.getElementById('sort').value = sort;
+            document.getElementById('sortForm').submit();
+        }
     </script>
-	
+
 }
