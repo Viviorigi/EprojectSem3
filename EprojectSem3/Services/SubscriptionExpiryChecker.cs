@@ -34,10 +34,10 @@ namespace Realtors_Portal.Services
                 // Get subscriptions expiring in the next 5 days
                 //DateTime simulatedNow = new DateTime(2025, 2, 13);  test time
                 var expiringSubscriptions = await _context.UserSubscriptions
-                    .Include(us => us.User)
-                    .Include(us => us.Subscription)
-                    .Where(us => us.EndDate.Date <= DateTime.Now.AddDays(5))  // change DateTime.now.addday(5) => simulatedNow
-                    .ToListAsync();
+                 .Include(us => us.User)
+                 .Include(us => us.Subscription)
+                 .Where(us => us.EndDate.Date <= DateTime.Now.AddDays(5) && us.EndDate.Date > DateTime.Now.AddDays(3))  // Filter out subscriptions expiring in 3 days or less
+                 .ToListAsync();
 
                 foreach (var subscription in expiringSubscriptions)
                 {
