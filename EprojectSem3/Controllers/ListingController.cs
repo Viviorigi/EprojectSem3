@@ -183,6 +183,8 @@ namespace EprojectSem3.Controllers
                 }
             }
 
+
+
             // Check ModelState
             if (!ModelState.IsValid)
             {
@@ -429,6 +431,7 @@ namespace EprojectSem3.Controllers
             {
                 TempData["msg"] = "title already exists";
                 TempData["AlertType"] = "error"; // Types: success, error, warning, info
+                return View(listing);
             }
 
             // Add more information to the article

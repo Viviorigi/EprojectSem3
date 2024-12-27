@@ -15,7 +15,7 @@
 		<form asp-controller="Listing" asp-action="Edit" method="post" enctype="multipart/form-data">
 			<input type="hidden" asp-for="ListingId"  />
 			<input type="hidden" asp-for="CreatedAt" />
-			<input type="hidden" asp-for="Image" />
+			<input id="imgOld" type="hidden" asp-for="Image" />
 			<fieldset id="first-field">
 				<div class="row">
 					<div class="col-md-6">
@@ -120,11 +120,12 @@
 								<div class="file-browse">
 									<h6>Drag &amp; drop image or </h6>
 									<div class="file-browse-path">
-										<input type="file" name="file">
+										<input type="file" id="singleFileInput" name="file">
 										<a href="javascript:void(0);"> Browse</a>
 									</div>
 								</div>
 								<h5>Supported formates: JPEG, PNG</h5>
+								<div id="singleFilePreview" class="preview-container"></div>
 							</div>
 						</div>
 					</div>
@@ -139,11 +140,12 @@
 								<div class="file-browse">
 									<h6>Drag &amp; drop image or </h6>
 									<div class="file-browse-path">
-										<input type="file" name="files" multiple>
+										<input type="file" id="multiFileInput" name="files" multiple>
 										<a href="javascript:void(0);"> Browse</a>
 									</div>
 								</div>
 								<h5>Supported formates: JPEG, PNG</h5>
+								<div id="multiFilePreview" class="preview-container"></div>
 							</div>
 						</div>
 					</div>
@@ -163,9 +165,90 @@
 	</div>
 </div>
 
+@foreach(var i in ViewBag.Images as IEnumerable<DataAccessLayer_DAL.Models.Image>)
+{
+	<input type="hidden" id="imagesOld" value="@i.ImagePath" />
+}
+
 @section Scripts {
 	<script>
 		CKEDITOR.replace( 'editor1' );
+	</script>
+	<style>
+		.preview-image {
+			max-width: 100px;
+			max-height: 100px;
+			margin: 5px;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+		}
+
+		.preview-container {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+	</style>
+	<script>
+		// Hiển thị ảnh từ input đơn
+		const imgOld = document.getElementById('imgOld').value;
+		const previewContainer = document.getElementById('singleFilePreview');
+		 if (imgOld) {
+			const img = document.createElement('img');
+			img.src = '/' + imgOld;
+			img.alt = 'Old Image';
+			img.className = 'preview-image';
+			previewContainer.appendChild(img);
+		}
+		document.getElementById('singleFileInput').addEventListener('change', function (event) {
+			
+			previewContainer.innerHTML = ''; // Xóa preview cũ
+			const file = event.target.files[0];
+			
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function (e) {
+					const img = document.createElement('img');
+					img.src = e.target.result;
+					img.alt = file.name;
+					img.className = 'preview-image';
+					previewContainer.appendChild(img);
+				};
+				reader.readAsDataURL(file);
+			} 
+		});
+
+		// Hiển thị ảnh từ input nhiều file
+		const oldImages = Array.from(document.querySelectorAll('input[id="imagesOld"]')).map(input => input.value);
+		const previewContainer = document.getElementById('multiFilePreview');
+		if (oldImages) {
+			oldImages.forEach(imagePath => {
+				const img = document.createElement('img');
+				img.src = '/' + imagePath; // Đường dẫn ảnh cũ
+				img.alt = 'Old Image';
+				img.className = 'preview-image';
+				previewContainer.appendChild(img);
+			});
+		}
+		
+		document.getElementById('multiFileInput').addEventListener('change', function (event) {
+			
+			previewContainer.innerHTML = ''; // Xóa preview cũ
+			const files = event.target.files;
+			Array.from(files).forEach(file => {
+				if (file) {
+					const reader = new FileReader();
+					reader.onload = function (e) {
+						const img = document.createElement('img');
+						img.src = e.target.result;
+						img.alt = file.name;
+						img.className = 'preview-image';
+						previewContainer.appendChild(img);
+					};
+					reader.readAsDataURL(file);
+				}
+			});
+		});
 	</script>
 }
 <script>

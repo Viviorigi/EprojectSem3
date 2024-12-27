@@ -162,6 +162,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var listing = await _listingRepository.GetListingByIdAsync(id);
+            ViewBag.Images = await _imageRepository.GetImageByListingIdAsync(listing.ListingId);
             if (listing == null)
             {
                 TempData["msg"] = "Listing does not exist";
@@ -218,8 +219,16 @@ namespace EprojectSem3.Areas.Admin.Controllers
             var isDuplicateTitle = await _listingRepository.IsTitleDuplicateAsync(listing.Title, listing.ListingId);
             if (isDuplicateTitle)
             {
+                ViewBag.categories = new SelectList(await _categoryRepository.GetAllCategoryAsync(), "CategoryId", "Name");
+                ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
+                ViewBag.showContact = new SelectList(new[]
+             {
+                new { Value = 0, Text = "Hide" },
+                new { Value = 1, Text = "Show" },
+            }, "Value", "Text");
                 TempData["msg"] = "title already exists";
                 TempData["AlertType"] = "error"; // Types: success, error, warning, info
+                return View(listing);
             }
 
             listing.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
