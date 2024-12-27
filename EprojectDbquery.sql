@@ -1,7 +1,7 @@
-﻿use master
-go
-drop database EprojectSem3
-go
+﻿--use master
+--go
+--drop database EprojectSem3
+--go
 create database EprojectSem3
 go
 use EprojectSem3

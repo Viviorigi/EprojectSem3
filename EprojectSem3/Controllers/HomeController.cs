@@ -470,11 +470,37 @@ namespace EprojectSem3.Controllers
                     Address = "123456",
                     Image = "images/admin.png",
                     Role = 0,
-                    Status = 1
+                    Status = 1,
+                    CreatedAt = DateTime.Now
                 };
                 // Save to database
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
+
+                //add data to Statistical
+                var Statistical = await _context.Statisticals
+                                .FirstOrDefaultAsync(x => x.CreatedAt.Value.Date == user.CreatedAt.Value.Date);
+
+                if (Statistical != null)
+                {
+                    Statistical.UserCount += 1;
+                    _context.Update(Statistical);
+                }
+                else
+                {
+                    int UserCount = 1;
+
+                    Statistical = new Statistical
+                    {
+                        TransactionCount = 0,
+                        PriceCount = 0,
+                        CreatedAt = user.CreatedAt,
+                        ListingCount = 0,
+                        UserCount = UserCount
+                    };
+                    _context.Add(Statistical);
+                    _context.SaveChanges();
+                }
 
                 var acc = await _context.Users.FirstOrDefaultAsync(a => a.Email == email);
                 var identity = new ClaimsIdentity(
@@ -482,7 +508,8 @@ namespace EprojectSem3.Controllers
                      {
                         new Claim(ClaimTypes.NameIdentifier, acc.UserId.ToString() ?? string.Empty),
                         new Claim(ClaimTypes.Name, acc.FullName ?? string.Empty),
-                        new Claim(ClaimTypes.Role,acc.Role.ToString())
+                        new Claim(ClaimTypes.Role,acc.Role.ToString()),
+                        new Claim("ProfileImage",acc.Image ?? string.Empty)
                      },
                      "MyAuthenticationSchema"
                  );
@@ -500,7 +527,8 @@ namespace EprojectSem3.Controllers
                      {
                         new Claim(ClaimTypes.NameIdentifier, acc.UserId.ToString() ?? string.Empty),
                         new Claim(ClaimTypes.Name, acc.FullName ?? string.Empty),
-                        new Claim(ClaimTypes.Role,acc.Role.ToString())
+                        new Claim(ClaimTypes.Role,acc.Role.ToString()),
+                        new Claim("ProfileImage",acc.Image ?? string.Empty)
                      },
                      "MyAuthenticationSchema"
                  );
