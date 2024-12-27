@@ -241,6 +241,10 @@ INSERT INTO Users (FullName, Email, Password, PhoneNumber, Address, Role, Status
 ('Liam Johnson', 'liamjohnson@realestate.com', '$2a$11$IdURuAbLaQokViiInVfhbuNiV5G7SOukWIL3CvtQyKxMko./Q9hMy', '1234567804', '456 Investment St, City, Country', 1, 1, 7, 'images/users.png', NULL, NULL, '2024-04-15', NULL),
 ('Ava White', 'avawhite@realestate.com', '$2a$11$IdURuAbLaQokViiInVfhbuNiV5G7SOukWIL3CvtQyKxMko./Q9hMy', '1234567805', '567 RealEstate St, City, Country', 1, 1, 8, 'images/users.png', NULL, NULL, '2024-05-15', NULL);
 
+--(User not sub)
+INSERT INTO Users (FullName, Email, Password, PhoneNumber, Address, Role, Status, Image, ResetPasswordToken, ResetTokenExpiration, CreatedAt, UpdatedAt) VALUES 
+	('Sophia Taylor', 'sophiataylor@gmail.com', '$2a$11$IdURuAbLaQokViiInVfhbuNiV5G7SOukWIL3CvtQyKxMko./Q9hMy', '1234567899', '707 Elm St, City, Country', 0, 1, 'images/users.png', NULL, NULL, '2024-10-01', NULL)
+
 INSERT INTO UserSubscriptions (UserId, SubscriptionId, StartDate, EndDate) VALUES
 -- Monthly Plans for Salers
 (1, 1, '2024-01-01', '2024-01-31'),  -- John Doe (30 days)
@@ -605,3 +609,5 @@ VALUES
     (13, 13, 4.1, N'Comfortable and great service.', '2025-03-17 09:10:00'),
     (14, 14, 3.5, N'Decent stay, but parking is an issue.', '2025-03-18 10:30:00'),
     (15, 15, 4.9, N'Perfect for a family trip!', '2025-03-19 12:00:00');
+
+	
