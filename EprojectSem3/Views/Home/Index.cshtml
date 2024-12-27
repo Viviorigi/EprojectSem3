@@ -10,7 +10,6 @@
                 <div class="banner-contents">
                     <h1 class="aos" data-aos="fade-up" data-aos-anchor-placement="top-bottom">Find Your Dream Home</h1>
                     <h6 class="mb-0 aos" data-aos="fade-up" data-aos-anchor-placement="top-bottom">Only real estate platform with 10,000+ highly rated sellers</h6>
-                    <p class="aos" data-aos="fade-up" data-aos-delay="200">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
                 </div>
             </div>
         </div>
@@ -111,9 +110,29 @@
                                 <div class="green-logo">
                                     <img src="~/assets/img/featured/feature-text-logo.png" class="img-fluid" alt="">
                                 </div>
-                                 <div class="home-img-text">
+                                <div class="select-favourite-room">
+                                    <div class="favourite-small-user">
+                                        <img src="~/@l.User.Image" class="img-fluid" alt="">
+                                    </div>
+                                </div>
+                                <div class="home-img-text">
+                                    <div class="star-rated">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <span>2.8</span>
+                                    </div>
                                     <h3><a asp-controller="Listing" asp-action="Detail" asp-route-id ="@l.ListingId" >@l.Title</a></h3>
-                                    <span>$ @string.Format("{0:N2}", @l.Price)</span>
+                                    <div class="top-room-details">
+                                        <div class="area">
+                                            <span>$ @string.Format("{0:N2}", @l.Price)</span>
+                                        </div>
+                                        <div class="area">
+                                            <span><i class="feather-map-pin"></i>@l.City.Name</span>
+                                        </div>
+                                    </div>
                                     <div class="house-type">
                                         <span class="room-type"><i class="feather-home"></i>@l.Category.Name</span>
                                         <span class="double-tick"><i class="fa-solid fa-check-double"></i></span>
@@ -178,26 +197,69 @@
     </div>
 </section>
 <!-- /Why Choose Us -->
-<!-- Perfect Holiday Cabin Section -->
-<section class="perfect-holiday-cabin-section">
-    <div class="holiday-cabin-img-slider owl-carousel">
-        @foreach (var l in Model)
-        {
-            <div class="item">
-                <a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId"><img src="@l.Image" class="img-fluid" alt=""></a>
-                <div class="container">
-                    <div class="holiday-cabin-info" data-aos="fade-up">
-                        <div class="section-heading">
-                            <h2><a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId">@l.Title</a></h2>
-                            <p>@l.Category.Description</p>
-                        </div>
+<!-- Recent Properties for Rent -->
+<section class="property-for-rent ">
+    <div class="footer-six-bg footer-nine-bg">
+        <img src="assets/img/bg/feature-bg.png" alt="">
+    </div>
+    <div class="container">
+        <div class="section-heading section-heading-nine  aos" data-aos="fade-up">
+            <div class="row align-items-center">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 aos aos-init aos-animate text-center" data-aos="fade-up">
+                    <h2>Recent Properties for Rent</h2>
+                    <p>Sense Solutions For All Aspects near your Location.</p>
+                </div>
+                <div class="col-md-3 text-md-end aos aos-init aos-animate" data-aos="fade-up">
+                    <a href="categories.html" class="btn  btn-view">View all Properties</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="car-class-carousel">
+                    <div class="top-listings-rent-slider owl-carousel" data-aos="fade-right">
+                        @foreach (var l in Model)
+                        {
+                            <div class="top-rent-room">
+                                <div class="top-room-img">
+                                    <a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId"><img src="@l.Image" class="img-fluid" alt=""></a>
+                                </div>
+                                <div class="top-listing-rounded-img">
+                                    <div class="favourite-small-user">
+                                        <img src="@l.User.Image" class="img-fluid" alt="">
+                                    </div>
+                                </div>
+                                <div class="pent-house">
+                                    <span>@l.Category.Name</span>
+                                </div>
+                                <div class="top-rent-room-info">
+                                    <div class="top-rent-room-location">
+                                        <div class="room-address">
+                                            <span><i class="fa-solid fa-location-dot"></i>@l.City.Name</span>
+                                            <a asp-controller="Listing" asp-action="Detail" asp-route-id="@l.ListingId"><h5>@l.Title</h5></a>
+                                        </div>
+                                        <div class="star-rated">
+                                            <span>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
+                                            </span>
+                                            <p><span>$ @string.Format("{0:N2}", @l.Price)</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
-        }
+        </div>
     </div>
 </section>
-<!-- /Perfect Holiday Cabin Section -->
+<!-- /Recent Properties for Rent -->
 <!-- Premium and essential services -->
 <section class="premium-and-essential-services">
     <div class="preminum-float-bg">
@@ -280,6 +342,114 @@
     </div>
 </section>
 <!-- /Premium and essential services -->
+<!-- Our Testimonials -->
+<section class="property-testimonial ">
+    <div class="testimonial-float-bg">
+        <img src="assets/img/bg/testimonal-bg.png" alt="">
+    </div>
+    <div class="container">
+        <div class="section-heading section-heading-nine  aos" data-aos="fade-up">
+            <div class="row align-items-center">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 aos aos-init aos-animate text-center" data-aos="fade-up">
+                    <h2>Our Testimonials</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+                </div>
+                <div class="col-md-3 text-md-end aos aos-init aos-animate" data-aos="fade-up">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 aos" data-aos="fade-up" data-aos-delay="200">
+                <div class="car-class-carousel">
+                    <div class="verified-owner-slider owl-carousel" data-aos="fade-up">
+                        <div class="property-testimonial-item">
+                            <h5 class="mb-0">Really Awesome</h5>
+                            <div class="car-client-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has </p>
+                            <div class="property-profile-block">
+                                <div class="property-profile">
+                                    <a href="profile.html"><img src="assets/img/profiles/avatar-01.jpg" class="img-fluid" alt=""></a>
+                                </div>
+                                <div class="property-client-details">
+                                    <a href="profile.html">Thompson Greig</a>
+                                    <span>Agent</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="property-testimonial-item">
+                            <h5 class="mb-0">Really Awesome</h5>
+                            <div class="car-client-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has </p>
+                            <div class="property-profile-block">
+                                <div class="property-profile">
+                                    <a href="profile.html"><img src="assets/img/profiles/avatar-02.jpg" class="img-fluid" alt=""></a>
+                                </div>
+                                <div class="property-client-details">
+                                    <a href="profile.html">Lori triump</a>
+                                    <span>Agent</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="property-testimonial-item">
+                            <h5 class="mb-0">Really Awesome</h5>
+                            <div class="car-client-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has </p>
+                            <div class="property-profile-block">
+                                <div class="property-profile">
+                                    <a href="profile.html"><img src="assets/img/profiles/avatar-03.jpg" class="img-fluid" alt=""></a>
+                                </div>
+                                <div class="property-client-details">
+                                    <a href="profile.html">Angela Mathew</a>
+                                    <span>Agent</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="property-testimonial-item">
+                            <h5 class="mb-0">Really Awesome</h5>
+                            <div class="car-client-rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has </p>
+                            <div class="property-profile-block">
+                                <div class="property-profile">
+                                    <a href="profile.html"><img src="assets/img/profiles/avatar-03.jpg" class="img-fluid" alt=""></a>
+                                </div>
+                                <div class="property-client-details">
+                                    <a href="profile.html">Angela Mathew</a>
+                                    <span>Agent</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Our Testimonials -->
 <!-- Join Us -->
 <section class="buy-property aos" data-aos="fade-up">
     <div class="container">

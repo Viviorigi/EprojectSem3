@@ -6,7 +6,7 @@
     int index = 1;
 }
 
-<div class="content-page-header content-page-headersplit">
+<div class="content-page-header content-page-headersplit mb-0">
     <h5>All Listings</h5>
     <div class="list-btn">
         <ul>
@@ -22,7 +22,7 @@
             </li>
 
             <li>
-                <a class="btn btn-primary" asp-controller="Listing" asp-action="Create" ><i class="fa fa-plus me-2"></i>Add Listing </a>
+                <a class="btn btn-primary" asp-controller="Listing" asp-action="Create"><i class="fa fa-plus me-2"></i>Add Listing </a>
             </li>
         </ul>
     </div>
@@ -30,7 +30,7 @@
 
 <div class="row">
     <div class="col-12 ">
-        <a class="table-resposnive table-div">
+        <div class="table-resposnive table-div">
             <table class="table datatable">
                 <thead>
                     <tr>
@@ -46,22 +46,20 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-
-
                 <tbody>
                     @foreach (var l in Model)
                     {
                         <tr>
                             <td>@index</td>
                             <td>
-                                <a href="view-listing.html" class="table-imgname">
-                                    @* <img src="~/assets/admin/assets/img/services/service-12.jpg" class="me-2" alt="img"> *@
+                                <a asp-controller="Listing" asp-action="Details" asp-route-id="@l.ListingId" class="table-imgname">
+                                    <img src="~/@l.Image" class="me-2" alt="img">
                                     <span>@l.Title</span>
                                 </a>
                             </td>
                             <td>@l.Category.Name</td>
                             <td>@l.Price</td>
-                            <td>@l.CreatedAt</td>
+                            <td>@l.CreatedAt.Value.ToString("dd/MM/yyyy")</td>
                             <td>
                                 <h6 class="@(l.Status == 1 ? "badge-active" : "badge-inactive") ">@(l.Status == 1 ? "Active" : "Inactive")</h6>
                             </td>
@@ -74,7 +72,7 @@
 
                             <td>
                                 <a href="javascript:void(0);" class="table-profileimage">
-                                    @*  <img src="~/assets/admin/assets/img/customer/user-02.jpg" class="me-2" alt="img"> *@
+                                    <img src="~/@l.User.Image" class="me-2" alt="img">
                                     <span>@l.User.FullName</span>
                                 </a>
                             </td>
@@ -95,10 +93,10 @@
                         index++;
                     }
 
-                    </tbody>
+                </tbody>
             </table>
-                        </div>
-                    </div>
+    </div>
+</div>
                 </div>
 <!-- Delete -->
 <div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

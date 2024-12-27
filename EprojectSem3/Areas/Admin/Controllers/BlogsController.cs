@@ -123,8 +123,7 @@ namespace Realtors_Portal.Areas.Admin.Controllers
         {
             if (file != null && file.Length > 0)
             {
-
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", file.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/blogs", file.FileName);
                 blog.Image = "images/blogs/" + file.FileName;
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))

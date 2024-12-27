@@ -139,7 +139,7 @@
                  data: [],
                  xkey: 'date',
                  ykeys: ['listing'],
-                 labels: ["total listing"]
+                 labels: ["Number of new ads"]
             });
 
             $.ajax({
@@ -168,43 +168,6 @@
                     $('#no-data-message').text("An error occurred while loading data.").show(); // Thông báo lỗi
                 }
             });
-
-            // $('.filter-select3').on('change', function()
-            // {
-            //    var days = $(this).val();
-            //    var endDate = new Date();
-            //    var startDate = new Date(endDate.getTime() - days * 24 * 60 * 60 * 1000);
-            //    // alert(startDate);
-            //    // alert(endDate);
-            //    $.ajax({
-            //         url: "@Url.Action("GetChartDataBySelect2", "User")",
-            //         type: "POST",
-            //         dataType: "json",
-            //         data: {
-            //             startDate: startDate.toISOString().split('T')[0],
-            //             endDate: endDate.toISOString().split('T')[0]
-            //         },
-            //         success: function(data){
-            //             if(data){
-            //                 ChartMorris.setData(data.map(function(item)
-            //                 {
-            //                     return {
-            //                         date: item.date,
-            //                         listing: item.listing,
-            //                     };
-            //                 }));
-            //             }
-            //             else
-            //             {
-            //                 console.warn("no data.");
-            //                 ChartMorris.setData([]);
-            //             };
-            //         },
-            //         error: function(error){
-            //             console.error("Error Data", error);
-            //         }
-            //    });
-            // });
         });
     </script>
 }

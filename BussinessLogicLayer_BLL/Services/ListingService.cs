@@ -97,7 +97,7 @@ namespace BussinessLogicLayer_BLL.Services
 
 		public async Task<IEnumerable<Listing>> GetListingTop5ByPriorityAsync()
 		{
-			return await _context.Listings.Include(x => x.Category).Where(x => x.Status == 1 && x.Priority == 1 && x.Category.Status == 1).Take(5).ToListAsync();
+			return await _context.Listings.Include(x => x.User).Include(x => x.Category).Include(x => x.City).Where(x => x.Status == 1 && x.Priority == 1 && x.Category.Status == 1).Take(5).ToListAsync();
 		}
 
 		public async Task<IEnumerable<Listing>> GetMyListingAsync(int userId, int? page, string? search)

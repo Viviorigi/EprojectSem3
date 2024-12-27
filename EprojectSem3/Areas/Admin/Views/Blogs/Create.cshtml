@@ -24,25 +24,25 @@
                             <label>Content<span>(Meta Tag)</span></label>
                             <textarea id="editor1" asp-for="Content" class="form-control" placeholder="Listing Name"></textarea>
                         </div>
-                            <div class="col-lg-12">
-                                <div class="form-set mb-1">
-                                    <label>Blog Image</label>
-                                </div>
-                                <div class="form-uploads mb-4">
-                                    <div class="form-uploads-path">
-                                        <img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
-                                        <div class="file-browse">
-                                            <h6>Drag & drop image or </h6>
-                                            <div class="file-browse-path">
+                        <div class="col-lg-12">
+                            <div class="form-set mb-1">
+                                <label>Blog Image</label>
+                            </div>
+                            <div class="form-uploads mb-4">
+                                <div class="form-uploads-path">
+                                    <img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
+                                    <div class="file-browse">
+                                        <h6>Drag & drop image or </h6>
+                                        <div class="file-browse-path">
                                             <input type="file" name="file" id="singleFileInput">
-                                                <a href="javascript:void(0);"> Browse</a>
-                                            </div>
+                                            <a href="javascript:void(0);"> Browse</a>
                                         </div>
-                                        <h5>Supported formates: JPEG, PNG</h5>
-                                        <div id="singleFilePreview" class="preview-container"></div>
                                     </div>
+                                    <h5>Supported formates: JPEG, PNG</h5>
+                                    <div id="singleFilePreview" class="preview-container"></div>
                                 </div>
                             </div>
+                        </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="form-set">
@@ -52,7 +52,7 @@
                                     <label class="radiossets">
                                         Active
                                         <!-- Use asp-for to bind and automatically handle checked status -->
-                                        <input type="radio" asp-for="Status" value="1" checked/>
+                                        <input type="radio" asp-for="Status" value="1" checked />
                                         <span class="checkmark-radio"></span>
                                     </label>
                                 </li>
