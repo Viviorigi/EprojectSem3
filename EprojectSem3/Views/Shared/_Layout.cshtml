@@ -38,6 +38,14 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <style>
+        .fancybox__container {
+            max-width: 100% !important; 
+            max-height: 100% !important; 
+            z-index:10000 !important;
+        }
+    
+    </style>
 
 </head>
 
@@ -211,6 +219,8 @@
     <!-- Custom JS -->
     <script src="~/assets/js/script.js" type="fc1053c9e199526e937fbf6a-text/javascript"></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/@@fancyapps/ui/dist/fancybox.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@@fancyapps/ui/dist/fancybox.umd.js"></script>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
@@ -259,6 +269,8 @@
             });
         }
     </script>
+    
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
