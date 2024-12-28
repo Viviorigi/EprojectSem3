@@ -31,17 +31,14 @@ namespace Realtors_Portal.Services
             {
                 var _context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                // Simulate a specific date (e.g., January 28, 2025)
-                DateTime simulatedNow = new DateTime(2025, 1, 28);
-
-                // Calculate the date range for subscriptions expiring 3 days after the simulated date
-                DateTime threeDaysAfter = simulatedNow.AddDays(3);
+                // Simulate a specific date (e.g., January 27, 2025)
+                DateTime simulatedNow = new DateTime(2025, 1, 27);
 
                 var expiringSubscriptions = await _context.UserSubscriptions
-             .Include(us => us.User)
-             .Include(us => us.Subscription)
-             .Where(us => us.EndDate <= DateTime.Now && us.EndDate >= DateTime.Now.AddDays(-3)) // Expired today or within the last 3 days
-             .ToListAsync();
+                 .Include(us => us.User)
+                 .Include(us => us.Subscription)
+                 .Where(us => us.EndDate <= DateTime.Now.Date && us.EndDate >= DateTime.Now.AddDays(-3).Date) // Expired today or within the last 3 days
+                 .ToListAsync();
 
                 foreach (var subscription in expiringSubscriptions)
                 {
