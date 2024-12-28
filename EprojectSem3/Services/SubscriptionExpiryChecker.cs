@@ -32,11 +32,13 @@ namespace Realtors_Portal.Services
                 var _context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
                 // Get subscriptions expiring in the next 5 days
-                //DateTime simulatedNow = new DateTime(2025, 2, 13);  test time
+                //DateTime simulatedNow = new DateTime(2025, 1, 28);
+                //DateTime fiveDaysBefore = simulatedNow.AddDays(-5);
+                //DateTime threeDaysAfter = simulatedNow.AddDays(3);
                 var expiringSubscriptions = await _context.UserSubscriptions
                  .Include(us => us.User)
                  .Include(us => us.Subscription)
-                 .Where(us => us.EndDate.Date <= DateTime.Now.AddDays(5) && us.EndDate.Date > DateTime.Now.AddDays(3))  // Filter out subscriptions expiring in 3 days or less
+                 .Where(us => us.EndDate.Date >= DateTime.Now.AddDays(-5) && us.EndDate.Date <= DateTime.Now.AddDays(3))  // Filter out subscriptions expiring in 3 days or less
                  .ToListAsync();
 
                 foreach (var subscription in expiringSubscriptions)
@@ -58,7 +60,7 @@ namespace Realtors_Portal.Services
                 }
 
                 // find listing expired
-                //DateTime simulatedNow = new DateTime(2025, 2, 17); 
+                //DateTime simulatedNow = new DateTime(2025, 5, 17);
                 var expiredListings = await _context.Listings
                .Where(listing => _context.UserSubscriptions
                    .Any(subscription => subscription.UserId == listing.UserId
