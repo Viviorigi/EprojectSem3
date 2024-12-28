@@ -31,8 +31,8 @@ namespace Realtors_Portal.Services
             {
                 var _context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                // Simulate a specific date (e.g., January 27, 2025)
-                DateTime simulatedNow = new DateTime(2025, 1, 27);
+                // Simulate a specific date (e.g., January 28, 2025)
+                DateTime simulatedNow = new DateTime(2025, 1, 28);
 
                 var expiringSubscriptions = await _context.UserSubscriptions
                  .Include(us => us.User)
