@@ -15,8 +15,8 @@
                     <div class="search-bar">
                         <span><i class="fe fe-search"></i></span>
                         <form class="d-flex" id="myForm" asp-controller="Blogs" asp-action="Search" method="get">
-                            <input type="text" name="keyword" placeholder="Search" class="form-control">
-                            <button class="btn btn-success">Sreach</button>
+                            <input type="text" name="keyword" value="@ViewBag.keyword" placeholder="Search" class="form-control">
+                            <button type="submit" class="btn btn-danger active">Filter</button>
                         </form>
                     </div>
                 </div>
@@ -99,14 +99,14 @@
     </div>
     <!-- /Delete -->
     <script>
-        // Bắt sự kiện khi Modal mở
+           // Modal event
         const deleteModal = document.getElementById('delete-item');
         deleteModal.addEventListener('show.bs.modal', function (event) {
-            // Lấy phần tử nút bấm đã kích hoạt Modal
+            // Get modal
             const button = event.relatedTarget;
-            // Lấy giá trị ID từ data-id
+            // Take value ID from data-id
             const blogid = button.getAttribute('data-id');
-            // Cập nhật giá trị ID vào input hidden trong Modal
+            // Update ID to input hidden in modal
             const citiesIdInput = deleteModal.querySelector('#Blog-id');
             citiesIdInput.value = blogid;
         });
