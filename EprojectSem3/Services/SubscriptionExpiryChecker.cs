@@ -43,16 +43,16 @@ namespace Realtors_Portal.Services
                 foreach (var subscription in expiringSubscriptions)
                 {
                     var user = subscription.User;
-                    var daysLeft = (subscription.EndDate.Date - DateTime.Now.Date).Days;
+                    var daysAgoExpired = (DateTime.Now.Date - subscription.EndDate.Date).Days;
 
-                    var subject = "Your Ad Package is About to Expire";
+                    var subject = "Reminder: Your Ad Package Has Expired";
                     var link = "https://localhost:44369/Home/Pricing";
                     var body = $@"
-                        Dear {user.FullName},<br/>
-                        Your ad package <strong>{subscription.Subscription.Name}</strong> is expiring in <strong>{daysLeft} day(s)</strong> on <strong>{subscription.EndDate:yyyy-MM-dd}</strong>.<br/>
-                        Please renew your subscription to continue enjoying the benefits.<br/><br/>
-                        <a href='{link}'>Renew Now</a><br/><br/>
-                        Thank you!";
+                    Dear {user.FullName},<br/>
+                    Your ad package <strong>{subscription.Subscription.Name}</strong> expired <strong>{daysAgoExpired} day(s)</strong> ago on <strong>{subscription.EndDate:yyyy-MM-dd}</strong>.<br/>
+                    Please renew your subscription to regain the benefits.<br/><br/>
+                    <a href='{link}'>Renew Now</a><br/><br/>
+                    Thank you!";
 
                     await _emailService.SendEmailAsync(user.Email, subject, body);
 
