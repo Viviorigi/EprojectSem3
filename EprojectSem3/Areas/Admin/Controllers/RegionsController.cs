@@ -122,7 +122,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var cities = _context.Cities.FirstOrDefault(x => x.RegionId == id);
-            if (cities != null)
+            if (cities == null)
             {
                 var regions = _context.Regions.FirstOrDefault(x => x.RegionId == id);
                 if (regions != null)
@@ -135,7 +135,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 }
             }
             ViewBag.message = "Existing posts cannot be deleted.";
-            return View("index");
+            return RedirectToAction("Index");
         }
 
         private bool RegionExists(int id)

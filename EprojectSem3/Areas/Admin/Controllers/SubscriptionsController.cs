@@ -133,25 +133,35 @@ namespace EprojectSem3.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var user = _context.Users.FirstOrDefault(x => x.UserId == id);
-            var userSubscriptions = _context.UserSubscriptions.FirstOrDefault(x => x.UserSubscriptionId == id);
-            if (user == null && userSubscriptions == null)
+       
+            var subscription = await _context.Subscriptions.FirstOrDefaultAsync(x => x.SubscriptionId == id);
+
+            if (subscription == null)
             {
-                var subscriptions = _context.Subscriptions.FirstOrDefault(x => x.SubscriptionId == id);
-                if (subscriptions != null)
-                {
-                    await _subscription.DeleteSubscriptionAsync(id);
-                    ViewBag.message = "Delete subscriptions successful";
-                    TempData["msg"] = "Delete subscriptions successful";
-                    TempData["AlertType"] = "success";
-                    return RedirectToAction("Index");
-                }
+                TempData["msg"] = "Subscription not found.";
+                TempData["AlertType"] = "error";
+                return RedirectToAction("Index");
             }
-            
-            TempData["msg"] = "Existing posts cannot be deleted.";
-            TempData["AlertType"] = "error"; // Types: success, error, warning, info
-            return View("index");
+
+            var hasUserSubscriptions = await _context.UserSubscriptions.AnyAsync(x => x.SubscriptionId == id);
+
+   
+            var hasUsers = await _context.Users.AnyAsync(x => x.SubscriptionId == id); 
+
+            if (hasUserSubscriptions || hasUsers)
+            {
+                TempData["msg"] = "Cannot delete subscription. It is linked to users or user subscriptions.";
+                TempData["AlertType"] = "error";
+                return RedirectToAction("Index");
+            }
+
+            await _subscription.DeleteSubscriptionAsync(id);
+
+            TempData["msg"] = "Subscription deleted successfully.";
+            TempData["AlertType"] = "success";
+            return RedirectToAction("Index");
         }
+
 
         private bool SubscriptionExists(int id)
         {
