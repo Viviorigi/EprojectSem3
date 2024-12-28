@@ -338,7 +338,7 @@ namespace EprojectSem3.Controllers
         }
 
         [HttpPost]
-        public IActionResult ForgotPassword(ForgotPasswordModel model)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -365,7 +365,7 @@ namespace EprojectSem3.Controllers
                 new { token = resetToken, email = model.Email }, Request.Scheme);
 
             var emailContent = $"Click the following link to reset your password: <a href='{resetLink}'>Reset Password</a>";
-            _emailService.SendEmailAsync(model.Email, "Password Reset", emailContent);
+            await _emailService.SendEmailAsync(model.Email, "Password Reset", emailContent);
 
             ViewBag.Message = "A password reset link has been sent to your email address. Please check your Email";
             return View();
