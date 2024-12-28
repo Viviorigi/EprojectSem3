@@ -14,8 +14,8 @@
                 <div class="page-headers">
                     <div class="search-bar">
                         <span><i class="fe fe-search"></i></span>
-                        <form class="d-flex" id="myForm" asp-controller="Blogs" asp-action="Search" method="get">
-                            <input type="text" name="keyword" placeholder="Search"class="form-control me-2">
+                        <form class="d-flex" id="myForm" asp-controller="Blogs" asp-action="SearchAdmin" method="get">
+                            <input type="text" name="keyword" placeholder="Search" class="form-control me-2">
                             <button type="submit" class="btn btn-danger active">Filter</button>
                         </form>
                     </div>
@@ -49,7 +49,7 @@
                             <td>@index</td>
                             <td>@Html.Raw(b.Title.Length > 10 ? b.Title.Substring(0, 10) + "..." : b.Title)</td>
                             <td title="@b.Content">@Html.Raw(b.Content.Length > 20 ? b.Content.Substring(0, 20) + "..." : b.Content)</td>
-                            <td><img class="overflow-hidden" src="~/@b.Image" height="100px" width="150px"/></td>
+                            <td><img class="overflow-hidden" src="~/@b.Image" height="100px" width="150px" /></td>
                             <td>
                                 <h6 class="@(b.Status == 1 ? "badge-active" : "badge-inactive") ">@(b.Status == 1 ? "Active" : "Inactive")</h6>
                             </td>
@@ -71,54 +71,53 @@
             </table>
         </div>
     </div>
-<!-- Delete -->
-<div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete blog</h5>
-                <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fe fe-x"></i>
-                </button>
-            </div>
-            <form asp-action="Delete" asp-controller="Blogs" method="post">
-                <div class="modal-body py-0">
-                    <div class="del-modal">
-                        <p>Are you sure want to Delete?</p>
-                        <!-- ID được chèn động thông qua JavaScript -->
-                        <input type="hidden" name="id" id="Blog-id" />
+    <!-- Delete -->
+    <div class="modal fade" id="delete-item" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete blog</h5>
+                    <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fe fe-x"></i>
+                    </button>
+                </div>
+                <form asp-action="Delete" asp-controller="Blogs" method="post">
+                    <div class="modal-body py-0">
+                        <div class="del-modal">
+                            <p>Are you sure want to Delete?</p>
+                            <input type="hidden" name="id" id="Blog-id" />
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer pt-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Yes</button>
-                </div>
-            </form>
+                    <div class="modal-footer pt-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Yes</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-<!-- /Delete -->
-<script>
-    // Bắt sự kiện khi Modal mở
-    const deleteModal = document.getElementById('delete-item');
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        // Lấy phần tử nút bấm đã kích hoạt Modal
-        const button = event.relatedTarget;
-        // Lấy giá trị ID từ data-id
-        const blogid = button.getAttribute('data-id');
-        // Cập nhật giá trị ID vào input hidden trong Modal
-        const citiesIdInput = deleteModal.querySelector('#Blog-id');
-        citiesIdInput.value = blogid;
-    });
-</script>
+    <!-- /Delete -->
     <script>
-        // Kiểm tra TempData để hiển thị thông báo
+        // Modal event
+        const deleteModal = document.getElementById('delete-item');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            // Get modal
+            const button = event.relatedTarget;
+            // Take value ID from data-id
+            const blogid = button.getAttribute('data-id');
+            // Update ID to input hidden in modal
+            const citiesIdInput = deleteModal.querySelector('#Blog-id');
+            citiesIdInput.value = blogid;
+        });
+    </script>
+    <script>
+        // Check TempData
         const message = '@TempData["msg"]';
         const alertType = '@TempData["AlertType"]';
 
         if (message) {
             Swal.fire({
-                icon: alertType || 'info', // Loại alert: success, error, warning, info
+                icon: alertType || 'info', // alert: success, error, warning, info
                 title: 'Notification',
                 text: message,
             });

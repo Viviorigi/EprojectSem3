@@ -173,12 +173,14 @@ namespace Realtors_Portal.Areas.Admin.Controllers
         public async Task<IActionResult> SearchAdmin(string? keyword)
         {
             // Call the Search method in the repository with pagination parameters
-            var blogs = _blogRepository.SearchAdmin(keyword);
+            var blogs = await _blogRepository.SearchAdmin(keyword);
             if (blogs == null)
             {
-                TempData["err"] = "Coudn't find blog";
+                TempData["msg"] = "Search results do not exist";
+                TempData["AlertType"] = "error";
                 return RedirectToAction("Index");
             }
+            ViewBag.keyword = keyword;
             return View(blogs);
         }
 

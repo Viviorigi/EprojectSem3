@@ -47,12 +47,8 @@ namespace BussinessLogicLayer_BLL.Services
 
         public async Task<Blog?> GetBlogByIdAsync(int? BlogId)
         {
-            var blog = _context.Blogs.FirstOrDefault(x => x.BlogId == BlogId);
-            if (blog != null)
-            {
-                return blog;
-            }
-            throw new NotImplementedException();
+            return _context.Blogs.FirstOrDefault(x => x.BlogId == BlogId);
+
         }
 
         public async Task UpdateBlogAsync(Blog Blog)
@@ -87,8 +83,11 @@ namespace BussinessLogicLayer_BLL.Services
 
         public async Task<IEnumerable<Blog>> SearchAdmin(string? keyword)
         {
-            var blogs = _context.Blogs.OrderByDescending(b => b.CreatedAt).ToList();
-            return(blogs);
+            if (string.IsNullOrWhiteSpace(keyword))
+                return Enumerable.Empty<Blog>();
+            keyword = keyword.ToLower();
+            var result = _context.Blogs.Where(x => x.Title.ToLower().Contains(keyword)).ToList();
+            return result;
         }
     }
 }
