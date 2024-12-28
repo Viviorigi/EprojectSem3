@@ -21,6 +21,15 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-lg-5 mx-auto">
+				@if (!ViewData.ModelState.IsValid)
+				{
+					<div class="alert alert-danger">
+						@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+						{
+							<p>@error.ErrorMessage</p>
+						}
+					</div>
+				}
 				<div class="login-wrap register-form">
 
 					<div class="login-header">

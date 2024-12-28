@@ -38,7 +38,7 @@ namespace Realtors_Portal.Services
                 var expiringSubscriptions = await _context.UserSubscriptions
                  .Include(us => us.User)
                  .Include(us => us.Subscription)
-                 .Where(us => us.EndDate.Date >= DateTime.Now.AddDays(-5) && us.EndDate.Date <= DateTime.Now.AddDays(3))  // Filter out subscriptions expiring in 3 days or less
+                 .Where(us => us.EndDate >= DateTime.Now.AddDays(-5) && us.EndDate <= DateTime.Now.AddDays(3)) // Filter out subscriptions expiring in 3 days or less
                  .ToListAsync();
 
                 foreach (var subscription in expiringSubscriptions)

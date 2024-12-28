@@ -166,10 +166,26 @@ namespace EprojectSem3.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (_context.Users.Any(u => u.Email == model.Email))
+                {
+                    ModelState.AddModelError("EmailExists", "A user with this email already exists.");
+                    ViewBag.Role = new SelectList(new[]
+                {
+                    new { Value = 0, Text = "Private Seller" },
+                    new { Value = 1, Text = "Agent" }
+                }, "Value", "Text");
+                        return View(model);
+                }
+
                 // Check if password and confirm password match
                 if (model.Password != model.ConfirmPassword)
                 {
                     ModelState.AddModelError("PasswordMismatch", "Passwords do not match.");
+                    ViewBag.Role = new SelectList(new[]
+            {
+                new { Value = 0, Text = "Private Seller" },
+                new { Value = 1, Text = "Agent" }
+            }, "Value", "Text");
                     return View(model);
                 }
 

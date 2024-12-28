@@ -290,6 +290,13 @@ namespace EprojectSem3.Areas.Admin.Controllers
                 TempData["AlertType"] = "error";
                 return RedirectToAction("Index");
             }
+            var bookmark = _context.BookMarks.Any(s => s.UserId == id);
+            if (bookmark) {
+                // If subscriptions exist, prevent deletion and set message
+                TempData["msg"] = "User cannot be deleted because they have bookmarks .";
+                TempData["AlertType"] = "error";
+                return RedirectToAction("Index");
+            }
 
             // Delete the user
             await _userRepository.DeleteUserAsync(id);
