@@ -58,7 +58,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
 						new Claim(ClaimTypes.Name, acc.FullName),
 						new Claim(ClaimTypes.Email, acc.Email),
 						new Claim(ClaimTypes.Role, acc.Role.ToString()),
-                        new Claim("ProfileImage",acc.Image ?? null)
+                        new Claim("ProfileImage",acc.Image ?? string.Empty)
                     }, 
 					"MyAppAuthenticationAdmin");
 
