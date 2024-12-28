@@ -146,15 +146,12 @@ CREATE TABLE Ratings (
 );
 
 --Insert Data
-
--- Thêm dữ liệu vào bảng Regions
 INSERT INTO Regions (Name) VALUES 
 ('North America'),
 ('Europe'),
 ('East Asia'),
 ('Southeast Asia');
 
--- Thêm dữ liệu vào bảng Cities
 INSERT INTO Cities (Name, RegionId) VALUES 
 -- Cities in North America
 ('New York', 1),
@@ -208,7 +205,7 @@ INSERT INTO Cities (Name, RegionId) VALUES
 
 -- Thêm dữ liệu vào bảng Subscriptions
 INSERT INTO Subscriptions (Name, Price, Duration, MaxAds, IsAgent) VALUES 
--- Monthly Plans (6 gói cá nhân)
+-- Monthly Plans
 ('Basic Monthly Plan', 9.99, 30, 3, 0),        -- 3 quảng cáo/tháng
 ('Standard Monthly Plan', 19.99, 30, 6, 0),   -- 6 quảng cáo/tháng
 ('Premium Monthly Plan', 29.99, 30, 10, 0),   -- 10 quảng cáo/tháng
@@ -216,7 +213,7 @@ INSERT INTO Subscriptions (Name, Price, Duration, MaxAds, IsAgent) VALUES
 ('Standard Yearly Plan', 149.99, 365, 60, 0), -- 60 quảng cáo/năm
 ('Premium Yearly Plan', 199.99, 365, 100, 0), -- 100 quảng cáo/năm
 
--- Agent Plans (3 gói cho đại lý)
+-- Agent Plans
 ('Agent Starter Monthly Plan', 39.99, 30, 15, 1),    -- 15 quảng cáo/tháng
 ('Agent Professional Monthly Plan', 69.99, 30, 30, 1), -- 30 quảng cáo/tháng
 ('Agent Ultimate Yearly Plan', 499.99, 365, 200, 1);  -- 200 quảng cáo/năm
@@ -411,7 +408,6 @@ VALUES
 ('Common Mistakes to Avoid When Renting a House', 'Renting a house is a big decision, and it’s easy to make some common mistakes. Let’s explore the most frequent mistakes renters make and how to avoid them.', 'images/blogs/blog4.jpeg', 1, '2024-12-15 16:00:00'),
 ('Vacation Real Estate: Investment Opportunities in the Near Future', 'Vacation real estate is becoming an increasingly attractive investment trend. Explore the potential of this type of property and discover the best locations for investment in Vietnam.', 'images/blogs/blog5.jpeg', 1, '2024-12-10 09:30:00');
 
--- Chèn dữ liệu vào bảng Contacts
 INSERT INTO Contacts (Name, Email, Subject, Content, Reply) VALUES
 ('John Doe', 'johndoe@example.com', 'Inquiry about property pricing', 'Hello, I am interested in learning more about the pricing of the properties you offer. Could you provide more details?', 'Thank you for reaching out! We will send you the pricing information shortly.'),
 ('Michael Brown', 'michaelbrown@example.com', 'Request for property details', 'Hi, I would like more information about the available properties in the city center. Can you provide some details?', 'Thank you for your interest! We will send you the property details as soon as possible.'),
@@ -421,80 +417,58 @@ INSERT INTO Contacts (Name, Email, Subject, Content, Reply) VALUES
 
 INSERT INTO Statisticals (ListingCount, TransactionCount, UserCount, PriceCount, CreatedAt)
 VALUES
--- Tháng 1
 (25, 17, 5, 340.60, '2024-01-22'),
 (13, 20, 15, 480.32, '2024-01-07'),
 (16, 21, 6, 180.32, '2024-01-11'),
 (24, 4, 10, 45.75, '2024-01-28'),
 (44, 22, 12, 44.17, '2024-01-26'),
-
--- Tháng 2
 (35, 12, 9, 220.45, '2024-02-14'),
 (47, 21, 17, 410.67, '2024-02-09'),
 (14, 9, 4, 123.33, '2024-02-27'),
 (39, 13, 9, 317.50, '2024-02-18'),
 (20, 8, 5, 104.78, '2024-02-23'),
-
--- Tháng 3
 (31, 11, 7, 274.80, '2024-03-05'),
 (19, 6, 3, 155.60, '2024-03-15'),
 (48, 24, 21, 445.90, '2024-03-22'),
 (27, 14, 9, 234.00, '2024-03-11'),
 (36, 17, 11, 317.10, '2024-03-30'),
-
--- Tháng 4
 (20, 10, 6, 198.45, '2024-04-12'),
 (39, 22, 15, 375.67, '2024-04-27'),
 (17, 8, 4, 144.12, '2024-04-03'),
 (26, 15, 9, 278.00, '2024-04-18'),
 (31, 14, 11, 313.50, '2024-04-22'),
-
--- Tháng 5
 (42, 21, 18, 401.78, '2024-05-10'),
 (24, 12, 7, 214.20, '2024-05-21'),
 (36, 17, 12, 309.88, '2024-05-30'),
 (28, 13, 8, 250.34, '2024-05-15'),
 (33, 14, 10, 287.22, '2024-05-05'),
-
--- Tháng 6
 (30, 14, 10, 269.50, '2024-06-18'),
 (22, 9, 5, 198.67, '2024-06-10'),
 (47, 22, 20, 423.80, '2024-06-23'),
 (36, 16, 13, 315.25, '2024-06-12'),
 (41, 19, 17, 390.10, '2024-06-05'),
-
--- Tháng 7
 (23, 11, 8, 214.78, '2024-07-14'),
 (40, 20, 15, 376.45, '2024-07-22'),
 (19, 8, 6, 155.33, '2024-07-03'),
 (32, 14, 10, 284.88, '2024-07-28'),
 (35, 18, 13, 308.90, '2024-07-16'),
-
--- Tháng 8
 (38, 20, 16, 378.67, '2024-08-09'),
 (41, 19, 17, 392.78, '2024-08-15'),
 (27, 13, 9, 256.22, '2024-08-23'),
 (49, 25, 21, 310.45, '2024-08-30'),
-
--- Tháng 9
 (35, 18, 14, 341.88, '2024-09-05'),
 (29, 15, 11, 289.75, '2024-09-14'),
 (42, 22, 17, 367.20, '2024-09-25'),
 (33, 17, 12, 310.55, '2024-09-12'),
-
--- Tháng 10
 (28, 14, 10, 275.10, '2024-10-04'),
 (39, 19, 15, 352.45, '2024-10-20'),
 (30, 16, 12, 290.33, '2024-10-15'),
 (24, 12, 8, 240.67, '2024-10-08'),
-
--- Tháng 11
 (32, 15, 12, 310.78, '2024-11-05'),
 (40, 20, 17, 395.12, '2024-11-18'),
 (25, 12, 9, 230.89, '2024-11-12'),
 (38, 18, 15, 378.67, '2024-11-25');
 
--- Thêm dữ liệu mẫu
 INSERT INTO BookMarks (UserId, ListingId, CreatedAt)
 VALUES 
     (1, 1, '2024-12-20 14:30:00'),
@@ -516,7 +490,6 @@ VALUES
     (14, 14, '2025-01-02 13:30:00'),
     (15, 15, '2025-01-03 16:25:00');
 
--- Thêm dữ liệu mẫu cho bảng Ratings
 INSERT INTO Ratings (UserId, ListingId, RatingValue, Comment, CreatedAt)
 VALUES
     (1, 1, 4.5, N'Great place! Highly recommend.', '2024-12-20 14:30:00'),

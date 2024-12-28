@@ -147,6 +147,10 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     await file.CopyToAsync(fileStream);
                 }
             }
+            else
+            {
+                user.Image = "images/admin.png";
+            }
 
             if (id != user.UserId)
             {

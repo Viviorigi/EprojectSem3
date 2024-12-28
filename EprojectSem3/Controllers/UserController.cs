@@ -146,7 +146,7 @@ namespace EprojectSem3.Controllers
                     existingUser.UpdatedAt = DateTime.Now;
                     _context.Users.Update(existingUser);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Detail");
                 }
             }
             return View(user);
