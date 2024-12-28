@@ -171,6 +171,10 @@
 		</div>
 	</div>
 </div>
+@foreach (var i in ViewBag.Images as IEnumerable<DataAccessLayer_DAL.Models.Image>)
+{
+	<input type="hidden" id="imagesOld" value="@i.ImagePath" />
+}
 <!-- /Profile Content -->
 @section Scripts {
 	<script>
@@ -193,10 +197,20 @@
 	</style>
 	<script>
 		// Hiển thị ảnh từ input đơn
+		const imgOld = document.getElementById('imgOld').value;
+		const previewContainer = document.getElementById('singleFilePreview');
+		if (imgOld) {
+			const img = document.createElement('img');
+			img.src = '/' + imgOld;
+			img.alt = 'Old Image';
+			img.className = 'preview-image';
+			previewContainer.appendChild(img);
+		}
 		document.getElementById('singleFileInput').addEventListener('change', function (event) {
-			const previewContainer = document.getElementById('singleFilePreview');
+
 			previewContainer.innerHTML = ''; // Xóa preview cũ
 			const file = event.target.files[0];
+
 			if (file) {
 				const reader = new FileReader();
 				reader.onload = function (e) {
@@ -211,9 +225,21 @@
 		});
 
 		// Hiển thị ảnh từ input nhiều file
+		const oldImages = Array.from(document.querySelectorAll('input[id="imagesOld"]')).map(input => input.value);
+		const previewContainerMulti = document.getElementById('multiFilePreview');
+		if (oldImages) {
+			oldImages.forEach(imagePath => {
+				const img = document.createElement('img');
+				img.src = '/' + imagePath; // Đường dẫn ảnh cũ
+				img.alt = 'Old Image';
+				img.className = 'preview-image';
+				previewContainerMulti.appendChild(img);
+			});
+		}
+
 		document.getElementById('multiFileInput').addEventListener('change', function (event) {
-			const previewContainer = document.getElementById('multiFilePreview');
-			previewContainer.innerHTML = ''; // Xóa preview cũ
+
+			previewContainerMulti.innerHTML = ''; // Xóa preview cũ
 			const files = event.target.files;
 			Array.from(files).forEach(file => {
 				if (file) {
@@ -223,7 +249,7 @@
 						img.src = e.target.result;
 						img.alt = file.name;
 						img.className = 'preview-image';
-						previewContainer.appendChild(img);
+						previewContainerMulti.appendChild(img);
 					};
 					reader.readAsDataURL(file);
 				}

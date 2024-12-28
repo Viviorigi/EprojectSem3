@@ -329,10 +329,10 @@ namespace EprojectSem3.Controllers
             ViewBag.RemainingAds = subscription.MaxAds - activeListingsCount;
             ViewBag.RemainingDays = remainingDays; // Add remaining days
             ViewBag.User = user;
-            
 
-            // Load category and city for form
-            ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
+			ViewBag.Images = await _imageRepository.GetImageByListingIdAsync(id);
+			// Load category and city for form
+			ViewBag.categories = new SelectList(await _categoryRepository.GetCategoryAsync(), "CategoryId", "Name");
             ViewBag.city = new SelectList(await _cityRepository.GetAllCitysAsync(), "CityId", "Name");
             ViewBag.showContact = new SelectList(new[]
             {

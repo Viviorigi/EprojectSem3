@@ -247,23 +247,23 @@ INSERT INTO Users (FullName, Email, Password, PhoneNumber, Address, Role, Status
 
 INSERT INTO UserSubscriptions (UserId, SubscriptionId, StartDate, EndDate) VALUES
 -- Monthly Plans for Salers
---(1, 1, '2024-01-01', '2024-01-31'),  -- John Doe (30 days)
---(2, 2, '2024-02-01', '2024-02-29'),  -- Jane Smith (30 days)
---(3, 3, '2024-03-01', '2024-03-31'),  -- Michael Brown (30 days)
+(1, 1, '2024-01-01', '2024-01-31'),  -- John Doe (30 days)
+(2, 2, '2024-02-01', '2024-02-29'),  -- Jane Smith (30 days)
+(3, 3, '2024-03-01', '2024-03-31'),  -- Michael Brown (30 days)
 (4, 4, '2024-04-01', '2025-03-31'),  -- Emily Clark (365 days, 1 year)
 (5, 5, '2024-05-01', '2025-04-30'),  -- David Wilson (365 days, 1 year)
 (6, 6, '2024-06-01', '2025-05-31'),  -- Sarah Miller (365 days, 1 year)
---(7, 1, '2024-07-01', '2024-07-31'),  -- William Lee (30 days)
---(8, 2, '2024-08-01', '2024-08-31'),  -- Olivia Taylor (30 days)
---(9, 3, '2024-09-01', '2024-09-30'),  -- James Harris (30 days)
+(7, 1, '2024-07-01', '2024-07-31'),  -- William Lee (30 days)
+(8, 2, '2024-08-01', '2024-08-31'),  -- Olivia Taylor (30 days)
+(9, 3, '2024-09-01', '2024-09-30'),  -- James Harris (30 days)
 (10, 4, '2024-10-01', '2025-09-30'), -- Sophia Martin (365 days, 1 year)
 
 -- Monthly Plans for Agents
---(11, 7, '2024-01-15', '2024-02-14'),  -- Alex Carter (30 days)
---(12, 8, '2024-02-15', '2024-03-15'),  -- Emma Walker (30 days)
+(11, 7, '2024-01-15', '2024-02-14'),  -- Alex Carter (30 days)
+(12, 8, '2024-02-15', '2024-03-15'),  -- Emma Walker (30 days)
 (13, 9, '2024-03-15', '2025-03-14'),  -- Michael Scott (365 days, 1 year)
---(14, 7, '2024-04-15', '2024-05-15'),  -- Liam Johnson (30 days)
---(15, 8, '2024-05-15', '2024-06-14');  -- Ava White (30 days)
+(14, 7, '2024-04-15', '2024-05-15'),  -- Liam Johnson (30 days)
+(15, 8, '2024-05-15', '2024-06-14');  -- Ava White (30 days)
 
 INSERT INTO Transactions (UserId, SubscriptionId, Amount, TransactionDate, PaymentDate, IsPaid) VALUES
 -- Monthly Plans for Salers
