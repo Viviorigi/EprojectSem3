@@ -76,6 +76,8 @@ builder.Services.AddTransient<EmailService>();
 
 var app = builder.Build();
 
+app.UseStatusCodePagesWithRedirects("/home/Error?statuscode={0}");
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

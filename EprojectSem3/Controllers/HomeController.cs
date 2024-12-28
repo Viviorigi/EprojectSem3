@@ -428,8 +428,16 @@ namespace EprojectSem3.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Error(int statuscode)
         {
+            if(statuscode == 404)
+            {
+                return View("404");
+            }
+            if(statuscode == 500)
+            {
+                return View("500");
+            }
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
