@@ -340,7 +340,7 @@ namespace EprojectSem3.Controllers
             new { Value = 1, Text = "Show" },
         }, "Value", "Text");
             var listing = await _listingRepository.GetListingByIdAsync(id);
-
+            ViewBag.Images = await _imageRepository.GetImageByListingIdAsync(listing.ListingId);
             // Returns the post creation form
             return View(listing);
 
