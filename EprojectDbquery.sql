@@ -240,7 +240,7 @@ INSERT INTO Users (FullName, Email, Password, PhoneNumber, Address, Role, Status
 
 --(User not sub)
 INSERT INTO Users (FullName, Email, Password, PhoneNumber, Address, Role, Status, Image, ResetPasswordToken, ResetTokenExpiration, CreatedAt, UpdatedAt) VALUES 
-	('Sophia Taylor', 'sophiataylor@gmail.com', '$2a$11$IdURuAbLaQokViiInVfhbuNiV5G7SOukWIL3CvtQyKxMko./Q9hMy', '1234567899', '707 Elm St, City, Country', 0, 1, 'images/users.png', NULL, NULL, '2024-10-01', NULL)
+('Sophia Taylor', 'sophiataylor@gmail.com', '$2a$11$IdURuAbLaQokViiInVfhbuNiV5G7SOukWIL3CvtQyKxMko./Q9hMy', '1234567899', '707 Elm St, City, Country', 0, 1, 'images/users.png', NULL, NULL, '2024-10-01', NULL);
 
 INSERT INTO UserSubscriptions (UserId, SubscriptionId, StartDate, EndDate) VALUES
 -- Monthly Plans for Salers
@@ -299,29 +299,40 @@ INSERT INTO Listings (Title, Description, Price, CategoryId, UserId, CityId, Sta
 ('Commercial Office Space in Chicago', 'Prime office space in a central business district, ideal for startups and established businesses.', 1200000, 3, 3, 3, 1, 'images/image3v1.jpeg', 0, 1, '2024-01-20', NULL),
 ('Land for Sale in Toronto', 'A 10-acre plot of land suitable for residential development, located near major amenities.', 800000, 4, 6, 4, 1, 'images/image4v1.jpeg', 0, 1, '2024-01-25', NULL),
 ('Spacious House for Rent in Vancouver', 'Fully furnished 4-bedroom house available for long-term rental.', 2500, 5, 10, 5, 1, 'images/image5v1.jpeg', 0, 1, '2024-01-30', NULL),
-('Affordable Apartment for Rent in Miami', '1-bedroom apartment located near public transport and shopping areas.', 1200, 6, 4, 6, 1, 'images/image6v1.jpeg', 0, 1, '2024-02-05', NULL),
+('Affordable Apartment for Rent in Miami', '1-bedroom apartment located near public transport and shopping areas.', 1200, 6, 4, 7, 1, 'images/image6v1.jpeg', 0, 1, '2024-02-05', NULL),
 ('Luxury Villa in Paris', 'High-end villa with 5 bedrooms, a swimming pool, and a private garden.', 4500000, 7, 5, 10, 1, 'images/image7v1.jpeg', 0, 1, '2024-02-10', NULL),
-('Vacation Home in Bangkok', 'Beachfront villa with 3 bedrooms and stunning sea views.', 300000, 8, 6, 29, 1, 'images/image8v1.jpeg', 0, 0, '2024-02-15', NULL),
+('Vacation Home in Bangkok', 'Beachfront villa with 3 bedrooms and stunning sea views.', 300000, 8, 6, 30, 1, 'images/image8v1.jpeg', 0, 0, '2024-02-15', NULL),
 ('Modern Apartment in Berlin', 'Stylish 3-bedroom apartment in a central location, close to shopping and entertainment.', 600000, 2, 10, 11, 1, 'images/image9v1.jpeg', 0, 1, '2024-02-20', NULL),
-('Farm Land for Sale in Hanoi', 'Large agricultural land ideal for farming or investment.', 200000, 4, 4, 31, 1, 'images/image10v1.jpeg', 0, 1, '2024-02-25', NULL),
-('Spacious House in Lisbon', 'Beautiful 4-bedroom house with a large backyard and modern amenities.', 400000, 1, 5, 19, 1, 'images/image11v1.jpeg', 0, 1, '2024-03-01', NULL),
+('Farm Land for Sale in Hanoi', 'Large agricultural land ideal for farming or investment.', 200000, 4, 4, 27, 1, 'images/image10v1.jpeg', 0, 1, '2024-02-25', NULL),
+('Spacious House in Lisbon', 'Beautiful 4-bedroom house with a large backyard and modern amenities.', 400000, 1, 5, 18, 1, 'images/image11v1.jpeg', 0, 1, '2024-03-01', NULL),
 ('Affordable Apartment in Toronto', '2-bedroom apartment with convenient access to public transport and schools.', 350000, 2, 6, 4, 1, 'images/image12v1.jpeg', 0, 1, '2024-03-05', NULL),
 ('Retail Space in London', 'A spacious retail unit located in a bustling shopping district.', 1000000, 3, 10, 9, 1, 'images/image13v1.jpeg', 0, 1, '2024-03-10', NULL),
-('Farm Land in Da Nang', '5 hectares of prime farmland suitable for agricultural projects.', 150000, 4, 4, 33, 1, 'images/image14v1.jpeg', 0, 1, '2024-03-15', NULL),
-('Luxury Penthouse in Tokyo', 'Exclusive penthouse with panoramic views and state-of-the-art facilities.', 9000000, 7, 5, 21, 1, 'images/image15v1.jpeg', 0, 1, '2024-03-20', NULL),
-('Charming House in Vienna', '3-bedroom house with a classic European design and modern upgrades.', 450000, 1, 6, 13, 1, 'images/image16v1.jpeg', 0, 1, '2024-03-25', NULL),
+('Farm Land in Da Nang', '5 hectares of prime farmland suitable for agricultural projects.', 150000, 4, 4, 29, 1, 'images/image14v1.jpeg', 0, 1, '2024-03-15', NULL),
+('Luxury Penthouse in Tokyo', 'Exclusive penthouse with panoramic views and state-of-the-art facilities.', 9000000, 7, 5, 19, 1, 'images/image15v1.jpeg', 0, 1, '2024-03-20', NULL),
+('Charming House in Vienna', '3-bedroom house with a classic European design and modern upgrades.', 450000, 1, 6, 15, 1, 'images/image16v1.jpeg', 0, 1, '2024-03-25', NULL),
 ('Modern Apartment in Madrid', '2-bedroom apartment with high-end finishes and central air.', 550000, 2, 10, 12, 1, 'images/image17v1.jpeg', 0, 1, '2024-03-30', NULL),
-('Vacation Home in Singapore', 'Luxury villa available for short-term vacation rentals, includes a private pool.', 800000, 8, 4, 28, 1, 'images/image18v1.jpeg', 1, 1, '2024-04-01', NULL),
-('Commercial Space in Seoul', 'Prime commercial property located in the heart of the city.', 2000000, 3, 5, 22, 1, 'images/image19v1.jpeg', 1, 1, '2024-04-05', NULL),
-('Affordable Apartment in Ho Chi Minh City', 'Compact 1-bedroom apartment in a busy neighborhood.', 100000, 2, 6, 30, 1, 'images/image20v1.jpeg', 1, 1, '2024-04-10', NULL),
+('Vacation Home in Singapore', 'Luxury villa available for short-term vacation rentals, includes a private pool.', 800000, 8, 4, 34, 1, 'images/image18v1.jpeg', 1, 1, '2024-04-01', NULL),
+('Commercial Space in Seoul', 'Prime commercial property located in the heart of the city.', 2000000, 3, 5, 20, 1, 'images/image19v1.jpeg', 1, 1, '2024-04-05', NULL),
+('Affordable Apartment in Ho Chi Minh City', 'Compact 1-bedroom apartment in a busy neighborhood.', 100000, 2, 6, 28, 1, 'images/image20v1.jpeg', 1, 1, '2024-04-10', NULL),
 
 -- Listings by Agents
-('Farm Land for Sale in Yangon', 'Affordable agricultural land in a growing region.', 120000, 4, 13, 34, 1, 'images/image21v1.jpeg', 1, 0, '2024-04-15', NULL),
-('Luxury Apartment in Amsterdam', 'High-end apartment in a prime location with modern features.', 750000, 2, 13, 16, 1, 'images/image22v1.jpeg', 1, 0, '2024-04-20', NULL),
-('Vacation Villa in Manila', 'Beautiful villa available for vacation stays, close to the beach.', 300000, 8, 13, 27, 1, 'images/image23v1.jpeg', 0, 1, '2024-04-25', NULL),
-('Cozy House in Stockholm', '2-bedroom house in a quiet and scenic area.', 300000, 1, 13, 14, 1, 'images/image24v1.jpeg', 0, 0, '2024-05-01', NULL),
-('Office Space in Hong Kong', 'Modern office building with ample parking and high visibility.', 5000000, 3, 13, 23, 1, 'images/image25v1.jpeg', 1, 1, '2024-05-05', NULL);
+('Farm Land for Sale in Yangon', 'Affordable agricultural land in a growing region.', 120000, 4, 13, 35, 1, 'images/image21v1.jpeg', 0, 1, '2024-04-15', NULL),
+('Luxury Apartment in Amsterdam', 'High-end apartment in a prime location with modern features.', 750000, 2, 13, 14, 1, 'images/image22v1.jpeg', 0, 1, '2024-04-20', NULL),
+('Vacation Villa in Manila', 'Beautiful villa available for vacation stays, close to the beach.', 300000, 8, 13, 32, 1, 'images/image23v1.jpeg', 0, 1, '2024-04-25', NULL),
+('Cozy House in Stockholm', '2-bedroom house in a quiet and scenic area.', 300000, 1, 13, 16, 1, 'images/image24v1.jpeg', 0, 0, '2024-05-01', NULL),
+('Office Space in Hong Kong', 'Modern office building with ample parking and high visibility.', 5000000, 3, 13, 23, 1, 'images/image25v1.jpeg', 0, 1, '2024-05-05', NULL),
 
+-- Listinf by not sub
+('Charming House for Rent in Prague', 'Beautiful 3-bedroom house in the heart of Prague, available for long-term rental.', 1800, 5, 1, 17, 0, 'images/image26v1.jpeg', 0, 1, '2024-08-01', NULL),
+('Luxury Penthouse in Lisbon', 'Exclusive penthouse with panoramic views and luxury amenities, perfect for high-end living.', 2500000, 7, 2, 18, 0, 'images/image27v1.jpeg', 0, 1, '2024-08-05', NULL),
+('Spacious Apartment for Rent in Tokyo', 'Modern 2-bedroom apartment available for rent, close to shopping centers and public transport.', 1500, 3, 6, 19, 0, 'images/image28v1.jpeg', 0, 1, '2024-08-10', NULL),
+('Beachfront Property in Da Nang', 'Spectacular beachfront property with incredible sea views, ideal for luxury development.', 3000000, 7, 4, 29, 0, 'images/image29v1.jpeg', 0, 1, '2024-08-15', NULL),
+('Cozy Studio for Rent in Ho Chi Minh City', 'Compact and affordable studio apartment available for rent in the city center.', 800, 6, 7, 28, 0, 'images/image30v1.jpeg', 0, 1, '2024-08-20', NULL),
+('Spacious Land for Sale in Jakarta', 'A large piece of land available for sale, ideal for commercial or residential development.', 1200000, 4, 8, 31, 0, 'images/image31v1.jpeg', 0, 1, '2024-08-25', NULL),
+('Luxury Apartment in Kuala Lumpur', 'High-end 3-bedroom apartment with breathtaking city views and top-tier amenities.', 1500000, 2, 9, 33, 0, 'images/image32v1.jpeg', 0, 1, '2024-08-30', NULL),
+('Vacation Home in Singapore', 'Exclusive vacation home located on the beachfront, perfect for short-term rentals.', 1200000, 8, 14, 34, 0, 'images/image33v1.jpeg', 0, 1, '2024-09-01', NULL),
+('Modern Office Space in Manila', 'Prime office space for rent, located in the heart of the business district.', 500000, 3, 12, 32, 0, 'images/image34v1.jpeg', 0, 1, '2024-09-05', NULL),
+('Luxury Villa in Bangkok', 'Exclusive 5-bedroom villa with private beach access, perfect for high-end buyers.', 3000000, 7, 11, 30, 0, 'images/image35v1.jpeg', 0, 1, '2024-09-10', NULL);
 
 INSERT INTO Images (ListingId, ImagePath) VALUES
 (1, 'images/image1v2.jpeg'),
@@ -398,7 +409,37 @@ INSERT INTO Images (ListingId, ImagePath) VALUES
 (24, 'images/image24v4.jpeg'),
 (25, 'images/image25v2.jpeg'),
 (25, 'images/image25v3.jpeg'),
-(25, 'images/image25v4.jpeg');
+(25, 'images/image25v4.jpeg'),
+(26, 'images/image26v1.jpeg'),
+(26, 'images/image26v1.jpeg'),
+(26, 'images/image26v1.jpeg'),
+(27, 'images/image27v1.jpeg'),
+(27, 'images/image27v1.jpeg'),
+(27, 'images/image27v1.jpeg'),
+(28, 'images/image28v1.jpeg'),
+(28, 'images/image28v1.jpeg'),
+(28, 'images/image28v1.jpeg'),
+(29, 'images/image29v1.jpeg'),
+(29, 'images/image29v1.jpeg'),
+(29, 'images/image29v1.jpeg'),
+(30, 'images/image30v1.jpeg'),
+(30, 'images/image30v1.jpeg'),
+(30, 'images/image30v1.jpeg'),
+(31, 'images/image31v1.jpeg'),
+(31, 'images/image31v1.jpeg'),
+(31, 'images/image31v1.jpeg'),
+(32, 'images/image32v1.jpeg'),
+(32, 'images/image32v1.jpeg'),
+(32, 'images/image32v1.jpeg'),
+(33, 'images/image33v1.jpeg'),
+(33, 'images/image33v1.jpeg'),
+(33, 'images/image33v1.jpeg'),
+(34, 'images/image34v1.jpeg'),
+(34, 'images/image34v1.jpeg'),
+(34, 'images/image34v1.jpeg'),
+(35, 'images/image35v1.jpeg'),
+(35, 'images/image35v1.jpeg'),
+(35, 'images/image35v1.jpeg');
 
 INSERT INTO Blogs (Title, Content, Image, Status, CreatedAt)
 VALUES 
