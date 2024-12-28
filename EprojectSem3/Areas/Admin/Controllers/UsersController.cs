@@ -254,8 +254,9 @@ namespace EprojectSem3.Areas.Admin.Controllers
 				var listing = await _context.Listings.FirstOrDefaultAsync(x => x.UserId == id);
 				if (listing != null)
 				{
-					// If listings exist, prevent deletion and set message
-					TempData["Message"] = "User cannot be deleted because they have existing posts.";
+                // If listings exist, prevent deletion and set message
+                TempData["AlertType"] = "error";
+                TempData["msg"] = "User cannot be deleted because they have existing posts.";
 					return RedirectToAction("Index");
 				}
 
@@ -267,15 +268,17 @@ namespace EprojectSem3.Areas.Admin.Controllers
 				if (user == null)
 				{
 					// If the user doesn't exist, redirect with an error message
-					TempData["Message"] = "User not found.";
-					return RedirectToAction("Index");
+					TempData["msg"] = "User not found.";
+                    TempData["AlertType"] = "error";
+                return RedirectToAction("Index");
 				}
 
                 var subscriptionsExist = _context.UserSubscriptions.Any(s => s.UserId == id);
                 if (subscriptionsExist)
                 {
-                    // If subscriptions exist, prevent deletion and set message
-                    TempData["ErrorMessage"] = "User cannot be deleted because they have active subscriptions.";
+                // If subscriptions exist, prevent deletion and set message
+                TempData["AlertType"] = "error";
+                TempData["msg"] = "User cannot be deleted because they have active subscriptions.";
                     return RedirectToAction("Index");
                 }
 
@@ -283,7 +286,8 @@ namespace EprojectSem3.Areas.Admin.Controllers
             if (transactions)
             {
                 // If subscriptions exist, prevent deletion and set message
-                TempData["ErrorMessage"] = "User cannot be deleted because they have transactions .";
+                TempData["msg"] = "User cannot be deleted because they have transactions .";
+                TempData["AlertType"] = "error";
                 return RedirectToAction("Index");
             }
 
