@@ -10,8 +10,8 @@ namespace BussinessLogicLayer_BLL.Services
 		
 			private const string SmtpServer = "smtp.gmail.com";
 			private const int Port = 587; 
-			private const string SenderEmail = "duong682@gmail.com"; 
-			private const string SenderPassword = "vruz hueh ztlz tnrv"; 
+			private const string SenderEmail = "taun696969@gmail.com"; 
+			private const string SenderPassword = "lmjj ywbr yahs yrls"; 
 			private const bool EnableSsl = true;
 
 		public async Task SendEmailAsync(string toEmail, string subject, string body)
