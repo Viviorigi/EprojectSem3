@@ -257,7 +257,7 @@ namespace EprojectSem3.Areas.Admin.Controllers
                     }
                 }
             }
-            TempData["msg"] = "Create listing succsessful";
+            TempData["msg"] = "Update listing succsessful";
             TempData["AlertType"] = "success"; // Types: success, error, warning, info
 
             return RedirectToAction("Index");

@@ -7,6 +7,7 @@ namespace DataAccessLayer_DAL.Models
         public int ListingId { get; set; }
         [Required(ErrorMessage ="Title is not required")]
         public string Title { get; set; }
+        [Required(ErrorMessage ="Description is not required")]
         public string Description { get; set; }
         [Required(ErrorMessage ="Price is not required")]
         public double Price { get; set; }
