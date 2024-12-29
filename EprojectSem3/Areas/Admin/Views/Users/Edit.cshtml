@@ -26,22 +26,24 @@
             <input type="hidden" asp-for="UserId" />
             <input type="hidden" id="imgOld" asp-for="Image" value="@img" />
             <div class="row">
-                <div class="col-md-12">
-                    <div class="sub-title">
-                        <h6>Image</h6>
-                    </div>
-                    <div class="form-uploads mb-4">
-                        <div class="form-uploads-path">
-                            <img src="~/assets/admin/assets/img/icons/upload.svg" alt="img">
-                            <div class="file-browse">
-                                <h6>Drag &amp; drop image or </h6>
-                                <div class="file-browse-path">
-                                    <input type="file" id="singleFileInput" name="file">
-                                    <a href="javascript:void(0);"> Browse</a>
+                <div class="col-lg-12">
+                    <div class="profile-upload">
+                        <div class="profile-upload-img">
+                            <img src="/@img" alt="img" id="blah">
+                        </div>
+                        <div class="profile-upload-content">
+                            <div class="profile-upload-btn">
+                                <div class="profile-upload-file">
+                                    <input type="file" name="file" id="imgInp">
+                                    <a href="javascript:void(0);" class="btn btn-load-one">Upload</a>
                                 </div>
                             </div>
-                            <h5>Supported formates: JPEG, PNG</h5>
-                            <div id="singleFilePreview" class="preview-container"></div>
+                            <div class="profile-upload-para">
+                                <p>
+                                    *image size should be at least 320px big,and less then 500kb. Allowed
+                                    files .png and .jpg.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
